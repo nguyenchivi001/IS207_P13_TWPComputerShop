@@ -1,0 +1,36 @@
+.top-header 
+{
+  background: linear-gradient(to right, #190A05, #870000);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #1E1F29;
+}
+
+.top-header-links li
+{
+  display: inline-block;
+  margin-left: 15px;
+  font-size: 12px;
+}
+
+.top-header-links li:last-child 
+{
+  margin-right: 0px;
+}
+
+.top-header-links li a
+{
+  color: #FFF;
+}
+
+.top-header-links li a:hover
+{
+  color: #D10024;
+}
+
+.top-header-links li i 
+{
+  color: #D10024;
+  margin-right: 5px;
+}
+
