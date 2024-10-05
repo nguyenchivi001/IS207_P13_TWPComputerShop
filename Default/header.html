@@ -77,6 +77,30 @@
           <!-- /MIDDLE SECTION -->
           
           <!-- RIGHT SECTION -->
+          <div class="main-header-right-section me-4">
+            <div class="right-section-items">
+                <a href="#">
+                    <i class="far fa-heart"></i>
+                    <span>Yêu thích</span>
+                    <div id="wishlist-badge" class="qty">0</div>
+                </a>
+            </div>
+            
+            <div class="dropdown right-section-items">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Giỏ hàng</span>
+                    <div id="cart-badge" class="qty">0</div>
+                </a>
+                <div class="dropdown-menu cart-dropdown">
+                    <div class="cart-list" id="cart_product"></div>
+                    <div class="cart-button">
+                        <a href="#">
+                            <i class="fas fa-edit"></i> Thay đổi giỏ hàng
+                        </a>
+                    </div>
+                </div>
+            </div>
           <!-- /RIGHT SECTION -->
 
       </div>
@@ -85,5 +109,6 @@
   </header>
   <!-- /HEADER -->
 
+  <script src="../Assets/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
