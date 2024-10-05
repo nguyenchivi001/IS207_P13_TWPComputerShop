@@ -115,7 +115,7 @@ header
 
 .logo img 
 {
-  max-width: 100px;
+  max-width: 70px;
   margin-right: 10px;
   display: inline-block;
 }
@@ -135,13 +135,13 @@ header
 
 .main-name
 {
-  font-size: 25px;
+  font-size: 23px;
 }
 
 .sub-name
 {
   display: block;
-  font-size: 23px;
+  font-size: 21px;
 }
 
 /* SEARCH BAR */
