@@ -102,13 +102,13 @@ header
   align-items: center;
 }
 
-/* LOGO AND NAME */
-.main-header-logo 
+/* LEFT SECTION */
+.main-header-left-section 
 {
   text-align: center;
 }
 
-.main-header-logo a
+.main-header-left-section a
 {
   text-align: center;
 }
@@ -144,8 +144,8 @@ header
   font-size: 21px;
 }
 
-/* SEARCH BAR */
-.main-header-searchbar
+/* MIDDLE SECTION */
+.main-header-right-section
 {
   padding: 15px 0px;
   width: 40%
@@ -157,12 +157,12 @@ header
   justify-content: center;
 }
 
-.main-header-searchbar form 
+.main-header-right-section form 
 {
   position: relative;
 }
 
-.main-header-searchbar form .search-bar
+.main-header-right-section form .search-bar
 {
   border-radius: 40px 0px 0px 40px;
   width: 100%;
@@ -180,7 +180,7 @@ header
   font-size: 16px;
 }
 
-.main-header-searchbar form .search-btn 
+.main-header-right-section form .search-btn 
 {
   height: 40px;
   width: 20%;
@@ -193,12 +193,14 @@ header
   transition: opacity 0.15s;
 }
 
-.main-header-searchbar form .search-btn:hover
+.main-header-right-section form .search-btn:hover
 {
   opacity: 0.9;
 }
 
-.main-header-searchbar form .search-btn:active
+.main-header-right-section form .search-btn:active
 {
   opacity: 0.7;
 }
+
+/* RIGHT SECTION */
