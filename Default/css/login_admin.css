@@ -1,0 +1,116 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ff4500;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 100%;
+    max-width: 900px;
+    min-height: 600px;
+    margin: 40px auto;
+}
+
+.logo {
+    background-color: #0e4a4e;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+}
+
+.logo img {
+    width: 80%;
+    max-width: 200px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.logo h1 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+.login-form {
+    padding: 20px;
+    flex: 2;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;
+}
+
+.login-form h2, .login-form p, .login-form form {
+    width: 100%;
+    text-align: center;
+}
+
+.login-form h2 {
+    margin-bottom: 10px;
+}
+
+.login-form p {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.login-form input {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 20px; 
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto;
+}
+
+.login-form button {
+    width: 80%;
+    padding: 10px;
+    background-color: #ff5722;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 20px auto 0; 
+    display: block;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+
+.login-form button.back-home {
+    background-color: #0e4a4e;
+    margin-top: 30px;  
+}
+
+.login-form button:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.login-form button[type="submit"]:hover {
+    background-color: #e64a19;
+}
+
+.login-form button.back-home:hover {
+    background-color: #09383a;
+}
