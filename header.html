@@ -51,9 +51,8 @@
     <!-- MAIN HEADER -->
     <div class="main-header">
       <div class="container d-flex align-items-center">
-        <div class="row main-header-nav ms-5 ">
           <!-- LOGO -->
-          <div class="main-header-logo"> 
+          <div class="main-header-logo ms-5"> 
             <a href="header.html" class="logo d-flex align-items-center"> 
               <img src="img/logo.png" class="img-fluid">
               <div class="name">
@@ -67,7 +66,14 @@
             </a>
           </div>
           <!-- /LOGO -->
-        </div>
+          <!-- SEARCHBAR-->
+          <div class="main-header-searchbar ms-5">
+            <form onsubmit="return false" class="search">
+                <input class="search-bar" id="search-bar" type="text" placeholder="Nhập tìm kiếm">
+                <button id="search_btn" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+          </div>
+          <!-- /SEARCHBAR-->
       </div>
     </div>
     <!-- /MAIN HEAER -->
