@@ -165,11 +165,12 @@ header
 .main-header-searchbar form .search-bar
 {
   border-radius: 40px 0px 0px 40px;
-  width: calc(100% - 260px);
-  margin-right: -4px;
-  padding-left: 20px;
-  border: none;
   width: 100%;
+  margin-right: -1px;
+  padding-left: 20px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(192,192,192);
   outline: none;
 }
 
@@ -189,8 +190,15 @@ header
   font-weight: 500;
   border: none;
   border-radius: 0px 40px 40px 0px;
+  transition: opacity 0.15s;
 }
 
+.main-header-searchbar form .search-btn:hover
+{
+  opacity: 0.9;
+}
 
-
-
+.main-header-searchbar form .search-btn:active
+{
+  opacity: 0.7;
+}
