@@ -88,7 +88,61 @@ header
   display: block;
 }
 
+/* MAIN HEADER */
 
+.main-header
+{
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-image:  linear-gradient(-135deg, #FF6CAB 0%, #F660BC 10%, #EC53CD 20%, #E045DE 30%, #D335EE 40%, #C323FF 50%, #B53AFF 60%, #A749FF 70%, #9854FF 80%, #865EFF 90%, #7366FF 100%);
+}
+.main-header-nav 
+{
+  display: flex;
+  align-items: center;
+}
+
+/* LOGO AND NAME */
+.main-header-logo 
+{
+  text-align: center;
+}
+
+.main-header-logo a
+{
+  text-align: center;
+}
+
+.logo img 
+{
+  max-width: 100px;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.main-name, .sub-name
+{
+  font-family: Roboto, Arial;
+  font-weight: 500;
+  color: aliceblue;
+}
+
+.name
+{
+  display: inline-block;
+  text-align: start;
+}
+
+.main-name
+{
+  font-size: 25px;
+}
+
+.sub-name
+{
+  display: block;
+  font-size: 23px;
+}
 
 
 
