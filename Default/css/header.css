@@ -165,7 +165,7 @@ header
 .main-header-middle-section form .search-bar
 {
   border-radius: 40px 0px 0px 40px;
-  width: 100%;
+  width: 60%;
   margin-right: -1px;
   padding-left: 20px;
   border-width: 1px;
@@ -223,6 +223,7 @@ header
   width: 90px;
   text-align: center;
   color: #FFF;
+  margin: 10px auto;
 }
 
 .right-section-items a i
