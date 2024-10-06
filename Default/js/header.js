@@ -5,6 +5,20 @@ listItems.forEach(item => {
   item.addEventListener('click', () => {
     listItems.forEach(li => li.classList.remove('active'));
     
-    this.classList.add('active');
+    item.classList.add('active');
   });
+});
+
+//responsive navigation
+const responsiveNav = document.querySelector('.responsive-nav');
+const menu = document.querySelector('.menu');
+menu.addEventListener('click', () => {
+  if(responsiveNav.classList.contains('active')) 
+  {
+    responsiveNav.classList.remove('active');
+  } 
+  else 
+  {
+    responsiveNav.classList.add('active');
+  }
 });
