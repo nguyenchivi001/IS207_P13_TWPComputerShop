@@ -26,7 +26,7 @@
   <header>
     <!-- TOP HEADER -->
     <div class="top-header">
-      <div class="container d-flex align-items-center">
+      <div class="container d-flex align-items-center justify-content-between">
         <ul class="top-header-links top-header-left ms-5">
           <li><a href="#"><i class="fas fa-phone"></i> 0123456789</a></li>
           <li><a href="#"><i class="fas fa-envelope"></i> twpcomputer@gmail.com</a></li>
@@ -50,9 +50,9 @@
 
     <!-- MAIN HEADER -->
     <div class="main-header">
-      <div class="container d-flex align-items-center">
-          <!-- LOGO -->
-          <div class="main-header-logo ms-5"> 
+      <div class="container d-flex align-items-center justify-content-between">
+          <!-- LEFT SECTION -->
+          <div class="main-header-left-section ms-5"> 
             <a href="header.html" class="logo d-flex align-items-center"> 
               <img src="../Assets/img/logo.png" class="img-fluid">
               <div class="name">
@@ -65,20 +65,50 @@
               </div>
             </a>
           </div>
-          <!-- /LOGO -->
-          <!-- SEARCHBAR-->
-          <div class="main-header-searchbar ms-5">
+          <!-- /LEFT SECTION -->
+
+          <!-- MIDDLE SECTION-->
+          <div class="main-header-middle-section ms-5">
             <form onsubmit="return false" class="search">
                 <input class="search-bar" id="search-bar" type="text" placeholder="Nhập tìm kiếm">
-                <button id="search_btn" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button id="search_btn" class="search-btn"><i class="fas fa-magnifying-glass"></i></button>
             </form>
           </div>
-          <!-- /SEARCHBAR-->
+          <!-- /MIDDLE SECTION -->
+          
+          <!-- RIGHT SECTION -->
+          <div class="main-header-right-section me-4">
+            <div class="right-section-items">
+                <a href="#">
+                    <i class="far fa-heart"></i>
+                    <span>Yêu thích</span>
+                    <div id="wishlist-badge" class="qty">0</div>
+                </a>
+            </div>
+            
+            <div class="dropdown right-section-items">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Giỏ hàng</span>
+                    <div id="cart-badge" class="qty">0</div>
+                </a>
+                <div class="dropdown-menu cart-dropdown">
+                    <div class="cart-list" id="cart_product"></div>
+                    <div class="cart-button">
+                        <a href="#">
+                            <i class="fas fa-edit"></i> Thay đổi giỏ hàng
+                        </a>
+                    </div>
+                </div>
+            </div>
+          <!-- /RIGHT SECTION -->
+
       </div>
     </div>
     <!-- /MAIN HEAER -->
   </header>
   <!-- /HEADER -->
 
+  <script src="../Assets/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
