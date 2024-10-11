@@ -1,0 +1,18 @@
+
+/* Căn chỉnh nội dung */
+.content {
+    margin-top: 60px;
+    margin-left: 260px;
+    padding: 20px;
+}
+.form-group {
+    position: relative;
+}
+
+.form-group .input-label {
+    transition: color 0.3s ease; /* Hiệu ứng chuyển đổi màu */
+}
+
+.form-group:focus-within .input-label {
+    color: #c331e7 ; /* Màu chữ khi ô nhập được chọn */
+}
