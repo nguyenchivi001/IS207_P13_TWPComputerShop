@@ -4,6 +4,13 @@ footer
   color: #B9BABC;
 }
 
+.section
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
 .footer 
 {
   padding: 10px 0px;
@@ -14,7 +21,6 @@ footer
   color: #FFF;
   text-transform: uppercase;
   font-size: 18px;
-  margin: 0px 0px 50px;
 }
 
 .footer-links li+li 
@@ -37,7 +43,7 @@ footer
 
 .footer-payments
 {
-  padding-top: 50px;
+  padding-top: 100px;
 }
 
 .footer-payments li 
@@ -63,10 +69,51 @@ footer
 
 .left-section
 {
-  margin-left: 50px;
+  margin-left: 150px;
 }
 
 .right-section
 {
-  margin-right: 50px;
+  margin-right: 150px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 576px) 
+{
+  .section
+  {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .left-section 
+  {
+      order: 1;
+      margin-bottom: 20px;
+      margin-left: 50px;
+  }
+
+  .right-section 
+  {
+      order: 2;
+      margin-left: 50px;
+  }
+
+  .middle-section 
+  {
+      order: 3;
+      margin: 20px auto;
+      text-align: center; 
+  }
+
+  .footer-payments li 
+  {
+      display: inline-block; 
+      margin: 0 10px;
+  }
+
+  .footer-payments
+  {
+    padding-top: 10px;
+  }
 }
