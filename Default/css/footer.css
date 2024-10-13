@@ -2,6 +2,7 @@ footer
 {
   background: linear-gradient(to right, #348AC7, #7474BF);;
   color: #B9BABC;
+  z-index: 10;
 }
 
 .section
