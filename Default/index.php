@@ -6,5 +6,6 @@ include "header.html";
 </main>
 
 <?php
+include "newsletter.html";
 include "footer.html";
 ?>
