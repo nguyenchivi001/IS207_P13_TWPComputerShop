@@ -1,5 +1,6 @@
 <?php
 include "header.html";
+include "body.html";
 ?>
 
 <main style="min-height: 100vh;">
