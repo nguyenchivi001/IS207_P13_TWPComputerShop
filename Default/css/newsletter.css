@@ -1,0 +1,119 @@
+.newsletter 
+{
+  border-top: 2px solid #E4E7ED;
+  border-bottom: 3px solid #D10024;
+  margin-top: 30px;
+  padding-top: 10px;
+  text-align: center;
+  z-index: 10;
+}
+
+.newsletter p 
+{
+  margin-top: 5px;
+  font-size: 22px;
+}
+
+.newsletter form 
+{
+  position: relative;
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+.newsletter form .input 
+{
+  width: 60%;
+  margin-right: -5px;
+  border-radius: 40px 0px 0px 40px;
+  padding-left: 20px;
+  height: 40px;
+  outline: none;
+  border: none;
+}
+
+.newsletter form .input ::placeholder
+{
+  font-family: Roboto, Arial;
+  font-size: 16px;
+}
+
+.newsletter-btn 
+{
+  width: 40%;
+  height: 40px;
+  font-weight: 700;
+  background: linear-gradient(to bottom, #0083B0, #00B4DB);
+  color: #FFF;
+  border: none;
+  border-radius: 0px 40px 40px 0px;
+  transition: opacity 0.15s;
+}
+
+.newsletter-btn:hover
+{
+  opacity: 0.9;
+}
+
+.newsletter-btn:active
+{
+  opacity: 0.7;
+}
+
+
+.newsletter .newsletter-follow 
+{
+  text-align: center;
+}
+
+.newsletter .newsletter-follow li 
+{
+  display: inline-block;
+  margin-right: 25px;
+}
+
+.newsletter .newsletter-follow li:last-child 
+{
+  margin-right: 0px;
+}
+
+.newsletter .newsletter-follow li a 
+{
+  position: relative;
+  display: block;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  transition: 0.2s all;
+}
+
+.newsletter .newsletter-follow li a:hover, .newsletter .newsletter-follow li a:focus 
+{
+  background-color: #E4E7ED;
+  color: #D10024;
+}
+
+@media (max-width: 576px)
+{ 
+  .newsletter p
+  {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .newsletter form 
+  {
+    max-width: 400px;
+  }
+
+  .newsletter form .input 
+  {
+    max-width: 250px;
+  }
+
+  .newsletter-btn 
+  {
+    max-width: 150px;
+  }
+}

@@ -26,28 +26,43 @@
 
     <!-- JavaScript để load các file HTML -->
     <script>
-      function includeHTML() {
-        var z, i, elmnt, file, xhttp;
-        z = document.querySelectorAll("[w3-include-html]");
-        for (i = 0; i < z.length; i++) {
-          elmnt = z[i];
-          file = elmnt.getAttribute("w3-include-html");
-          if (file) {
-            xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-              if (this.readyState == 4 && this.status == 200) {
-                elmnt.innerHTML = this.responseText;
-                elmnt.removeAttribute("w3-include-html");
-                includeHTML(); // Đệ quy để xử lý các phần còn lại
-              }
-            };
-            xhttp.open("GET", file, true);
-            xhttp.send();
-          }
+      function loadHTML(element, file) {
+  return new Promise(function (resolve, reject) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          element.innerHTML = this.responseText;
+          resolve();  // Thông báo khi thành công
+        } else {
+          reject();  // Thông báo khi lỗi
         }
       }
-      window.onload = includeHTML;
-    </script>
+    };
+    xhttp.open("GET", file, true);
+    xhttp.send();
+  });
+}
+
+async function includeHTML() {
+  var z = document.querySelectorAll("[w3-include-html]");
+  for (var i = 0; i < z.length; i++) {
+    var elmnt = z[i];
+    var file = elmnt.getAttribute("w3-include-html");
+    if (file) {
+      try {
+        await loadHTML(elmnt, file);  // Chờ nội dung được tải trước khi tiếp tục
+        elmnt.removeAttribute("w3-include-html");
+      } catch (error) {
+        console.error("Error loading HTML:", error);
+      }
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", includeHTML);
+
+   </script>
     <div class="content">
       <div class="container-fluid">
         <form
@@ -188,5 +203,5 @@
         </form>
       </div>
     </div>
-  </body>
-</html>
+    <div w3-include-html="footer.html"></div> 
+
