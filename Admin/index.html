@@ -10,8 +10,8 @@
 
     <!-- Fonts and icons -->
     <link rel="stylesheet" href="../Assets/css/all.min.css">
-    <link rel="stylesheet" href="./css/material-dashboard.css">
-    <link rel="stylesheet" href="./css/black-dashboard.css">
+    <link rel="stylesheet" href="../Assets/css/material-dashboard.css"> <!-- Đảm bảo đường dẫn đúng -->
+    <link rel="stylesheet" href="../Assets/css/black-dashboard.css"> <!-- Đảm bảo đường dẫn đúng -->
 </head>
 
 <body class="dark-edition">
@@ -39,14 +39,14 @@
                 </div>
 
                 <!-- Danh sách thành viên -->
-                <div class="col-md-14">
-                    <div class="card ">
+                <div class="col-md-12">
+                    <div class="card">
                         <div class="card-header card-header-primary">
                             <h4 class="card-title">Danh sách thành viên</h4>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive ps">
-                                <table class="table table-hover tablesorter ">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
                                     <thead class="text-primary">
                                         <tr>
                                             <th>STT</th>
@@ -90,13 +90,13 @@
 
                 <!-- Danh sách phân loại -->
                 <div class="col-md-6">
-                    <div class="card ">
+                    <div class="card">
                         <div class="card-header card-header-primary">
                             <h4 class="card-title">Danh sách phân loại</h4>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive ps">
-                                <table class="table table-hover tablesorter ">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
                                     <thead class="text-primary">
                                         <tr>
                                             <th>STT</th>
@@ -125,13 +125,13 @@
 
                 <!-- Danh sách hãng -->
                 <div class="col-md-6">
-                    <div class="card ">
+                    <div class="card">
                         <div class="card-header card-header-primary">
                             <h4 class="card-title">Danh sách hãng</h4>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive ps">
-                                <table class="table table-hover tablesorter ">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
                                     <thead class="text-primary">
                                         <tr>
                                             <th>STT</th>
@@ -160,13 +160,13 @@
 
                 <!-- Danh sách người đăng ký -->
                 <div class="col-md-5">
-                    <div class="card ">
+                    <div class="card">
                         <div class="card-header card-header-primary">
                             <h4 class="card-title">Những người đăng ký</h4>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive ps">
-                                <table class="table table-hover tablesorter ">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
                                     <thead class="text-primary">
                                         <tr>
                                             <th>STT</th>
@@ -199,27 +199,40 @@
 
     <!-- JavaScript để load các file HTML -->
     <script>
-        function includeHTML() {
-            var z, i, elmnt, file, xhttp;
-            z = document.querySelectorAll("[w3-include-html]");
-            for (i = 0; i < z.length; i++) {
-                elmnt = z[i];
-                file = elmnt.getAttribute("w3-include-html");
-                if (file) {
-                    xhttp = new XMLHttpRequest();
-                    xhttp.onreadystatechange = function () {
-                        if (this.readyState == 4 && this.status == 200) {
-                            elmnt.innerHTML = this.responseText;
-                            elmnt.removeAttribute("w3-include-html");
-                            includeHTML(); // Đệ quy để xử lý các phần còn lại
+        function loadHTML(element, file) {
+            return new Promise(function (resolve, reject) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4) {
+                        if (this.status == 200) {
+                            element.innerHTML = this.responseText;
+                            resolve();
+                        } else {
+                            reject();
                         }
-                    };
-                    xhttp.open("GET", file, true);
-                    xhttp.send();
+                    }
+                };
+                xhttp.open("GET", file, true);
+                xhttp.send();
+            });
+        }
+
+        async function includeHTML() {
+            var elements = document.querySelectorAll("[w3-include-html]");
+            for (var element of elements) {
+                var file = element.getAttribute("w3-include-html");
+                if (file) {
+                    try {
+                        await loadHTML(element, file);
+                        element.removeAttribute("w3-include-html");
+                    } catch (error) {
+                        console.error("Error loading HTML:", error);
+                    }
                 }
             }
         }
-        window.onload = includeHTML;
+
+        document.addEventListener("DOMContentLoaded", includeHTML);
     </script>
 </body>
 
