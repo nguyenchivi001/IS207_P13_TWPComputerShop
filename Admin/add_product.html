@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="apple-touch-icon" sizes="76x76" href="../Assets/img/logo.png">
+    <link rel="icon" type="image/png" href="../Assets/img/logo.png">
+    <title>TWPComputerShop | Add product</title>
+    <link rel="stylesheet" href="./css/resize_the_navigation_bar.css" />
+  </head>
+  <body class="dark-edition">
+    <!-- Gọi file sidenav.html tại đây -->
+    <div w3-include-html="sidenav.html" class="sidebar"></div>
+
+    <!-- Gọi file topheader.html tại đây -->
+    <div w3-include-html="topheader.html" class="main-panel"></div>
+
+    <!-- Nội dung chính -->
+    <div class="content">
+      <div class="container-fluid">
+        <form action="" method="post" enctype="multipart/form-data">
+          <!-- Nội dung form sản phẩm của bạn -->
+        </form>
+      </div>
+    </div>
+
+    <!-- JavaScript để load các file HTML -->
+    <script>
+      function loadHTML(element, file) {
+  return new Promise(function (resolve, reject) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        if (this.status == 200) {
+          element.innerHTML = this.responseText;
+          resolve();  // Thông báo khi thành công
+        } else {
+          reject();  // Thông báo khi lỗi
+        }
+      }
+    };
+    xhttp.open("GET", file, true);
+    xhttp.send();
+  });
+}
+
+async function includeHTML() {
+  var z = document.querySelectorAll("[w3-include-html]");
+  for (var i = 0; i < z.length; i++) {
+    var elmnt = z[i];
+    var file = elmnt.getAttribute("w3-include-html");
+    if (file) {
+      try {
+        await loadHTML(elmnt, file);  // Chờ nội dung được tải trước khi tiếp tục
+        elmnt.removeAttribute("w3-include-html");
+      } catch (error) {
+        console.error("Error loading HTML:", error);
+      }
+    }
+  }
+}
+
+document.addEventListener("DOMContentLoaded", includeHTML);
+
+   </script>
+    <div class="content">
+      <div class="container-fluid">
+        <form
+          action=""
+          method="post"
+          type="form"
+          name="form"
+          enctype="multipart/form-data"
+        >
+          <div class="row">
+            <div class="col-md-7">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h5 class="title">Thêm sản phẩm</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="input-label">Tên sản phẩm</label>
+                        <input
+                          type="text"
+                          id="product_name"
+                          required
+                          name="product_name"
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="">
+                        <label for="">Thêm ảnh</label>
+                        <input
+                          type="file"
+                          name="picture"
+                          required
+                          class="btn btn-fill btn-success"
+                          id="picture"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="input-label">Mô tả</label>
+                        <textarea
+                          rows="4"
+                          cols="80"
+                          id="details"
+                          required
+                          name="details"
+                          class="form-control"
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="input-label">Đơn giá</label>
+                        <input
+                          type="text"
+                          id="price"
+                          name="price"
+                          required
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h5 class="title">Phân loại</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="input-label" for="">Loại sản phẩm</label>
+                        <select
+                          id="product_type"
+                          name="product_type"
+                          required
+                          class="form-control"
+                        >
+                          <option value="" style="color: black">
+                            Chọn phân loại
+                          </option>
+                          <!-- PHP sẽ đưa dữ liệu vào đây -->
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="input-label" for="">Tên hãng</label>
+                        <select
+                          id="brand"
+                          name="brand"
+                          required
+                          class="form-control"
+                        >
+                          <option value="" style="color: black">
+                            Chọn hãng
+                          </option>
+                          <!-- PHP sẽ đưa dữ liệu vào đây -->
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label class="input-label">Từ khóa</label>
+                        <input
+                          type="text"
+                          id="tags"
+                          name="tags"
+                          required
+                          class="form-control"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button
+                    type="submit"
+                    id="btn_save"
+                    name="btn_save"
+                    required
+                    class="btn btn-fill btn-primary"
+                  >
+                    Cập nhật
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div w3-include-html="footer.html"></div> 
+
