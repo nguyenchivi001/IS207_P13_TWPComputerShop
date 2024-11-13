@@ -570,7 +570,7 @@ header
     }
 }
 
-@media (min-width: 436px) and (max-width: 576.99px)
+@media (min-width: 436px) and (max-width: 1024.99px)
 {
   /* TOP HEADER */
   .top-header-left
@@ -747,5 +747,4 @@ header
     color: #FFF;
   }
 }
-
 
