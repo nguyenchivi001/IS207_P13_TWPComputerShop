@@ -308,3 +308,32 @@
   font-weight: 400;
   color: #8D99AE;
 }
+
+/* RESPONSIVE */
+@media (max-width: 1024.99px)
+{
+  .main 
+  {
+    margin-top: 150px;
+  }
+
+  .section 
+  {
+    padding: 0px;
+  }
+
+  .section-title
+  {
+    margin: 15px 0px;
+  }
+
+  .product-widget .product-img 
+  {
+    width: 40%;
+  }
+
+  .product-widget .product-img img 
+  {
+    width: 100%;
+  }
+}
