@@ -8,10 +8,10 @@
     <title>Admin Login</title>
 
     <!-- Font Icon -->
-    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="./css/material-design-iconic-font.min.css">
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
@@ -23,7 +23,7 @@
                 <div class="signin-content">
                     <div class="signin-image">
                         <figure>
-                            <img src="./assets/images/signup-image.jpg" alt="Sign up image">
+                            <img src="./images/signup-image.jpg" alt="Sign up image">
                         </figure>
                         <a href="../index.php" class="signup-image-link">Back To Home</a>
                     </div>
