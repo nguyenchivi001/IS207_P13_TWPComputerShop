@@ -1,4 +1,4 @@
-<?php include("./server/server.php"); ?>
+<?php require_once("./server/server.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,23 +31,54 @@
                     <div class="signin-form">
                         <h2 class="form-title">ADMIN LOGIN</h2>
                         <form class="register-form" id="login-form" action="login.php" method="post">
-                            <div class="alert alert-danger">
-                                <h4 id="e_msg"><?php include('./server/errors.php'); ?></h4>
-                            </div>
+                            <?php if (!empty($errors)): ?>
+                                <div class="alert alert-danger">
+                                    <h4 id="e_msg">
+                                        <?php foreach ($errors as $error): ?>
+                                            <?= htmlspecialchars($error) ?><br>
+                                        <?php endforeach; ?>
+                                    </h4>
+                                </div>
+                            <?php endif; ?>
+
                             <div class="form-group">
-                                <label for="your_name">
+                                <label for="admin_username">
                                     <i class="zmdi zmdi-account material-icons-name"></i>
                                 </label>
-                                <input type="text" name="admin_username" id="your_name" placeholder="Admin Email">
+                                <input 
+                                    type="text" 
+                                    name="admin_username" 
+                                    id="admin_username" 
+                                    placeholder="Admin Email" 
+                                    required 
+                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" 
+                                    title="Please enter a valid email address"
+                                >
                             </div>
+
                             <div class="form-group">
-                                <label for="your_pass">
+                                <label for="password">
                                     <i class="zmdi zmdi-lock"></i>
                                 </label>
-                                <input type="password" name="password" id="your_pass" placeholder="Password">
+                                <input 
+                                    type="password" 
+                                    name="password" 
+                                    id="password" 
+                                    placeholder="Password" 
+                                    required 
+                                    minlength="6" 
+                                    title="Password must be at least 6 characters long"
+                                >
                             </div>
+
                             <div class="form-group form-button">
-                                <input type="submit" name="login_admin" id="signin" class="form-submit" value="Log in">
+                                <input 
+                                    type="submit" 
+                                    name="login_admin" 
+                                    id="signin" 
+                                    class="form-submit" 
+                                    value="Log in"
+                                >
                             </div>
                         </form>
                     </div>
@@ -59,6 +90,6 @@
 
     <!-- JS -->
     <script src="./js/jquery.min.js"></script>
-    <script src=".js/main.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 </html>
