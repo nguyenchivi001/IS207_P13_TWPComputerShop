@@ -25,7 +25,7 @@
         </div>
     </div>
 
-    <script src=""></script>
+    <script src="./js/jquery.min.js"></script>
     <script src=""></script>
 </body>
 </html>
