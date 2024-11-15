@@ -1,32 +1,64 @@
+<?php include("./server/server.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="/Admin/css/login_admin.css">
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="../Assets/img/logo.png" alt="Bailey and Co.">
-            <h1>THE WOLF PACK</h1>
-        </div>
-        <div class="login-form">
-            <h2>WELCOME ADMIN</h2>
-            <p>Please login to Admin Dashboard.</p>
-            <form>
-                <input type="text" placeholder="Username" required>
-                <input type="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-                <!-- Add "Back to Home" button here -->
-                <button type="button" class="back-home" onclick="window.location.href='header.html'">Back to Home</button>
-            </form>
-        </div>
+
+    <div class="main" style="padding-top: 90px;">
+
+        <!-- Sign In Form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure>
+                            <img src="./assets/images/signup-image.jpg" alt="Sign up image">
+                        </figure>
+                        <a href="../index.php" class="signup-image-link">Back To Home</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">ADMIN LOGIN</h2>
+                        <form class="register-form" id="login-form" action="login.php" method="post">
+                            <div class="alert alert-danger">
+                                <h4 id="e_msg"><?php include('./server/errors.php'); ?></h4>
+                            </div>
+                            <div class="form-group">
+                                <label for="your_name">
+                                    <i class="zmdi zmdi-account material-icons-name"></i>
+                                </label>
+                                <input type="text" name="admin_username" id="your_name" placeholder="Admin Email">
+                            </div>
+                            <div class="form-group">
+                                <label for="your_pass">
+                                    <i class="zmdi zmdi-lock"></i>
+                                </label>
+                                <input type="password" name="password" id="your_pass" placeholder="Password">
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="login_admin" id="signin" class="form-submit" value="Log in">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 
+    <!-- JS -->
     <script src="./js/jquery.min.js"></script>
-    <script src=""></script>
+    <script src=".js/main.js"></script>
 </body>
 </html>
-
