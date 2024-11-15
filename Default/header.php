@@ -22,6 +22,8 @@
   <link rel="stylesheet" href="css/cart.css">
   <link rel="stylesheet" href="css/checkout.css">
   <link rel="stylesheet" href="css/wishlist.css">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../Assets/img/logo.png">
 </head>
 <body>
   <!-- HEADER -->
