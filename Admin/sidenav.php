@@ -1,34 +1,50 @@
+<?php
+session_start();
+
+// Kiểm tra quyền truy cập
+if (!isset($_SESSION['admin_name'])) {
+    $_SESSION['msg'] = "You must log in first";
+    header('Location: ../login.php');
+    exit;
+}
+
+// Đăng xuất
+if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['admin_name']);
+    header('Location: ../login.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="../Assets/img/logo.png">
-    <link rel="icon" type="image/png" href="../Assets/img/logo.png">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>
-        TWPComputerShop | Admin
-    </title>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" name="viewport" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TWPComputerShop | Admin</title>
+
     <!-- Fonts and icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="./css/material-dashboard.css">
+    <link rel="stylesheet" href="./demo/demo.css">
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="../Assets/css/all.min.css">
-    
-    <!-- Material Dashboard CSS -->
-    <link href="./css/material-dashboard.css" rel="stylesheet" />
-    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="76x76" href="../Assets/img/logo.png">
+    <link rel="icon" type="image/png" href="../Assets/img/logo.png">
 </head>
+
 <body class="dark-edition">
-    <div class="wrapper ">
+    <div class="wrapper">
         <!-- Sidebar -->
-        <div class="sidebar" data-color="purple" data-background-color="black" data-image="./image/sidebar-2.jpg">
+        <div class="sidebar" data-color="purple" data-background-color="black" data-image="../assets/img/sidebar-2.jpg">
             <div class="logo">
-                <a href="#" class="simple-text logo-normal">
-                    <img src="../Assets/img/logo.png" style="width: 150px;" alt="Admin Logo">
+                <a href="index.php" class="simple-text logo-normal">
+                    <img src="./assets/img/capture.png" alt="Logo" style="width: 150px;">
                 </a>
             </div>
             <div class="sidebar-wrapper">
@@ -63,7 +79,6 @@
                             <p>Danh sách sản phẩm</p>
                         </a>
                     </li>
-                   
                     <li class="nav-item">
                         <a class="nav-link" href="profile.html">
                             <i class="fa-solid fa-gear"></i>
@@ -81,4 +96,5 @@
         </div>
     </div>
 </body>
+
 </html>
