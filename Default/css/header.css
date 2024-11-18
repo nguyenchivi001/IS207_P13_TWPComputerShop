@@ -85,9 +85,15 @@ header
   display: none;
   position: absolute;
   background-color: #15161D;
-  min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  min-width: 200px;
   z-index: 10;
+  right: 0;
+}
+
+.dropdownmenu-content li 
+{
+  display: inline-block;
 }
 
 .dropdownmenu-content a 

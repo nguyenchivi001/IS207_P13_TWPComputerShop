@@ -43,10 +43,11 @@ session_start();
         </ul>
         <ul class="top-header-links top-header-right">
           <?php 
-            include "../Database/db.php";
+            include "../Database/db_connection.php";
             if(isset($_SESSION["uid"])) {
+              $con = OpenCon();
               if($con) {
-                $stmt = $con->prepare("SELECT first_name FROM user_info WHERE user_id = ?");
+                $stmt = $con->prepare("SELECT last_name FROM user_info WHERE user_id = ?");
                 $stmt->bind_param("i", $_SESSION["uid"]);
                 $stmt->execute();
                 $result = $stmt->get_result();
@@ -55,7 +56,7 @@ session_start();
                   echo '
                   <div class="dropdownmenu">
                     <a href="#" class="dropdownmenu" data-toggle="modal" data-target="#myModal">
-                        <i class="fas fa-user"></i> Hi ' . htmlspecialchars($row["first_name"]) . '
+                        <i class="fas fa-user"></i> Hi ' . htmlspecialchars($row["last_name"]) . '
                     </a>
                     <div class="dropdownmenu-content">
                         <li><a href="#"><i class="fa-solid fa-circle-user"></i> Thông tin cá nhân</a></li>
