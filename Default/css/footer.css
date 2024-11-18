@@ -1,6 +1,6 @@
 footer 
 {
-  background: linear-gradient(to right, #348AC7, #7474BF);;
+  background-color: #1E3E62;
   color: #B9BABC;
   z-index: 10;
 }
@@ -29,10 +29,15 @@ footer
   margin-top: 15px;
 }
 
+.footer-links li a
+{
+  color: #fff;
+}
+
 .footer-links li i 
 {
   margin-right: 15px;
-  color: #D10024;
+  color: #fff;
   width: 14px;
   text-align: center;
 }
@@ -76,6 +81,11 @@ footer
 .right-section
 {
   margin-right: 150px;
+}
+
+.middle-section li i
+{
+  color: white;
 }
 
 /* RESPONSIVE */

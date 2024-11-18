@@ -1,3 +1,8 @@
+<?php
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +34,7 @@
   <!-- HEADER -->
   <header>
     <!-- TOP HEADER -->
-    <div class="top-header">
+    <div class="top-header" style="border-bottom: 1px solid #fff;">
       <div class="top-header-container">
         <ul class="top-header-links top-header-left">
           <li><a href="#"><i class="fas fa-phone"></i> 0123456789</a></li>
@@ -37,16 +42,50 @@
           <li><a href="#"><i class="fas fa-map-marker-alt"></i> TP. Hồ Chí Minh</a></li>
         </ul>
         <ul class="top-header-links top-header-right">
-          <div class="dropdownmenu">
-            <a href="#" class="dropdownmenu" data-toggle="modal" data-target="#myModal">
-                <i class="fas fa-user"></i> Tài khoản
-            </a>
-            <div class="dropdownmenu-content">
-                <li><a href="#"><i class="fas fa-user-shield"></i> Quản trị</a></li>
-                <li><a href="./signin.php"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
-                <li><a href="#"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
-            </div>
-          </div>
+          <?php 
+            include "../Database/db.php";
+            if(isset($_SESSION["uid"])) {
+              if($con) {
+                $stmt = $con->prepare("SELECT first_name FROM user_info WHERE user_id = ?");
+                $stmt->bind_param("i", $_SESSION["uid"]);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($row = $result->fetch_assoc()) {
+                  echo '
+                  <div class="dropdownmenu">
+                    <a href="#" class="dropdownmenu" data-toggle="modal" data-target="#myModal">
+                        <i class="fas fa-user"></i> Hi ' . htmlspecialchars($row["first_name"]) . '
+                    </a>
+                    <div class="dropdownmenu-content">
+                        <li><a href="#"><i class="fas fa-user-shield"></i> Quản trị</a></li>
+                        <li><a href="#"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
+                        <li><a href="#"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
+                    </div>
+                  </div>
+                  ';
+                }
+                $stmt->close();
+              }
+              else {
+                echo "Not connection to database!";
+              }
+            }
+            else {
+              echo '
+              <div class="dropdownmenu">
+                <a href="#" class="dropdownmenu" data-toggle="modal" data-target="#myModal">
+                    <i class="fas fa-user"></i> Tài khoản
+                </a>
+                <div class="dropdownmenu-content">
+                    <li><a href="#"><i class="fas fa-user-shield"></i> Quản trị</a></li>
+                    <li><a href="#"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
+                    <li><a href="#"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
+                </div>
+              </div>
+              ';
+            }
+          ?>
         </ul>
       </div>
     </div>
@@ -57,7 +96,7 @@
       <div class="main-header-container">
         <!-- LEFT SECTION -->
         <div class="main-header-left-section"> 
-          <a href="header.html" class="logo d-flex align-items-center"> 
+          <a href="index.php" class="logo d-flex align-items-center"> 
             <img src="../Assets/img/logo.png" class="img-fluid">
             <div class="name">
               <span class="main-name">
@@ -83,7 +122,7 @@
         <!-- RIGHT SECTION -->
         <div class="main-header-right-section">
           <div class="wish-list right-section-items">
-              <a href="#">
+              <a href="wishlist.php">
                   <i class="far fa-heart"></i>
                   <span>Yêu thích</span>
                   <div id="wishlist-badge" class="qty">0</div>
@@ -100,7 +139,7 @@
               <div class="dropdown-menu cart-dropdown">
                   <div class="cart-list" id="cart_product"></div>
                   <div class="cart-button">
-                      <a href="#">
+                      <a href="cart.php">
                           <i class="fas fa-edit"></i> Thay đổi giỏ hàng
                       </a>
                   </div>
