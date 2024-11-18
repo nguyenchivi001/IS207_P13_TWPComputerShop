@@ -45,8 +45,8 @@
         <input type="hidden" id="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
         <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
         <div class="login-links">
-          <a href="register.html">Đăng ký</a>
-          <a href="#">Bỏ qua đăng nhập</a>
+          <a href="./signup.php">Đăng ký</a>
+          <a href="./index.php">Bỏ qua đăng nhập</a>
         </div>
         <div class="alert alert-danger mt-4" id="error" style="display: none;">
           Please register before login..!
