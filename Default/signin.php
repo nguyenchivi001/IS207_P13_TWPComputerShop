@@ -1,3 +1,9 @@
+<?php
+  session_start();
+  if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,7 +33,7 @@
     <!-- Login Form -->
     <div class="login-form">
       <h2 class="mb-4">Đăng nhập</h2>
-      <form onsubmit="return false">
+      <form>
         <div class="mb-3">
           <label for="email" class="label-input">Email</label>
           <input type="email" id="email" class="form-control" placeholder="Email của bạn" required>
@@ -36,10 +42,7 @@
           <label for="password" class="label-input">Mật khẩu</label>
           <input type="password" id="password" class="form-control" placeholder="*************" required>
         </div>
-        <div class="form-check mb-4">
-          <input class="form-check-input" type="checkbox" id="terms">
-          <label class="form-check-label" for="terms">Đồng ý với các <a href="#">điều khoản</a></label>
-        </div>
+        <input type="hidden" id="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
         <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
         <div class="login-links">
           <a href="register.html">Đăng ký</a>
@@ -59,5 +62,46 @@
 
   <!-- Bootstrap JS -->
   <script src="../Assets/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.querySelector('form').addEventListener('submit', async function (event) {
+      event.preventDefault(); 
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const csrfToken = document.getElementById('csrf_token').value;
+      const errorElement = document.getElementById('error');
+
+      if (!email || !password) {
+        errorElement.textContent = "Email and password are required.";
+        errorElement.style.display = 'block';
+        return;
+      }
+
+      try {
+        const response = await fetch('/TWPComputerShop/Default/Control/login.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password, csrf_token: csrfToken })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          window.location.href = './index.php';
+        } else {
+          errorElement.textContent = result.message || "Invalid email or password.";
+          errorElement.style.display = 'block';
+        }
+      } catch (error) {
+        errorElement.textContent = "An error occurred. Please try again.";
+        errorElement.style.display = 'block';
+        console.error(error);
+      }
+    });
+  </script>
+
 </body>
 </html>
