@@ -58,9 +58,9 @@ session_start();
                         <i class="fas fa-user"></i> Hi ' . htmlspecialchars($row["first_name"]) . '
                     </a>
                     <div class="dropdownmenu-content">
-                        <li><a href="#"><i class="fas fa-user-shield"></i> Quản trị</a></li>
-                        <li><a href="#"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
-                        <li><a href="#"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
+                        <li><a href="#"><i class="fa-solid fa-circle-user"></i> Thông tin cá nhân</a></li>
+                        <li><a href="#"><i class="fas fa-user-shield"></i> Đơn đặt hàng</a></li>
+                        <li><a href="#"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>
                     </div>
                   </div>
                   ';
@@ -78,9 +78,9 @@ session_start();
                     <i class="fas fa-user"></i> Tài khoản
                 </a>
                 <div class="dropdownmenu-content">
-                    <li><a href="#"><i class="fas fa-user-shield"></i> Quản trị</a></li>
-                    <li><a href="#"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
-                    <li><a href="#"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
+                    <li><a href="../Admin/login.html"><i class="fas fa-user-shield"></i> Quản trị</a></li>
+                    <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
+                    <li><a href="register.html"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
                 </div>
               </div>
               ';
