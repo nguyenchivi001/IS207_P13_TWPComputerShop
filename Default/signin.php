@@ -79,7 +79,7 @@
       }
 
       try {
-        const response = await fetch('/TWPComputerShop/Default/Control/login.php', {
+        const response = await fetch('/TWPComputerShop/Default/Control/signin_control.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
