@@ -78,7 +78,7 @@
         <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
         <div class="login-links">
           <a href="login.html">Đăng nhập</a>
-          <a href="#">Bỏ qua đăng ký</a>
+          <a href="index.php">Bỏ qua đăng ký</a>
         </div>
         <div class="alert alert-danger mt-4" id="error" style="display: none;">
           Please register before login..!
