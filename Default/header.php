@@ -51,7 +51,7 @@ session_start();
                 $stmt->bind_param("i", $_SESSION["uid"]);
                 $stmt->execute();
                 $result = $stmt->get_result();
-
+                echo $_SESSION['uid'];
                 if ($row = $result->fetch_assoc()) {
                   echo '
                   <div class="dropdownmenu">
@@ -80,8 +80,8 @@ session_start();
                 </a>
                 <div class="dropdownmenu-content">
                     <li><a href="../Admin/login.html"><i class="fas fa-user-shield"></i> Quản trị</a></li>
-                    <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
-                    <li><a href="register.html"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
+                    <li><a href="./signin.php"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
+                    <li><a href="./signup.php"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
                 </div>
               </div>
               ';

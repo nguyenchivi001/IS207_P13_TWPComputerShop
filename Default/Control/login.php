@@ -37,7 +37,7 @@ try {
         // Add verify hashed password later
         if ($password === $user['password']) {
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-            $_SESSION['u_id'] = $user['user_id'];
+            $_SESSION['uid'] = $user['user_id'];
             echo json_encode(["success" => true]);
         } else {
             echo json_encode(["success" => false, "message" => "Thông tin đăng nhập không chính xác."]);
