@@ -118,7 +118,7 @@
       }
 
       try {
-        const response = await fetch('./Control/register.php', {
+        const response = await fetch('./Control/signup_control.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
