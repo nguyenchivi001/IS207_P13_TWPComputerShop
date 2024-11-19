@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+include "../Database/db_connection.php";
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +43,6 @@ session_start();
         </ul>
         <ul class="top-header-links top-header-right">
           <?php 
-            include "../Database/db_connection.php";
             if(isset($_SESSION["uid"])) {
               $con = OpenCon();
               if($con) {
@@ -51,7 +50,7 @@ session_start();
                 $stmt->bind_param("i", $_SESSION["uid"]);
                 $stmt->execute();
                 $result = $stmt->get_result();
-
+                echo $_SESSION['uid'];
                 if ($row = $result->fetch_assoc()) {
                   echo '
                   <div class="dropdownmenu">
@@ -80,8 +79,8 @@ session_start();
                 </a>
                 <div class="dropdownmenu-content">
                     <li><a href="../Admin/login.html"><i class="fas fa-user-shield"></i> Quản trị</a></li>
-                    <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
-                    <li><a href="register.html"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
+                    <li><a href="./signin.php"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
+                    <li><a href="./signup.php"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
                 </div>
               </div>
               ';
@@ -160,11 +159,11 @@ session_start();
         <div id="get_category_home">
           <div class="responsive-nav">
             <ul class="main-nav">
-              <li class="home-category active"><a href="#">Trang chủ</a></li>
-              <li class="category" cid="1"><a href="#">Laptop Gaming</a></li>
-              <li class="category" cid="2"><a href="#">Laptop Học tập, Văn phòng</a></li>
-              <li class="category" cid="3"><a href="#">Laptop Đồ họa</a></li>
-              <li class="category" cid="4"><a href="#">Laptop Mỏng nhẹ</a></li>
+              <li class="home-category active"><a href="index.php">Trang chủ</a></li>
+              <li class="category" cid="1"><a href="products.php?cid=1">Laptop Gaming</a></li>
+              <li class="category" cid="2"><a href="products.php?cid=2">Laptop Học tập, Văn phòng</a></li>
+              <li class="category" cid="3"><a href="products.php?cid=3">Laptop Đồ họa</a></li>
+              <li class="category" cid="4"><a href="products.php?cid=4">Laptop Mỏng nhẹ</a></li>
             </ul>
           </div>
         </div>
