@@ -8,6 +8,7 @@ include "header.php";
     <!-- Bộ lọc và sắp xếp -->
     <div class="filter-sort">
       <form method="GET" class="form-inline">
+        <input type="hidden" name="q" value="<?= isset($_GET['q']) ? htmlspecialchars($_GET['q'], ENT_QUOTES) : '' ?>">
         <input type="hidden" name="cid" value="<?= isset($_GET['cid']) ? intval($_GET['cid']) : 0 ?>">
         <div class="form-group">
           <label for="sort" class="mr-2">Sắp xếp:</label>
@@ -21,10 +22,10 @@ include "header.php";
           <label for="price" class="mr-2">Giá:</label>
           <select name="price" id="price" class="form-control mr-4">
             <option value="all" <?= !isset($_GET['price']) || $_GET['price'] == 'all' ? 'selected' : '' ?>>Tất cả</option>
-            <option value="0-1000000" <?= isset($_GET['price']) && $_GET['price'] == '0-1000000' ? 'selected' : '' ?>>Dưới 1,000,000Đ</option>
-            <option value="1000000-5000000" <?= isset($_GET['price']) && $_GET['price'] == '1000000-5000000' ? 'selected' : '' ?>>1,000,000Đ - 5,000,000Đ</option>
-            <option value="5000000-10000000" <?= isset($_GET['price']) && $_GET['price'] == '5000000-10000000' ? 'selected' : '' ?>>5,000,000Đ - 10,000,000Đ</option>
-            <option value="10000000-0" <?= isset($_GET['price']) && $_GET['price'] == '10000000-0' ? 'selected' : '' ?>>Trên 10,000,000Đ</option>
+            <option value="0-10000000" <?= isset($_GET['price']) && $_GET['price'] == '0-10000000' ? 'selected' : '' ?>>Dưới 10,000,000Đ</option>
+            <option value="10000000-50000000" <?= isset($_GET['price']) && $_GET['price'] == '10000000-50000000' ? 'selected' : '' ?>>10,000,000Đ - 50,000,000Đ</option>
+            <option value="50000000-100000000" <?= isset($_GET['price']) && $_GET['price'] == '50000000-100000000' ? 'selected' : '' ?>>50,000,000Đ - 100,000,000Đ</option>
+            <option value="100000000-0" <?= isset($_GET['price']) && $_GET['price'] == '100000000-0' ? 'selected' : '' ?>>Trên 100,000,000Đ</option>
           </select>
         </div>
         <button type="submit" class="btn btn-primary">Áp dụng</button>
@@ -36,11 +37,31 @@ include "header.php";
       <?php
         $con = OpenCon();
 
+        // Từ khoá tìm kiếm
+        $q = isset($_GET['q']) ? trim($_GET['q']) : '';
+        // Tách từ khoá tìm kiếm thành các từ riêng biệt
+        if (!empty($q)) {
+          $keyword = trim($q, '%');
+          $search_terms = preg_split('/\s+/', $keyword);
+          $search_conditions = [];
+
+          foreach ($search_terms as $term) {
+              $search_conditions[] = "(P.product_title LIKE ? OR P.product_desc LIKE ?)";
+          }
+
+          // Kết hợp tất cả điều kiện tìm kiếm bằng AND
+          $search_condition = " AND (" . implode(' AND ', $search_conditions) . ")";
+        }
+        else {
+          $search_condition = "";
+        }
+
         // Lấy tham số GET
         $cid = isset($_GET['cid']) ? intval($_GET['cid']) : 0;
         $sort = isset($_GET['sort']) ? $_GET['sort'] : 'default';
         $price = isset($_GET['price']) ? $_GET['price'] : 'all';
 
+        //Phân trang
         $limit = 12;
         $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
         $offset = ($page - 1) * $limit;
@@ -65,17 +86,54 @@ include "header.php";
         } elseif ($sort == 'desc') {
             $order_by = " ORDER BY P.product_price DESC";
         }
+        
 
         // Câu truy vấn sản phẩm
-        $sql = "SELECT * FROM products AS P 
-                JOIN categories AS C ON P.product_cat = C.cat_id 
-                WHERE C.cat_id = ? $price_condition $order_by 
-                LIMIT ? OFFSET ?";
-        $stmt = $con->prepare($sql);
-        $stmt->bind_param("iii", $cid, $limit, $offset);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        if (!empty($q)) {
+          $sql = "SELECT * FROM products AS P 
+          JOIN categories AS C ON P.product_cat = C.cat_id 
+          WHERE 1=1 $search_condition $price_condition $order_by 
+          LIMIT ? OFFSET ?";
 
+          $stmt = $con->prepare($sql);
+          $params = [];
+          foreach ($search_terms as $term) {
+              $params[] = "%" . $con->real_escape_string($term) . "%";
+              $params[] = "%" . $con->real_escape_string($term) . "%";
+          }
+          
+          $params[] = $limit;
+          $params[] = $offset;
+          
+          $type_string = str_repeat("ss", count($search_terms)) . "ii";
+          $stmt->bind_param($type_string, ...$params);
+
+          $stmt->execute();
+          $result = $stmt->get_result();
+        } else {
+          $sql = "SELECT * FROM products AS P 
+          JOIN categories AS C ON P.product_cat = C.cat_id 
+          WHERE C.cat_id = ? $price_condition $order_by 
+          LIMIT ? OFFSET ?";
+
+          $stmt = $con->prepare($sql);
+
+          $stmt->bind_param("iii", $cid, $limit, $offset);
+
+          $stmt->execute();
+          $result = $stmt->get_result();
+        }
+        
+
+        if (!empty($q)) {
+          $keyword = trim($q, '%');
+          echo '
+            <div class="search-keyword mb-4">
+              <p>Bạn đang tìm kiếm từ khóa: <strong>' . htmlspecialchars($keyword, ENT_QUOTES) . '</strong></p>
+            </div>
+          ';
+        }
+      
         // Hiển thị sản phẩm
         if ($result->num_rows > 0) {
           $count = 0;

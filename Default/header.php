@@ -111,9 +111,9 @@ include "../Database/db_connection.php";
 
         <!-- MIDDLE SECTION-->
         <div class="main-header-middle-section">
-          <form onsubmit="return false" class="search">
-              <input class="search-bar" id="search-bar" type="text" placeholder="Nhập tìm kiếm">
-              <button id="search_btn" class="search-btn"><i class="fas fa-magnifying-glass"></i></button>
+          <form nethod="GET" action="products.php" class="search">
+              <input class="search-bar" id="search-bar" name="q" type="text" placeholder="Nhập từ khoá">
+              <button type="submit" id="search_btn" class="search-btn"><i class="fas fa-magnifying-glass"></i></button>
           </form>
         </div>
         <!-- /MIDDLE SECTION -->
