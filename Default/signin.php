@@ -73,7 +73,7 @@
       const errorElement = document.getElementById('error');
 
       if (!email || !password) {
-        errorElement.textContent = "Email and password are required.";
+        errorElement.textContent = "Vui lòng điền đầy đủ thông tin.";
         errorElement.style.display = 'block';
         return;
       }
@@ -92,11 +92,11 @@
         if (result.success) {
           window.location.href = './index.php';
         } else {
-          errorElement.textContent = result.message || "Invalid email or password.";
+          errorElement.textContent = result.message || "Tên đăng nhập hoặc mật khẩu không hợp lệ";
           errorElement.style.display = 'block';
         }
       } catch (error) {
-        errorElement.textContent = "An error occurred. Please try again.";
+        errorElement.textContent = "Có lỗi xảy ra, vui lòng thử lại.";
         errorElement.style.display = 'block';
         console.error(error);
       }

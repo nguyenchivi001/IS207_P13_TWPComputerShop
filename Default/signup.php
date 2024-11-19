@@ -1,3 +1,9 @@
+<?php
+  session_start();
+  if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,6 +74,7 @@
           <input class="form-check-input" type="checkbox" id="terms">
           <label class="form-check-label" for="terms">Đồng ý với các <a href="#">điều khoản</a></label>
         </div>
+        <input type="hidden" id="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
         <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
         <div class="login-links">
           <a href="login.html">Đăng nhập</a>
@@ -82,5 +89,58 @@
 
   <!-- Bootstrap JS -->
   <script src="../Assets/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    document.querySelector('form').addEventListener('submit', async function (event) {
+      event.preventDefault(); 
+
+      const fname = document.getElementById('firstname').value;
+      const lname = document.getElementById('lastname').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('password-confirm').value;
+      const address1 = document.getElementById('address1').value;
+      const address2 = document.getElementById('address2').value;
+      const csrfToken = document.getElementById('csrf_token').value;
+      const errorElement = document.getElementById('error');
+
+      if (!fname || !lname || !email || !password || !confirmPassword || !phone || !address1 || !address2) {
+        errorElement.textContent = "Vui lòng điền đầy đủ thông tin.";
+        errorElement.style.display = 'block';
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        errorElement.textContent = "Mật khẩu không giống nhau.";
+        errorElement.style.display = 'block';
+        return;
+      }
+
+      try {
+        const response = await fetch('/TWPComputerShop/Default/Control/register.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ fname, lname, email, phone, password, confirmPassword, address1, address2, csrf_token: csrfToken })
+        });
+
+        const result = await response.json();
+        console.log(result)
+
+        if (result.success) {
+          window.location.href = './signin.php';
+        } else {
+          errorElement.textContent = result.message || "Có lỗi xảy ra. Vui lòng thử lại";
+          errorElement.style.display = 'block';
+        }
+      } catch (error) {
+        errorElement.textContent = "Có lỗi xảy ra. Vui lòng thử lại";
+        errorElement.style.display = 'block';
+        console.error(error);
+      }
+    });
+  </script>
 </body>
 </html>
