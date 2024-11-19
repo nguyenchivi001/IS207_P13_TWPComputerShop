@@ -1,0 +1,81 @@
+.main 
+{
+  margin-top: 200px;
+  position: relative;
+  z-index: 10;
+  background-color: white;
+}
+
+.main-raised 
+{
+  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+} 
+
+
+/* Carousel controls visibility */
+#product-main-img .carousel-control-prev,
+#product-main-img .carousel-control-next {
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s all;
+}
+
+#product-main-img:hover .carousel-control-prev,
+#product-main-img:hover .carousel-control-next {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Custom carousel indicator styling */
+#product-main-img .carousel-indicators [data-bs-target] {
+  background-color: #D10024;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+#product-main-img .carousel-indicators .active {
+  background-color: #000;
+}
+
+/* Product image preview */
+#product-imgs .product-preview {
+  margin: 5px;
+  border: 1px solid #E4E7ED;
+}
+
+#product-imgs .product-preview img {
+  width: 100%;
+}
+
+#product-imgs .product-preview.active {
+  border-color: #D10024;
+}
+
+/* Override Bootstrap's carousel control icon styles */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #000;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+/* Smooth hover effect for carousel controls */
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+  background-color: #D10024;
+}
+
+/* Adjustments for smaller devices */
+@media (max-width: 768px) {
+  #product-main-img .carousel-control-prev,
+  #product-main-img .carousel-control-next {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #product-main-img .carousel-indicators {
+    bottom: -20px;
+  }
+}
