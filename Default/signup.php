@@ -118,7 +118,7 @@
       }
 
       try {
-        const response = await fetch('/TWPComputerShop/Default/Control/register.php', {
+        const response = await fetch('./Control/register.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
