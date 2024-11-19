@@ -11,71 +11,69 @@
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 } 
 
-
-/* Carousel controls visibility */
-#product-main-img .carousel-control-prev,
-#product-main-img .carousel-control-next {
-  opacity: 0;
-  visibility: hidden;
-  transition: 0.2s all;
+.filter-sort {
+  margin: 20px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-#product-main-img:hover .carousel-control-prev,
-#product-main-img:hover .carousel-control-next {
-  opacity: 1;
-  visibility: visible;
+.filter-sort form {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-/* Custom carousel indicator styling */
-#product-main-img .carousel-indicators [data-bs-target] {
-  background-color: #D10024;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+.filter-sort .form-group {
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 
-#product-main-img .carousel-indicators .active {
-  background-color: #000;
+.filter-sort button
+{
+  margin-top: 12px;
 }
 
-/* Product image preview */
-#product-imgs .product-preview {
-  margin: 5px;
-  border: 1px solid #E4E7ED;
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
 }
 
-#product-imgs .product-preview img {
+.product-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.product-img img {
   width: 100%;
+  height: auto;
 }
 
-#product-imgs .product-preview.active {
-  border-color: #D10024;
+.product-info {
+  padding: 10px;
 }
 
-/* Override Bootstrap's carousel control icon styles */
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-color: #000;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
+.product-name {
+  font-size: 16px;
+  font-weight: 600;
 }
 
-/* Smooth hover effect for carousel controls */
-.carousel-control-prev-icon:hover,
-.carousel-control-next-icon:hover {
-  background-color: #D10024;
+.product-price {
+  color: #f00;
+  margin-bottom: 10px;
 }
 
-/* Adjustments for smaller devices */
-@media (max-width: 768px) {
-  #product-main-img .carousel-control-prev,
-  #product-main-img .carousel-control-next {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  #product-main-img .carousel-indicators {
-    bottom: -20px;
-  }
+.pagination {
+  margin-top: 20px;
 }
+
+.pagination .page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+}
+
