@@ -1,4 +1,8 @@
 <?php
+session_start();
+if (empty($_SESSION['csrf_token'])) {
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 require "header.php";
 ?>
 
@@ -150,7 +154,13 @@ require "header.php";
                 <div class="product-info">
                   <h5 class="product-name">' . htmlspecialchars($row['product_title'], ENT_QUOTES) . '</h5>
                   <p class="product-price">' . number_format($row['product_price'], 0, '', ',') . 'Đ</p>
-                  <button class="btn btn-primary btn-sm" pid="' . intval($row['product_id']) . '" id="product">Thêm vào giỏ hàng</button>
+                  <button 
+                    class="btn btn-primary btn-sm add-to-cart-btn" 
+                    pid="' . intval($row['product_id']) . '" 
+                    id="product"
+                    token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '">
+                      Thêm vào giỏ hàng
+                  </button>
                 </div>
               </div>
             </div>
@@ -200,7 +210,16 @@ require "header.php";
     </div>
   </div>
 </div>
-
+<script src="js/action.js"></script>
+<script>
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener('click', () => {
+        const productId = button.getAttribute('pid');
+        const csrfToken = button.getAttribute('token');
+        addToCart(productId, 1, csrfToken);
+    });
+  });
+</script>
 <?php
 require "newsletter.html";
 require "footer.html";
