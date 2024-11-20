@@ -24,6 +24,8 @@ if (!$email || !$password) {
     exit;
 }
 
+$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
 try {
     $query = "SELECT * FROM user_info WHERE email = ?";
     $stmt = $conn->prepare($query);
@@ -35,7 +37,7 @@ try {
         $user = $result->fetch_assoc();
         
         // Add verify hashed password later
-        if ($password === $user['password']) {
+        if ($hashedPassword === $user['password']) {
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
             $_SESSION['uid'] = $user['user_id'];
             echo json_encode(["success" => true]);
