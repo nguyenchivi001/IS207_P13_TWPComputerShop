@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (empty($_SESSION['csrf_token'])) {
   $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -58,11 +57,11 @@ require "header.php";
           <label for="cpu" class="mr-2">CPU:</label>
           <select name="cpu" id="cpu" class="form-control mr-4">
             <option value="all" <?= !isset($_GET['cpu']) || $_GET['cpu'] == 'all' ? 'selected' : '' ?>>Tất cả</option>
-            <option value="AMD Ryzen 5" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'AMD Ryzen 5' ? 'selected' : '' ?>>AMD Ryzen 5</option>
-            <option value="AMD Ryzen 7" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'AMD Ryzen 7' ? 'selected' : '' ?>>AMD Ryzen 7</option>
-            <option value="AMD Ryzen 9" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'AMD Ryzen 9' ? 'selected' : '' ?>>AMD Ryzen 9</option>
-            <option value="Intel Core i5" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'Intel Core i5' ? 'selected' : '' ?>>Intel Core i5</option>
-            <option value="Intel Core i7" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'Intel Core i7' ? 'selected' : '' ?>>Intel Core i7</option>
+            <option value="R5" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'R5' ? 'selected' : '' ?>>AMD Ryzen 5</option>
+            <option value="R7" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'R7' ? 'selected' : '' ?>>AMD Ryzen 7</option>
+            <option value="R9" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'R9' ? 'selected' : '' ?>>AMD Ryzen 9</option>
+            <option value="i5" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'i5' ? 'selected' : '' ?>>Intel Core i5</option>
+            <option value="i7" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'i7' ? 'selected' : '' ?>>Intel Core i7</option>
           </select>
         </div>
 
@@ -71,9 +70,9 @@ require "header.php";
           <label for="ram" class="mr-2">RAM:</label>
           <select name="ram" id="ram" class="form-control mr-4">
             <option value="all" <?= !isset($_GET['ram']) || $_GET['ram'] == 'all' ? 'selected' : '' ?>>Tất cả</option>
-            <option value="8GB" <?= isset($_GET['ram']) && $_GET['ram'] == '8GB' ? 'selected' : '' ?>>8GB</option>
-            <option value="16GB" <?= isset($_GET['ram']) && $_GET['ram'] == '16GB' ? 'selected' : '' ?>>16GB</option>
-            <option value="32GB" <?= isset($_GET['ram']) && $_GET['ram'] == '32GB' ? 'selected' : '' ?>>32GB</option>
+            <option value="8GB RAM" <?= isset($_GET['ram']) && $_GET['ram'] == '8GB RAM' ? 'selected' : '' ?>>8GB</option>
+            <option value="16GB RAM" <?= isset($_GET['ram']) && $_GET['ram'] == '16GB RAM' ? 'selected' : '' ?>>16GB</option>
+            <option value="32GB RAM" <?= isset($_GET['ram']) && $_GET['ram'] == '32GB RAM' ? 'selected' : '' ?>>32GB</option>
           </select>
         </div>
 
@@ -156,26 +155,50 @@ require "header.php";
           }
         }
         
-        
+        //Bộ lọc CPU
+        $cpu_condition = "";
+        if ($cpu != 'all') {
+          $cpu = "%" . $con->real_escape_string($cpu) . "%";
+          $cpu_condition = " AND P.product_desc LIKE ?";
+        }
+
+        //Bộ lọc RAM
+        $ram_condition = "";
+        if ($ram != 'all') {
+          $ram = "%" . $con->real_escape_string($ram) . "%";
+          $ram_condition = " AND P.product_desc LIKE ?";
+        }
 
         // Câu truy vấn sản phẩm
         if (!empty($q)) {
           $sql = "SELECT * FROM products AS P 
           JOIN categories AS C ON P.product_cat = C.cat_id 
-          WHERE 1=1 $search_condition $price_condition $brand_condition $order_by  
+          WHERE 1=1 $search_condition $price_condition $brand_condition $cpu_condition $ram_condition $order_by  
           LIMIT ? OFFSET ?";
 
+          echo $sql;
           $stmt = $con->prepare($sql);
           $params = [];
           foreach ($search_terms as $term) {
               $params[] = "%" . $con->real_escape_string($term) . "%";
               $params[] = "%" . $con->real_escape_string($term) . "%";
           }
-          
+
+          $type_string = str_repeat("ss", count($search_terms)) . "ii";
+
+          if ($cpu != 'all') {
+            $type_string = substr($type_string, 0, -2) . "sii";
+            $params[] = $cpu;
+          }
+
+          if ($ram != 'all') {
+            $type_string = substr($type_string, 0, -2) . "sii";
+            $params[] = $ram;
+          }
+
           $params[] = $limit;
           $params[] = $offset;
           
-          $type_string = str_repeat("ss", count($search_terms)) . "ii";
           $stmt->bind_param($type_string, ...$params);
 
           $stmt->execute();
@@ -183,11 +206,27 @@ require "header.php";
         } else {
           $sql = "SELECT * FROM products AS P 
           JOIN categories AS C ON P.product_cat = C.cat_id 
-          WHERE 1=1 AND C.cat_id = ? $price_condition $brand_condition $order_by 
+          WHERE 1=1 AND C.cat_id = ? $price_condition $brand_condition $cpu_condition $ram_condition $order_by 
           LIMIT ? OFFSET ?";
+
           $stmt = $con->prepare($sql);
 
-          $stmt->bind_param("iii", $cid, $limit, $offset);
+          $type_string = 'iii';
+          $params[] = $cid;
+          if ($cpu != 'all') {
+            $type_string = substr($type_string, 0, -2) . "sii";
+            $params[] = $cpu;
+          }
+
+          if ($ram != 'all') {
+            $type_string = substr($type_string, 0, -2) . "sii";
+            $params[] = $ram;
+          }
+
+          $params[] = $limit;
+          $params[] = $offset;
+
+          $stmt->bind_param($type_string, ...$params);
 
           $stmt->execute();
           $result = $stmt->get_result();
@@ -258,17 +297,17 @@ require "header.php";
           <ul class="pagination justify-content-center">
             <?php if ($page > 1): ?>
               <li class="page-item">
-                <a class="page-link" href="?cid=<?= $cid ?>&price=<?= $price ?>&sort=<?= $sort ?>&brand=<?= $brand ?>&page=<?= $page - 1 ?>">Trước</a>
+                <a class="page-link" href="?cid=<?= $cid ?>&price=<?= $price ?>&sort=<?= $sort ?>&brand=<?= $brand ?>&cpu=<?= $cpu ?>&ram=<?= $ram ?>&page=<?= $page - 1 ?>">Trước</a>
               </li>
             <?php endif; ?>
             <?php for ($i = 1; $i <= $total_pages; $i++): ?>
               <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                <a class="page-link" href="?cid=<?= $cid ?>&price=<?= $price ?>&sort=<?= $sort ?>&brand=<?= $brand ?>&page=<?= $i ?>"><?= $i ?></a>
+                <a class="page-link" href="?cid=<?= $cid ?>&price=<?= $price ?>&sort=<?= $sort ?>&brand=<?= $brand ?>&cpu=<?= $cpu ?>&ram=<?= $ram ?>&page=<?= $i ?>"><?= $i ?></a>
               </li>
             <?php endfor; ?>
             <?php if ($page < $total_pages): ?>
               <li class="page-item">
-                <a class="page-link" href="?cid=<?= $cid ?>&price=<?= $price ?>&sort=<?= $sort ?>&brand=<?= $brand ?>&page=<?= $page + 1 ?>">Tiếp</a>
+                <a class="page-link" href="?cid=<?= $cid ?>&price=<?= $price ?>&sort=<?= $sort ?>&brand=<?= $brand ?>&cpu=<?= $cpu ?>&ram=<?= $ram ?>&page=<?= $page + 1 ?>">Tiếp</a>
               </li>
             <?php endif; ?>
           </ul>
