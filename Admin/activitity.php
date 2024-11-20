@@ -1,12 +1,6 @@
 <?php 
-include("../../db.php");
+include("db.php");
 
-/**
- * Hàm đếm số bản ghi trong bảng
- * @param mysqli $con Kết nối CSDL
- * @param string $table Tên bảng
- * @return int Số lượng bản ghi
- */
 function countRows($con, $table) {
     $query = "SELECT COUNT(*) AS count FROM $table";
     $stmt = mysqli_prepare($con, $query);
@@ -17,7 +11,7 @@ function countRows($con, $table) {
         mysqli_stmt_close($stmt);
         return $count;
     }
-    return 0; // Trả về 0 nếu có lỗi
+    return 0; 
 }
 ?>
 

@@ -1,11 +1,10 @@
 <?php
 session_start();
-include("../../db.php");
+include("db.php");
 include "sidenav.php";
-include "topheader.php";
+//include "topheader.php";
 
 if (isset($_POST['btn_save'])) {
-    // Lấy dữ liệu từ form và loại bỏ khoảng trắng thừa
     $first_name = trim($_POST['first_name']);
     $last_name = trim($_POST['last_name']);
     $email = trim($_POST['email']);
@@ -14,16 +13,14 @@ if (isset($_POST['btn_save'])) {
     $address1 = trim($_POST['city']);
     $address2 = trim($_POST['country']);
 
-    // Kiểm tra dữ liệu đầu vào
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo "<script>alert('Email không hợp lệ!');</script>";
     } elseif (!ctype_digit($mobile)) {
         echo "<script>alert('Số điện thoại chỉ được chứa số!');</script>";
     } else {
-        // Mã hóa mật khẩu
+    
         $hashed_password = password_hash($user_password, PASSWORD_BCRYPT);
 
-        // Sử dụng Prepared Statement để thêm dữ liệu
         $stmt = $con->prepare("INSERT INTO user_info (first_name, last_name, email, password, mobile, address1, address2) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssss", $first_name, $last_name, $email, $hashed_password, $mobile, $address1, $address2);
 
@@ -104,6 +101,4 @@ if (isset($_POST['btn_save'])) {
         </div>
     </div>
 </div>
-<?php
-include "footer.php";
-?>
+

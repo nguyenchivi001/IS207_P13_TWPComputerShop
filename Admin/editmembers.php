@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../../db.php");
+include("db.php");
 
 // Lấy thông tin user_id
 $user_id = isset($_REQUEST['user_id']) ? intval($_REQUEST['user_id']) : 0;

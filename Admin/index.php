@@ -1,17 +1,16 @@
 <?php
 session_start();
-include("../../db.php");
+include("db.php");
 
 include "sidenav.php";
-include "topheader.php";
-include "activitity.php";
+//include "topheader.php";
+//include "activitity.php";
 
-// Function to fetch data securely using Prepared Statements
 function fetchData($con, $sql, $params = [])
 {
     $stmt = $con->prepare($sql);
     if (!empty($params)) {
-        $types = str_repeat("s", count($params)); // Assuming all parameters are strings
+        $types = str_repeat("s", count($params)); 
         $stmt->bind_param($types, ...$params);
     }
     $stmt->execute();
@@ -68,7 +67,6 @@ function fetchData($con, $sql, $params = [])
                                             <td>{$row['last_name']}</td>
                                             <td>{$row['email']}</td>
                                             <td>{$row['password']}</td>
-                                            <td>{$row['phone']}</td>
                                             <td>{$row['address1']}</td>
                                             <td>{$row['address2']}</td>
                                         </tr>";
@@ -168,4 +166,3 @@ function fetchData($con, $sql, $params = [])
     </div>
 </div>
 
-<?php include "footer.php"; ?>
