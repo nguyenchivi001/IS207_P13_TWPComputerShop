@@ -27,6 +27,7 @@ include "../Database/db_connection.php";
   <link rel="stylesheet" href="css/cart.css">
   <link rel="stylesheet" href="css/checkout.css">
   <link rel="stylesheet" href="css/wishlist.css">
+  <link rel="stylesheet" href="css/user_information.css">
 
   <link rel="icon" type="image/png" sizes="32x32" href="../Assets/img/logo.png">
 </head>
@@ -57,7 +58,7 @@ include "../Database/db_connection.php";
                         <i class="fas fa-user"></i> Hi ' . htmlspecialchars($row["first_name"]) . '
                     </a>
                     <div class="dropdownmenu-content">
-                        <li><a href="#"><i class="fa-solid fa-circle-user"></i> Thông tin cá nhân</a></li>
+                        <li><a href="user_information.php"><i class="fa-solid fa-circle-user"></i> Thông tin cá nhân</a></li>
                         <li><a href="#"><i class="fas fa-user-shield"></i> Đơn đặt hàng</a></li>
                         <li><a href="./Control/logout.php"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>
                     </div>
@@ -186,3 +187,4 @@ include "../Database/db_connection.php";
   <script src="js/header.js"></script>
 </body>
 </html>
+

@@ -1,3 +1,4 @@
+<?php require './header.php'?>
 <section id="wishlist-section" class="container-fluid">
     <div class="table-responsive">
         <table id="wishlist" class="table table-hover table-striped rounded overflow-hidden shadow-sm" id="">
@@ -44,3 +45,4 @@
         </table>
     </div>
 </section>
+<?php require './footer.html'?>
