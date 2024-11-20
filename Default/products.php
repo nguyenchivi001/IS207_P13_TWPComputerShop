@@ -35,10 +35,17 @@ require "header.php";
           <label for="brand" class="mr-2">Hãng:</label>
           <select name="brand" id="brand" class="form-control mr-4">
             <option value="all" <?= !isset($_GET['brand']) || $_GET['brand'] == 'all' ? 'selected' : '' ?>>Tất cả</option>
-            <option value="Acer" <?= isset($_GET['brand']) && $_GET['brand'] == 'Acer' ? 'selected' : '' ?>>Acer</option>
-            <option value="Asus" <?= isset($_GET['brand']) && $_GET['brand'] == 'Asus' ? 'selected' : '' ?>>Asus</option>
-            <option value="Hp" <?= isset($_GET['brand']) && $_GET['brand'] == 'Hp' ? 'selected' : '' ?>>Hp</option>
             <option value="Apple" <?= isset($_GET['brand']) && $_GET['brand'] == 'Apple' ? 'selected' : '' ?>>Apple</option>
+            <option value="Samsung" <?= isset($_GET['brand']) && $_GET['brand'] == 'Samsung' ? 'selected' : '' ?>>Samsung</option>
+            <option value="Hp" <?= isset($_GET['brand']) && $_GET['brand'] == 'Hp' ? 'selected' : '' ?>>Hp</option>
+            <option value="Acer" <?= isset($_GET['brand']) && $_GET['brand'] == 'Acer' ? 'selected' : '' ?>>Acer</option>
+            <option value="Dell" <?= isset($_GET['brand']) && $_GET['brand'] == 'Dell' ? 'selected' : '' ?>>Dell</option>
+            <option value="Msi" <?= isset($_GET['brand']) && $_GET['brand'] == 'Msi' ? 'selected' : '' ?>>Msi</option>
+            <option value="Lenovo" <?= isset($_GET['brand']) && $_GET['brand'] == 'Lenovo' ? 'selected' : '' ?>>Lenovo</option>
+            <option value="Lg" <?= isset($_GET['brand']) && $_GET['brand'] == 'Lg' ? 'selected' : '' ?>>Lg</option>
+            <option value="Asus" <?= isset($_GET['brand']) && $_GET['brand'] == 'Asus' ? 'selected' : '' ?>>Asus</option>
+            <option value="Alienware" <?= isset($_GET['brand']) && $_GET['brand'] == 'Alienware' ? 'selected' : '' ?>>Alienware</option>
+            <option value="Gigabyte" <?= isset($_GET['brand']) && $_GET['brand'] == 'Gigabyte' ? 'selected' : '' ?>>Gigabyte</option>
           </select>
         </div>
 
@@ -75,7 +82,7 @@ require "header.php";
       <?php
         $con = OpenCon();
 
-        // Lọc Từ khoá tìm kiếm CPU và RAM
+        // Lọc Từ khoá tìm kiếm 
         $q = isset($_GET['q']) ? trim($_GET['q']) : '';
         // Tách từ khoá tìm kiếm thành các từ riêng biệt
         if (!empty($q)) {
@@ -144,7 +151,8 @@ require "header.php";
               $brand_condition = " AND P.product_brand = $brand_id";
           }
         }
-
+        
+        
 
         // Câu truy vấn sản phẩm
         if (!empty($q)) {
