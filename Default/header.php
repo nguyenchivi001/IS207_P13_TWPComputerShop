@@ -112,7 +112,7 @@ include "../Database/db_connection.php";
 
         <!-- MIDDLE SECTION-->
         <div class="main-header-middle-section">
-          <form nethod="GET" action="products.php" class="search">
+          <form method="GET" action="products.php" class="search">
               <input class="search-bar" id="search-bar" name="q" type="text" placeholder="Nhập từ khoá">
               <button type="submit" id="search_btn" class="search-btn"><i class="fas fa-magnifying-glass"></i></button>
           </form>

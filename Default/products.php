@@ -10,6 +10,7 @@ require "header.php";
       <form method="GET" class="form-inline">
         <input type="hidden" name="q" value="<?= isset($_GET['q']) ? htmlspecialchars($_GET['q'], ENT_QUOTES) : '' ?>">
         <input type="hidden" name="cid" value="<?= isset($_GET['cid']) ? intval($_GET['cid']) : 0 ?>">
+        <!-- Sắp xếp -->
         <div class="form-group">
           <label for="sort" class="mr-2">Sắp xếp:</label>
           <select name="sort" id="sort" class="form-control mr-4">
@@ -18,6 +19,7 @@ require "header.php";
             <option value="desc" <?= isset($_GET['sort']) && $_GET['sort'] == 'desc' ? 'selected' : '' ?>>Giá cao đến thấp</option>
           </select>
         </div>
+        <!-- Lọc theo Giá -->
         <div class="form-group">
           <label for="price" class="mr-2">Giá:</label>
           <select name="price" id="price" class="form-control mr-4">
@@ -28,6 +30,42 @@ require "header.php";
             <option value="100000000-0" <?= isset($_GET['price']) && $_GET['price'] == '100000000-0' ? 'selected' : '' ?>>Trên 100,000,000Đ</option>
           </select>
         </div>
+        <!-- Lọc theo Hãng -->
+        <div class="form-group">
+          <label for="brand" class="mr-2">Hãng:</label>
+          <select name="brand" id="brand" class="form-control mr-4">
+            <option value="all" <?= !isset($_GET['brand']) || $_GET['brand'] == 'all' ? 'selected' : '' ?>>Tất cả</option>
+            <option value="Acer" <?= isset($_GET['brand']) && $_GET['brand'] == 'Acer' ? 'selected' : '' ?>>Acer</option>
+            <option value="Asus" <?= isset($_GET['brand']) && $_GET['brand'] == 'Asus' ? 'selected' : '' ?>>Asus</option>
+            <option value="Hp" <?= isset($_GET['brand']) && $_GET['brand'] == 'Hp' ? 'selected' : '' ?>>Hp</option>
+            <option value="Apple" <?= isset($_GET['brand']) && $_GET['brand'] == 'Apple' ? 'selected' : '' ?>>Apple</option>
+          </select>
+        </div>
+
+        <!-- Lọc theo CPU -->
+        <div class="form-group">
+          <label for="cpu" class="mr-2">CPU:</label>
+          <select name="cpu" id="cpu" class="form-control mr-4">
+            <option value="all" <?= !isset($_GET['cpu']) || $_GET['cpu'] == 'all' ? 'selected' : '' ?>>Tất cả</option>
+            <option value="AMD Ryzen 5" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'AMD Ryzen 5' ? 'selected' : '' ?>>AMD Ryzen 5</option>
+            <option value="AMD Ryzen 7" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'AMD Ryzen 7' ? 'selected' : '' ?>>AMD Ryzen 7</option>
+            <option value="AMD Ryzen 9" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'AMD Ryzen 9' ? 'selected' : '' ?>>AMD Ryzen 9</option>
+            <option value="Intel Core i5" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'Intel Core i5' ? 'selected' : '' ?>>Intel Core i5</option>
+            <option value="Intel Core i7" <?= isset($_GET['cpu']) && $_GET['cpu'] == 'Intel Core i7' ? 'selected' : '' ?>>Intel Core i7</option>
+          </select>
+        </div>
+
+        <!-- Lọc theo RAM -->
+        <div class="form-group">
+          <label for="ram" class="mr-2">RAM:</label>
+          <select name="ram" id="ram" class="form-control mr-4">
+            <option value="all" <?= !isset($_GET['ram']) || $_GET['ram'] == 'all' ? 'selected' : '' ?>>Tất cả</option>
+            <option value="8GB" <?= isset($_GET['ram']) && $_GET['ram'] == '8GB' ? 'selected' : '' ?>>8GB</option>
+            <option value="16GB" <?= isset($_GET['ram']) && $_GET['ram'] == '16GB' ? 'selected' : '' ?>>16GB</option>
+            <option value="32GB" <?= isset($_GET['ram']) && $_GET['ram'] == '32GB' ? 'selected' : '' ?>>32GB</option>
+          </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Áp dụng</button>
       </form>
     </div>
@@ -37,7 +75,7 @@ require "header.php";
       <?php
         $con = OpenCon();
 
-        // Từ khoá tìm kiếm
+        // Lọc Từ khoá tìm kiếm CPU và RAM
         $q = isset($_GET['q']) ? trim($_GET['q']) : '';
         // Tách từ khoá tìm kiếm thành các từ riêng biệt
         if (!empty($q)) {
@@ -60,12 +98,24 @@ require "header.php";
         $cid = isset($_GET['cid']) ? intval($_GET['cid']) : 0;
         $sort = isset($_GET['sort']) ? $_GET['sort'] : 'default';
         $price = isset($_GET['price']) ? $_GET['price'] : 'all';
+        $brand = isset($_GET['brand']) ? $_GET['brand'] : 'all';
+        $cpu = isset($_GET['cpu']) ? $_GET['cpu'] : 'all';
+        $ram = isset($_GET['ram']) ? $_GET['ram'] : 'all';
+
 
         //Phân trang
         $limit = 12;
         $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
         $offset = ($page - 1) * $limit;
 
+        // Sắp xếp
+        $order_by = "";
+        if ($sort == 'asc') {
+            $order_by = " ORDER BY P.product_price ASC";
+        } elseif ($sort == 'desc') {
+            $order_by = " ORDER BY P.product_price DESC";
+        }
+        
         // Bộ lọc giá
         $price_condition = "";
         if ($price != 'all') {
@@ -78,21 +128,29 @@ require "header.php";
                 $price_condition = " AND P.product_price >= $min_price";
             }
         }
-
-        // Sắp xếp
-        $order_by = "";
-        if ($sort == 'asc') {
-            $order_by = " ORDER BY P.product_price ASC";
-        } elseif ($sort == 'desc') {
-            $order_by = " ORDER BY P.product_price DESC";
-        }
         
+        //Bộ lọc Hãng
+        $brand_condition = "";
+        if ($brand != 'all') {
+          $sql_brand = "SELECT brand_id FROM brands WHERE brand_title = ?";
+          $stmt_brand = $con->prepare($sql_brand);
+          $stmt_brand->bind_param("s", $brand);
+          $stmt_brand->execute();
+          $result_brand = $stmt_brand->get_result();
+      
+          if ($result_brand->num_rows > 0) {
+              $row = $result_brand->fetch_assoc();
+              $brand_id = $row['brand_id'];
+              $brand_condition = " AND P.product_brand = $brand_id";
+          }
+        }
+
 
         // Câu truy vấn sản phẩm
         if (!empty($q)) {
           $sql = "SELECT * FROM products AS P 
           JOIN categories AS C ON P.product_cat = C.cat_id 
-          WHERE 1=1 $search_condition $price_condition $order_by 
+          WHERE 1=1 $search_condition $price_condition $brand_condition $order_by  
           LIMIT ? OFFSET ?";
 
           $stmt = $con->prepare($sql);
@@ -113,9 +171,8 @@ require "header.php";
         } else {
           $sql = "SELECT * FROM products AS P 
           JOIN categories AS C ON P.product_cat = C.cat_id 
-          WHERE C.cat_id = ? $price_condition $order_by 
+          WHERE 1=1 AND C.cat_id = ? $price_condition $brand_condition $order_by 
           LIMIT ? OFFSET ?";
-
           $stmt = $con->prepare($sql);
 
           $stmt->bind_param("iii", $cid, $limit, $offset);
@@ -148,7 +205,9 @@ require "header.php";
                   <img src="../Assets/product_images/' . htmlspecialchars($row['product_image'], ENT_QUOTES) . '" alt="">
                 </div>
                 <div class="product-info">
-                  <h5 class="product-name">' . htmlspecialchars($row['product_title'], ENT_QUOTES) . '</h5>
+                  <h5 class="product-name">' 
+                    . htmlspecialchars($row['product_title'], ENT_QUOTES) . 
+                  '</h5>
                   <p class="product-price">' . number_format($row['product_price'], 0, '', ',') . 'Đ</p>
                   <button class="btn btn-primary btn-sm" pid="' . intval($row['product_id']) . '" id="product">Thêm vào giỏ hàng</button>
                 </div>
@@ -181,17 +240,17 @@ require "header.php";
           <ul class="pagination justify-content-center">
             <?php if ($page > 1): ?>
               <li class="page-item">
-                <a class="page-link" href="?cid=<?= $cid ?>&price=<?= $price ?>&sort=<?= $sort ?>&page=<?= $page - 1 ?>">Trước</a>
+                <a class="page-link" href="?cid=<?= $cid ?>&price=<?= $price ?>&sort=<?= $sort ?>&brand=<?= $brand ?>&page=<?= $page - 1 ?>">Trước</a>
               </li>
             <?php endif; ?>
             <?php for ($i = 1; $i <= $total_pages; $i++): ?>
               <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                <a class="page-link" href="?cid=<?= $cid ?>&price=<?= $price ?>&sort=<?= $sort ?>&page=<?= $i ?>"><?= $i ?></a>
+                <a class="page-link" href="?cid=<?= $cid ?>&price=<?= $price ?>&sort=<?= $sort ?>&brand=<?= $brand ?>&page=<?= $i ?>"><?= $i ?></a>
               </li>
             <?php endfor; ?>
             <?php if ($page < $total_pages): ?>
               <li class="page-item">
-                <a class="page-link" href="?cid=<?= $cid ?>&price=<?= $price ?>&sort=<?= $sort ?>&page=<?= $page + 1 ?>">Tiếp</a>
+                <a class="page-link" href="?cid=<?= $cid ?>&price=<?= $price ?>&sort=<?= $sort ?>&brand=<?= $brand ?>&page=<?= $page + 1 ?>">Tiếp</a>
               </li>
             <?php endif; ?>
           </ul>
