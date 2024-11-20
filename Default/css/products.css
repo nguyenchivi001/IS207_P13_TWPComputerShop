@@ -60,6 +60,10 @@
 .product-name {
   font-size: 16px;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width:100%
 }
 
 .product-price {
@@ -68,7 +72,8 @@
 }
 
 .pagination {
-  margin-top: 20px;
+  margin: 20px 0px;
+  float: right;
 }
 
 .pagination .page-item.active .page-link {
