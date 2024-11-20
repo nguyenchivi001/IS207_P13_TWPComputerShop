@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("./server/server.php"); // Kết nối đến cơ sở dữ liệu
+include "./server/server.php"; // Kết nối đến cơ sở dữ liệu
 
 $errors = [];
 
