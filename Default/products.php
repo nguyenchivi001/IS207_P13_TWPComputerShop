@@ -1,5 +1,5 @@
 <?php
-include "header.php";
+require "header.php";
 ?>
 
 <link rel="stylesheet" href="css/products.css">
@@ -202,6 +202,6 @@ include "header.php";
 </div>
 
 <?php
-include "newsletter.html";
-include "footer.html";
+require "newsletter.html";
+require "footer.html";
 ?>
