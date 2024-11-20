@@ -77,3 +77,13 @@
   color: #fff;
 }
 
+.search-keyword {
+  text-align: left;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.search-keyword strong {
+  color: #007bff;
+  font-weight: bold;
+}
