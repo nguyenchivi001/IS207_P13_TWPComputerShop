@@ -1,0 +1,35 @@
+<?php
+session_start();
+header("Content-Type: application/json");
+include "../../Database/db_connection.php";
+
+$conn = OpenCon();
+
+// Read input data
+$input = json_decode(file_get_contents("php://input"), true);
+$pid = $input['product_id'] ?? null;
+$csrf_token = $input['csrf_token'] ?? null;
+
+// check csrf token
+if (!$csrf_token || $csrf_token !== $_SESSION['csrf_token']) {
+    echo json_encode(["success" => false, "message" => "Invalid CSRF token."]);
+    exit;
+}
+
+if (!$pid) {
+    echo json_encode(["success" => false, "message" => "Không tìm thấy mã sản phẩm"]);
+    exit;
+}
+
+
+try {
+    $query = "DELETE FROM cart WHERE p_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $pid);
+    $stmt->execute();
+    echo json_encode(["success" => true, "message" => "success"]);
+} catch (Exception $e) {
+    echo json_encode(["success" => false, "message" => "Đã xảy ra lỗi hệ thống."]);
+}
+CloseCon($conn);
+?>
