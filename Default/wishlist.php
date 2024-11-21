@@ -1,4 +1,12 @@
-<?php require './header.php'?>
+<?php
+    require './header.php';
+    if (!isset($_SESSION['uid'])) {
+        header("Location: ./signin.php");
+      }
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+?>
 <section id="wishlist-section" class="container-fluid min-vh-100">
     <div class="table-responsive">
         <table id="wishlist" class="table table-hover table-striped rounded overflow-hidden shadow-sm" id="">
