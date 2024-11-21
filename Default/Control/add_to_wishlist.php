@@ -7,7 +7,7 @@ $conn = OpenCon();
 
 // Read input data
 $input = json_decode(file_get_contents("php://input"), true);
-$id = $input['id'] ?? null;
+$pid = $input['product_id'] ?? null;
 $csrf_token = $input['csrf_token'] ?? null;
 
 // check csrf token
@@ -16,16 +16,25 @@ if (!$csrf_token || $csrf_token !== $_SESSION['csrf_token']) {
     exit;
 }
 
-if (!$id) {
-    echo json_encode(["success" => false, "message" => "Sản phẩm đã được xóa."]);
+if (!$pid) {
+    echo json_encode(["success" => false, "message" => "Không tìm thấy mã sản phẩm"]);
     exit;
 }
 
-
 try {
-    $query = "DELETE FROM cart WHERE id = ?";
+    $query1 = "SELECT MAX(id) FROM wishlist";
+    $result = $conn->query($query1);
+    $id = 1;
+    // Check if the query was successful
+    if ($result) {
+        $row = $result->fetch_row();
+        $id = $row[0] + 1;
+    }
+
+    $query = "INSERT INTO wishlist (`id`, `p_id`, `ip_add`, `user_id`)
+        VALUES (?, ?, '', ?)";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $id);
+    $stmt->bind_param("iii", $id, $pid, $_SESSION['uid']);
     $stmt->execute();
     echo json_encode(["success" => true, "message" => "success"]);
 } catch (Exception $e) {
