@@ -71,13 +71,13 @@
             <input type="text" id="address2" class="form-control" placeholder="Thành phố" required>
         </div>
         <div class="form-check mb-4">
-          <input class="form-check-input" type="checkbox" id="terms">
+          <input class="form-check-input" type="checkbox" id="terms" required>
           <label class="form-check-label" for="terms">Đồng ý với các <a href="#">điều khoản</a></label>
         </div>
         <input type="hidden" id="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
         <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
         <div class="login-links">
-          <a href="login.html">Đăng nhập</a>
+          <a href="signin.php">Đăng nhập</a>
           <a href="index.php">Bỏ qua đăng ký</a>
         </div>
         <div class="alert alert-danger mt-4" id="error" style="display: none;">
