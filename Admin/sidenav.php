@@ -2,14 +2,14 @@
 
 if (!isset($_SESSION['admin_name'])) {
     $_SESSION['msg'] = "You must log in first";
-    header('Location: login_admin.php');
+    header('Location: login.php');
     exit;
 }
 
 if (isset($_GET['logout'])) {
     session_destroy();
     unset($_SESSION['admin_name']);
-    header('Location: login_admin.php');
+    header('Location: login.php');
     exit;
 }
 ?>
