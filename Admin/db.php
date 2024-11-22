@@ -1,17 +1,17 @@
 <?php
-
-$servername = "localhost";
-$username = "root";
-$password = "22521267";
-$db = "dbwebsite";
-
-// Create connection
-$con = mysqli_connect($servername, $username, $password,$db);
-
-// Check connection
-if (!$con) {
-    die("Connection failed: " . mysqli_connect_error());
+function OpenCon()
+{
+$dbhost = "localhost";
+$dbuser = "root";
+$dbpass = "22521267";
+$db = "twp_computer_shop";
+$conn = new mysqli($dbhost, $dbuser, $dbpass,$db) or die("Connect failed: %s\n". $conn -> error);
+return $conn;
 }
-
-
+function CloseCon($conn)
+{
+$conn -> close();
+}
 ?>
+
+
