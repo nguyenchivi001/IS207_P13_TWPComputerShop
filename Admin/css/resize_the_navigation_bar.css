@@ -1,16 +1,13 @@
 
 /* Căn chỉnh nội dung */
-.content {
-    margin-top: 60px;
-    margin-left: 260px;
-    padding: 5px;
-     transition: color 0.075s ease; 
-}
+
 .main-panel
 {
-    margin-top: -30px;
-    margin-right: 5px;
-    padding: -40px;
+    position: absolute;
+      top: 70%;
+      left: 57%;
+      transform: translate(-50%, -50%);
+    padding: 30px;
      transition: color 0.075s ease; 
 }
 .footer
