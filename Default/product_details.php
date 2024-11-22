@@ -59,14 +59,19 @@ include "header.php";
         <input type="number" class="form-control w-25" id="quantity" name="quantity" value="1" min="1">
       </div>
       <div class="button">
-        <div class="add-wishlist">
-          <button class="add-to-wishlist">
-            <i class="fa-regular fa-heart"></i>
-            <span class="tooltip">Thêm vào danh sách ưa thích</span>
-          </button>
-        </div>
         <?php
         echo '
+          <div id="add_Wl" class="add-wishlist" 
+              pid="' . intval($product['product_id']) . '"
+              token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '"
+          >
+            <button class="add-to-wishlist">
+              <i class="fa-regular fa-heart"></i>
+              <span class="tooltip">Thêm vào danh sách ưa thích</span>
+            </button>
+          </div>
+        
+        
           <div id="add-to-cart" class="add-to-cart" pid="' . intval($product['product_id']) . '"
               token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '">
             <button class="add-to-cart-btn"><i class="fa-solid fa-cart-shopping"></i>Thêm vào giỏ hàng</button>
@@ -99,8 +104,14 @@ include "header.php";
   add_To_Cart.addEventListener('click', () => {
     const productId = add_To_Cart.getAttribute('pid');
     const csrfToken = add_To_Cart.getAttribute('token');
-    console.log(csrfToken);
     addToCart(productId, quantity, csrfToken);
+  });
+
+  const add_To_Wishlist = document.getElementById("add_Wl");
+  add_Wl.addEventListener('click', () => {
+    const productId = add_Wl.getAttribute('pid');
+    const csrfToken = add_Wl.getAttribute('token');
+    addToWishlist(productId, csrfToken);
   });
 </script>
 
