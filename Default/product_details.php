@@ -77,10 +77,10 @@ include "header.php";
   <div>
 
   </div>
-  <script src="./Js/product_details.js"></script>
+  <script src="./js/product_details.js"></script>
 </div>
 
-<script src="./Js/action.js"></script>
+<script src="./js/action.js"></script>
 <script>
   const addToCart = document.getElementById("add-to-cart");
   const quantity =document.getElementById("quantity").value;
