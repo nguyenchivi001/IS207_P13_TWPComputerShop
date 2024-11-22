@@ -554,7 +554,5 @@
 			</div>
 		</div>
 	</div>
-
-  <script src="./Js/body.js"></script>
 </div>
   

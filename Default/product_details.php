@@ -16,12 +16,12 @@ include "header.php";
   <div class="product-page">
     <div class="product-gallery">
       <div class="image-thumbnails">
-        <img src="../../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="" onclick="changeImage(this)">
-        <img src="../../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="" onclick="changeImage(this)">
-        <img src="../../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="" onclick="changeImage(this)">
+        <img src="../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="" onclick="changeImage(this)">
+        <img src="../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="" onclick="changeImage(this)">
+        <img src="../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="" onclick="changeImage(this)">
       </div>
       <div class="main-image">
-        <img id="mainImage" src="../../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="Main product image">
+        <img id="mainImage" src="../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="Main product image">
       </div>
     </div>
     <div class="product-info">
@@ -77,7 +77,7 @@ include "header.php";
   <div>
     
   </div>
-  <script src="./Js/product_details.js"></script>
+  <script src="./js/product_details.js"></script>
 </div>
 
 <?php

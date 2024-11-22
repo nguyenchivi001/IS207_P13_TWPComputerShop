@@ -6,7 +6,6 @@ if (!isset($_SESSION['uid'])) {
 if (empty($_SESSION['csrf_token'])) {
   $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
-include "../../Database/db_connection.php";
 require './header.php';
 ?>
 <section class="section">
