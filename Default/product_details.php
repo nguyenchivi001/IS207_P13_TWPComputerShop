@@ -2,6 +2,11 @@
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
+
+if (empty($_SESSION['csrf_token'])) {
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 if (!isset($_SESSION['product_details'])) {
   echo "failed";
 }
@@ -60,10 +65,14 @@ include "header.php";
             <span class="tooltip">Thêm vào danh sách ưa thích</span>
           </button>
         </div>
-        <div id="add-to-cart" class="add-to-cart" pid="' . intval($product['product_id']) . '"
-            token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '">
-          <button class="add-to-cart-btn"><i class="fa-solid fa-cart-shopping"></i>Thêm vào giỏ hàng</button>
-        </div>
+        <?php
+        echo '
+          <div id="add-to-cart" class="add-to-cart" pid="' . intval($product['product_id']) . '"
+              token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '">
+            <button class="add-to-cart-btn"><i class="fa-solid fa-cart-shopping"></i>Thêm vào giỏ hàng</button>
+          </div> 
+        ';
+        ?>
       </div>
 
       <div class="additional-info">
@@ -83,12 +92,14 @@ include "header.php";
 </div>
 
 <script src="./js/action.js"></script>
+
 <script>
-  const addToCart = document.getElementById("add-to-cart");
-  const quantity =document.getElementById("quantity").value;
-  addToCart.addEventListener('click', () => {
-    const productId = button.getAttribute('pid');
-    const csrfToken = button.getAttribute('token');
+  const add_To_Cart = document.getElementById("add-to-cart");
+  const quantity = document.getElementById("quantity").value;
+  add_To_Cart.addEventListener('click', () => {
+    const productId = add_To_Cart.getAttribute('pid');
+    const csrfToken = add_To_Cart.getAttribute('token');
+    console.log(csrfToken);
     addToCart(productId, quantity, csrfToken);
   });
 </script>
