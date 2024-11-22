@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -7,21 +9,21 @@ if (empty($_SESSION['csrf_token'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
     <link rel="stylesheet" href="../Assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/Admin/css/login_admin.css">
+    <link rel="stylesheet" href="./css/login_admin.css">
 </head>
 <body>
     <div class="container d-flex align-items-center justify-content-center vh-100">
         <div class="login-card p-4 shadow rounded">
             <div class="logo text-center mb-4">
                 <img src="../Assets/img/logo.png" alt="Logo" class="mb-2">
-                <h1>THE WOLF PACK</h1>
+                <h1>Admin | TWP Computer Shop</h1>
             </div>
             <h2 class="text-center">WELCOME ADMIN</h2>
-            <p class="text-center mb-4">Please login to Admin Dashboard.</p>
+            <p class="text-center mb-4">Vui lòng đăng nhập.</p>
             <form id="admin-login-form">
                 <div class="mb-3">
                     <input type="email" id="email" class="form-control" placeholder="Email" required>
@@ -32,7 +34,7 @@ if (empty($_SESSION['csrf_token'])) {
                 <input type="hidden" id="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                 <button type="submit" class="btn btn-primary w-100 mb-3">Login</button>
                 <button type="button" class="btn btn-secondary w-100" onclick="window.location.href='../Default/index.php'">Back to Home</button>
-                <div class="alert alert-danger mt-3 d-none" id="error">Invalid login credentials.</div>
+                <div class="alert alert-danger mt-3" id="error" style="display: none;"></div>
             </form>
         </div>
     </div>
@@ -48,13 +50,13 @@ if (empty($_SESSION['csrf_token'])) {
             const errorElement = document.getElementById('error');
 
             if (!email || !password) {
-                errorElement.textContent = "Please fill in all fields.";
-                errorElement.classList.remove('d-none');
+                errorElement.textContent = "Vui lòng điền đẩy đủ thông tin";
+                errorElement.style.display = 'block';
                 return;
             }
 
             try {
-                const response = await fetch('./admin_login_control.php', {
+                const response = await fetch('./Control/admin_login_control.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -65,14 +67,15 @@ if (empty($_SESSION['csrf_token'])) {
                 const result = await response.json();
 
                 if (result.success) {
+                    console.log("success");
                     window.location.href = './sidenav.php';
                 } else {
-                    errorElement.textContent = result.message || "Invalid login credentials.";
-                    errorElement.classList.remove('d-none');
+                    errorElement.textContent = result.message || "Tên đăng nhập hoặc mật khẩu không hợp lệ";
+                    errorElement.style.display = 'block';
                 }
             } catch (error) {
-                errorElement.textContent = "An error occurred. Please try again.";
-                errorElement.classList.remove('d-none');
+                errorElement.textContent = "Có lỗi xảy ra, vui lòng thử lại.";
+                errorElement.style.display = 'block';
                 console.error(error);
             }
         });

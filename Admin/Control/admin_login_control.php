@@ -1,7 +1,9 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
 session_start();
+}
 header("Content-Type: application/json");
-include "db.php";
+include "../../Database/db_connection.php";
 
 $conn = OpenCon();
 
@@ -36,7 +38,7 @@ try {
         $admin = $result->fetch_assoc();
         
         // Kiểm tra mật khẩu
-        if (password_verify($password, $admin['admin_password'])) {
+        if (md5($password) === $admin['admin_password']) {
             // Tạo lại CSRF token mới và lưu thông tin admin vào session
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
             $_SESSION['admin_id'] = $admin['admin_id'];
@@ -44,7 +46,7 @@ try {
 
             echo json_encode(["success" => true]);
         } else {
-            echo json_encode(["success" => false, "message" => "Invalid login credentials."]);
+            echo json_encode(["success" => false, "message" => "Sai tên đăng nhập hoặc mật khẩu"]);
         }
     } else {
         echo json_encode(["success" => false, "message" => "Invalid login credentials."]);
