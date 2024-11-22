@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "../Database/db_connection.php";
 ?>
 
@@ -183,7 +184,7 @@ include "../Database/db_connection.php";
   <!-- /HEADER -->
 
   <script src="../Assets/js/bootstrap.bundle.min.js"></script>
-  <script src="./Js/header.js"></script>
+  <script src="./js/header.js"></script>
 </body>
 </html>
 

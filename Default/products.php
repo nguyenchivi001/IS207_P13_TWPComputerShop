@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (empty($_SESSION['csrf_token'])) {
   $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -330,6 +329,7 @@ require "header.php";
         addToCart(productId, 1, csrfToken);
     });
   });
+  
   document.querySelectorAll('a.product').forEach(function(product) {
     product.addEventListener('click', function(event) {
         event.preventDefault();
@@ -339,7 +339,6 @@ require "header.php";
         ShowProductDetails(productId, csrfToken);
     });
 });
-
 </script>
 
 <?php

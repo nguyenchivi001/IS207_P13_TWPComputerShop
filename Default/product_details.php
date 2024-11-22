@@ -3,7 +3,6 @@ session_start();
 if (!isset($_SESSION['product_details'])) {
   echo "failed";
 }
-
 // Lấy thông tin sản phẩm từ session
 $product = $_SESSION['product_details'];
 
@@ -16,12 +15,12 @@ include "header.php";
   <div class="product-page">
     <div class="product-gallery">
       <div class="image-thumbnails">
-        <img src="../../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="" onclick="changeImage(this)">
-        <img src="../../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="" onclick="changeImage(this)">
-        <img src="../../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="" onclick="changeImage(this)">
+        <img src="../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="" onclick="changeImage(this)">
+        <img src="../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="" onclick="changeImage(this)">
+        <img src="../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="" onclick="changeImage(this)">
       </div>
       <div class="main-image">
-        <img id="mainImage" src="../../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="Main product image">
+        <img id="mainImage" src="../Assets/product_images/<?php echo htmlspecialchars($product['product_image']); ?>" alt="Main product image">
       </div>
     </div>
     <div class="product-info">
@@ -59,13 +58,14 @@ include "header.php";
             <span class="tooltip">Thêm vào danh sách ưa thích</span>
           </button>
         </div>
-        <div class="add-to-cart">
+        <div id="add-to-cart" class="add-to-cart" pid="' . intval($product['product_id']) . '"
+            token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '">
           <button class="add-to-cart-btn"><i class="fa-solid fa-cart-shopping"></i>Thêm vào giỏ hàng</button>
         </div>
       </div>
-      
+
       <div class="additional-info">
-        
+
         <p>Chia sẻ:
           <a href="#">Facebook</a> |
           <a href="#">Twitter</a> |
@@ -75,10 +75,22 @@ include "header.php";
     </div>
   </div>
   <div>
-    
+
   </div>
   <script src="./Js/product_details.js"></script>
 </div>
+
+<script src="./Js/action.js"></script>
+<script>
+  const addToCart = document.getElementById("add-to-cart");
+  const quantity =document.getElementById("quantity").value;
+  addToCart.addEventListener('click', () => {
+    const productId = button.getAttribute('pid');
+    const csrfToken = button.getAttribute('token');
+    addToCart(productId, quantity, csrfToken);
+  });
+</script>
+
 
 <?php
 include "newsletter.html";
