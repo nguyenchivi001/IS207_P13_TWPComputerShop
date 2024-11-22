@@ -54,7 +54,7 @@
         </div>
         <div class="mb-3">
           <label for="phone" class="label-input">Số điện thoại</label>
-          <input type="phone" id="phone" class="form-control" placeholder="039 xxx xxx" required>
+          <input type="tel" id="phone" class="form-control" placeholder="039 xxx xxx" required>
         </div>
         <div class="mb-3">
           <label for="password" class="label-input">Mật khẩu</label>
