@@ -23,7 +23,7 @@ if (!$id) {
 
 
 try {
-    $query = "DELETE FROM cart WHERE id = ?";
+    $query = "DELETE FROM wishlist WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();

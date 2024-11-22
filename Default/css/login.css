@@ -27,12 +27,11 @@ min-height: 100vh;
 background-image: url('../../Assets/img/login-bg.jpg');
 background-size: cover;
 background-position: right center;
-/* filter: brightness(0.7); */
 position: relative;
 }
 
 .login-form {
-animation: slide-in 1s linear;
+animation: slide-out .5s linear;
 z-index: 100;
 flex: 1;
 padding: 50px;
@@ -44,7 +43,7 @@ justify-content: center;
 
 .register-form {
 z-index: 100;
-animation: slide-out 1s linear;
+animation: slide-in .5s linear;
 flex: 1;
 padding: 50px;
 background: white;

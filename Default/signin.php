@@ -49,7 +49,6 @@
           <a href="./index.php">Bỏ qua đăng nhập</a>
         </div>
         <div class="alert alert-danger mt-4" id="error" style="display: none;">
-          Please register before login..!
         </div>
       </form>
     </div>
