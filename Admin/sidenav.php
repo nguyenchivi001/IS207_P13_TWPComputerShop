@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 
 if (!isset($_SESSION['admin_name'])) {
     $_SESSION['msg'] = "You must log in first";
@@ -12,7 +12,7 @@ if (isset($_GET['logout'])) {
     header('Location: login.php');
     exit;
 }
-?>
+?> -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +33,7 @@ if (isset($_GET['logout'])) {
     <!-- Main CSS -->
     <link rel="stylesheet" href="./css/material-dashboard.css">
     <link rel="stylesheet" href="./demo/demo.css">
-    <link rel="stylesheet" href="./css/resize_the_navigation_bar.css">
+  <link rel="stylesheet" href="./css/resize_the_navigation_bar.css">
    
 
     <!-- Favicon -->
@@ -42,9 +42,9 @@ if (isset($_GET['logout'])) {
 </head>
 
 <body class="dark-edition">
-    <div class="wrapper">
+    <div class="wrapper position-fixed">
         <!-- Sidebar -->
-        <div class="sidebar" data-color="purple" data-background-color="black" data-image="../assets/img/sidebar-2.jpg">
+        <div class="sidebar" data-color="purple" data-background-color="black">
             <div class="logo">
                 <a href="index.php" class="simple-text logo-normal">
                     <img src="../Assets/img/logo.png" alt="Logo" style="width: 150px;">
@@ -89,7 +89,7 @@ if (isset($_GET['logout'])) {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="salesofday.html">
+                        <a class="nav-link" href="saleofday.php">
                             <i class="fa-solid fa-receipt"></i>
                             <p>Hóa đơn</p>
                         </>
@@ -98,6 +98,3 @@ if (isset($_GET['logout'])) {
             </div>
         </div>
     </div>
-</body>
-
-</html>

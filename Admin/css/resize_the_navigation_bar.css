@@ -1,19 +1,32 @@
 
 /* Căn chỉnh nội dung */
 
-.main-panel
-{
-    position: absolute;
-      top: 70%;
-      left: 57%;
-      transform: translate(-50%, -50%);
-    padding: 30px;
-     transition: color 0.075s ease; 
-}
-.footer
-{
-    padding: 5px;
-}
+html, body {
+    height: 80%;
+    margin-top: 50px;    
+  }
+  
+  .main-panel {
+    display: grid;
+    padding-left: 50px; /* Khoảng cách bên trái */
+    align-items: start; /* Căn theo chiều dọc từ trên xuống */
+   
+  }
+  
+  .content {
+    width: 1500px; /* Chiều rộng phần content */
+    padding: 10px;
+    padding-left: 300px; /* Khoảng cách bên trái */
+    transition: color 0.075s ease;
+  }
+  
+  .footer {
+    padding: 20px;
+    text-align: center;
+    
+  }
+  
+
 .form-group {
     position: relative;
 }
