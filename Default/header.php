@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 include "../Database/db_connection.php";
 ?>
 
@@ -70,6 +72,7 @@ include "../Database/db_connection.php";
               else {
                 echo "Not connection to database!";
               }
+              CloseCon($con);
             }
             else {
               echo '
@@ -78,7 +81,7 @@ include "../Database/db_connection.php";
                     <i class="fas fa-user"></i> Tài khoản
                 </a>
                 <div class="dropdownmenu-content">
-                    <li><a href="../Admin/login.php"><i class="fas fa-user-shield"></i> Quản trị</a></li>
+                    <li><a href="../Admin/login_admin.php"><i class="fas fa-user-shield"></i> Quản trị</a></li>
                     <li><a href="./signin.php"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
                     <li><a href="./signup.php"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
                 </div>
@@ -121,31 +124,93 @@ include "../Database/db_connection.php";
         
         <!-- RIGHT SECTION -->
         <div class="main-header-right-section">
-          <div class="wish-list right-section-items">
-              <a href="wishlist.php">
+          <?php
+          if(isset($_SESSION["uid"])) {
+            $con = OpenCon();
+            if($con) {
+              $stmt = $con->prepare("SELECT COUNT(*) AS total_wl FROM wishlist WHERE user_id = ?");
+              $stmt->bind_param("i", $_SESSION["uid"]);
+              $stmt->execute();
+              $result = $stmt->get_result();
+              if ($row = $result->fetch_assoc()) {
+                $total_wl = $row['total_wl'];
+              } else {
+                  echo "No results found.";
+              }
+              $stmt->close();
+              $stmt = $con->prepare("SELECT COUNT(*) AS total_cart FROM cart WHERE user_id = ?");
+              $stmt->bind_param("i", $_SESSION["uid"]);
+              $stmt->execute();
+              $result = $stmt->get_result();
+              if ($row = $result->fetch_assoc()) {
+                $total_cart = $row['total_cart'];
+              } else {
+                  echo "No results found.";
+              }
+              $stmt->close();
+            }
+            else {
+              echo "Not connection to database!";
+            }
+            CloseCon($con);
+            echo '
+              <div class="wish-list right-section-items">
+                <a href="wishlist.php">
+                  <i class="far fa-heart"></i>
+                  <span>Yêu thích</span>
+                  <div id="wishlist-badge" class="qty">' . htmlspecialchars($total_wl, flags: ENT_QUOTES) . '</div>
+                </a>
+              </div>
+              
+              <!-- CART-->
+              <div class="dropdown right-section-items">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown">
+                  <i class="fas fa-shopping-cart"></i>
+                  <span>Giỏ hàng</span>
+                  <div id="cart-badge" class="qty">' . htmlspecialchars($total_cart, flags: ENT_QUOTES) . '</div>
+                </a>
+                  <div class="dropdown-menu cart-dropdown">
+                    <div class="cart-list" id="cart_product"></div>
+                    <div class="cart-button">
+                      <a href="cart.php">
+                        <i class="fas fa-edit"></i> Thay đổi giỏ hàng
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!-- /CART-->
+            ';
+          } else {
+            echo '
+              <div class="wish-list right-section-items">
+                <a href="wishlist.php">
                   <i class="far fa-heart"></i>
                   <span>Yêu thích</span>
                   <div id="wishlist-badge" class="qty">0</div>
-              </a>
-          </div>
-          
-          <!-- CART-->
-          <div class="dropdown right-section-items">
-              <a class="dropdown-toggle" data-bs-toggle="dropdown">
+                </a>
+              </div>
+              
+              <!-- CART-->
+              <div class="dropdown right-section-items">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown">
                   <i class="fas fa-shopping-cart"></i>
                   <span>Giỏ hàng</span>
                   <div id="cart-badge" class="qty">0</div>
-              </a>
-              <div class="dropdown-menu cart-dropdown">
-                  <div class="cart-list" id="cart_product"></div>
-                  <div class="cart-button">
+                </a>
+                  <div class="dropdown-menu cart-dropdown">
+                    <div class="cart-list" id="cart_product"></div>
+                    <div class="cart-button">
                       <a href="cart.php">
-                          <i class="fas fa-edit"></i> Thay đổi giỏ hàng
+                        <i class="fas fa-edit"></i> Thay đổi giỏ hàng
                       </a>
+                    </div>
                   </div>
-              </div>
-          </div>
-          <!-- /CART-->
+                </div>
+                <!-- /CART-->
+            ';
+          }
+          ?>
+          
 
         </div>
         <!-- /RIGHT SECTION -->
@@ -159,7 +224,7 @@ include "../Database/db_connection.php";
         <div id="get_category_home">
           <div class="responsive-nav">
             <ul class="main-nav">
-              <li class="home-category active"><a href="index.php">Trang chủ</a></li>
+              <li class="category" cid="0"><a href="index.php">Trang chủ</a></li>
               <li class="category" cid="1"><a href="products.php?cid=1">Laptop Gaming</a></li>
               <li class="category" cid="2"><a href="products.php?cid=2">Laptop Học tập, Văn phòng</a></li>
               <li class="category" cid="3"><a href="products.php?cid=3">Laptop Đồ họa</a></li>
@@ -184,7 +249,7 @@ include "../Database/db_connection.php";
   <!-- /HEADER -->
 
   <script src="../Assets/js/bootstrap.bundle.min.js"></script>
-  <script src="js/header.js"></script>
+  <script src="./js/header.js"></script>
 </body>
 </html>
 

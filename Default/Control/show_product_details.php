@@ -1,6 +1,6 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 header("Content-Type: application/json");
 include "../../Database/db_connection.php";
@@ -24,21 +24,25 @@ if (!$pid) {
 }
 
 try {
-    $query1 = "SELECT MAX(id) FROM wishlist";
-    $result = $conn->query($query1);
-    $id = 1;
-    // Check if the query was successful
-    if ($result) {
-        $row = $result->fetch_row();
-        $id = $row[0] + 1;
-    }
+  $stmt = $conn->prepare("SELECT * FROM products WHERE product_id = ?");
+  $stmt->bind_param("i", $pid);
+  $stmt->execute();
+  $result = $stmt->get_result();
 
-    $query = "INSERT INTO wishlist (`id`, `p_id`, `ip_add`, `user_id`)
-        VALUES (?, ?, '', ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("iii", $id, $pid, $_SESSION['uid']);
-    $stmt->execute();
+  if ($result->num_rows > 0) {
+    $product = $result->fetch_assoc();
+
+    $_SESSION['product_details'] = [
+        'product_id' => $product['product_id'],
+        'product_title' => $product['product_title'],
+        'product_price' => $product['product_price'],
+        'product_image' => $product['product_image'],
+    ];
     echo json_encode(["success" => true, "message" => "success"]);
+  } else {
+    echo json_encode(['success' => false, 'message' => 'Product not found']);
+  }
+  $stmt->close();
 } catch (Exception $e) {
     echo json_encode(["success" => false, "message" => "Đã xảy ra lỗi hệ thống."]);
 }

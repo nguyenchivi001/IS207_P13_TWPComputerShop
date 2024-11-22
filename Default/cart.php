@@ -1,12 +1,13 @@
 <?php 
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 if (!isset($_SESSION['uid'])) {
   header("Location: ./signin.php");
 }
 if (empty($_SESSION['csrf_token'])) {
   $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
-include "../../Database/db_connection.php";
 require './header.php';
 ?>
 <section class="section">

@@ -1,18 +1,15 @@
-<!-- <?php
-
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+session_start();
+}
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+ }
 if (!isset($_SESSION['admin_name'])) {
-    $_SESSION['msg'] = "You must log in first";
-    header('Location: login.php');
+    header('Location: ./login.php');
     exit;
 }
 
-if (isset($_GET['logout'])) {
-    session_destroy();
-    unset($_SESSION['admin_name']);
-    header('Location: login.php');
-    exit;
-}
-?> -->
 <!DOCTYPE html>
 <html lang="en">
 
