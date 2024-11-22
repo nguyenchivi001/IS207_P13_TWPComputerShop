@@ -1,0 +1,7 @@
+.main 
+{
+  margin-top: 200px;
+  position: relative;
+  z-index: 10;
+  background-color: white;
+}

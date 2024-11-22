@@ -27,8 +27,8 @@ require "header.php";
           <label for="price" class="mr-2">Giá:</label>
           <select name="price" id="price" class="form-control mr-4">
             <option value="all" <?= !isset($_GET['price']) || $_GET['price'] == 'all' ? 'selected' : '' ?>>Tất cả</option>
-            <option value="0-10000000" <?= isset($_GET['price']) && $_GET['price'] == '0-10000000' ? 'selected' : '' ?>>Dưới 10,000,000Đ</option>
-            <option value="10000000-50000000" <?= isset($_GET['price']) && $_GET['price'] == '10000000-50000000' ? 'selected' : '' ?>>10,000,000Đ - 50,000,000Đ</option>
+            <option value="0-20000000" <?= isset($_GET['price']) && $_GET['price'] == '0-20000000' ? 'selected' : '' ?>>Dưới 20,000,000Đ</option>
+            <option value="20000000-50000000" <?= isset($_GET['price']) && $_GET['price'] == '20000000-50000000' ? 'selected' : '' ?>>20,000,000Đ - 50,000,000Đ</option>
             <option value="50000000-100000000" <?= isset($_GET['price']) && $_GET['price'] == '50000000-100000000' ? 'selected' : '' ?>>50,000,000Đ - 100,000,000Đ</option>
             <option value="100000000-0" <?= isset($_GET['price']) && $_GET['price'] == '100000000-0' ? 'selected' : '' ?>>Trên 100,000,000Đ</option>
           </select>
@@ -252,9 +252,13 @@ require "header.php";
             echo '
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
               <div class="product-card">
-                <div class="product-img">
-                  <img src="../Assets/product_images/' . htmlspecialchars($row['product_image'], ENT_QUOTES) . '" alt="">
-                </div>
+                <a class="product" pid="' . intval($row['product_id']) . '" 
+                  token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '"
+                >
+                  <div class="product-img">
+                    <img src="../Assets/product_images/' . htmlspecialchars($row['product_image'], ENT_QUOTES) . '" alt="">
+                  </div>
+                </a>
                 <div class="product-info">
                   <h5 class="product-name">' 
                     . htmlspecialchars($row['product_title'], ENT_QUOTES) . 
@@ -325,7 +329,18 @@ require "header.php";
         addToCart(productId, 1, csrfToken);
     });
   });
+  document.querySelectorAll('a.product').forEach(function(product) {
+    product.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        const productId = this.getAttribute('pid');
+        const csrfToken = this.getAttribute('token');
+        ShowProductDetails(productId, csrfToken);
+    });
+});
+
 </script>
+
 <?php
 require "newsletter.html";
 require "footer.html";
