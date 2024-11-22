@@ -73,3 +73,22 @@ async function addToWishlist(productId, token) {
 }
 
 
+async function ShowProductDetails(productId, token) {
+    try {
+        const response = await fetch('./Control/show_product_details.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ product_id: productId, csrf_token: token})
+        })
+        const result = await response.json();    
+        if (result.success) {
+          window.location.href = './product_details.php';   
+          console.log("success");  
+        } else {
+          console.log("failed");
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+

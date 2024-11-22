@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "../Database/db_connection.php";
 ?>
 
@@ -159,7 +158,7 @@ include "../Database/db_connection.php";
         <div id="get_category_home">
           <div class="responsive-nav">
             <ul class="main-nav">
-              <li class="home-category active"><a href="index.php">Trang chủ</a></li>
+              <li class="category" cid="0"><a href="index.php">Trang chủ</a></li>
               <li class="category" cid="1"><a href="products.php?cid=1">Laptop Gaming</a></li>
               <li class="category" cid="2"><a href="products.php?cid=2">Laptop Học tập, Văn phòng</a></li>
               <li class="category" cid="3"><a href="products.php?cid=3">Laptop Đồ họa</a></li>
@@ -184,7 +183,7 @@ include "../Database/db_connection.php";
   <!-- /HEADER -->
 
   <script src="../Assets/js/bootstrap.bundle.min.js"></script>
-  <script src="js/header.js"></script>
+  <script src="./Js/header.js"></script>
 </body>
 </html>
 
