@@ -72,6 +72,7 @@ include "../Database/db_connection.php";
               else {
                 echo "Not connection to database!";
               }
+              CloseCon($con);
             }
             else {
               echo '
@@ -123,31 +124,93 @@ include "../Database/db_connection.php";
         
         <!-- RIGHT SECTION -->
         <div class="main-header-right-section">
-          <div class="wish-list right-section-items">
-              <a href="wishlist.php">
+          <?php
+          if(isset($_SESSION["uid"])) {
+            $con = OpenCon();
+            if($con) {
+              $stmt = $con->prepare("SELECT COUNT(*) AS total_wl FROM wishlist WHERE user_id = ?");
+              $stmt->bind_param("i", $_SESSION["uid"]);
+              $stmt->execute();
+              $result = $stmt->get_result();
+              if ($row = $result->fetch_assoc()) {
+                $total_wl = $row['total_wl'];
+              } else {
+                  echo "No results found.";
+              }
+              $stmt->close();
+              $stmt = $con->prepare("SELECT COUNT(*) AS total_cart FROM cart WHERE user_id = ?");
+              $stmt->bind_param("i", $_SESSION["uid"]);
+              $stmt->execute();
+              $result = $stmt->get_result();
+              if ($row = $result->fetch_assoc()) {
+                $total_cart = $row['total_cart'];
+              } else {
+                  echo "No results found.";
+              }
+              $stmt->close();
+            }
+            else {
+              echo "Not connection to database!";
+            }
+            CloseCon($con);
+            echo '
+              <div class="wish-list right-section-items">
+                <a href="wishlist.php">
+                  <i class="far fa-heart"></i>
+                  <span>Yêu thích</span>
+                  <div id="wishlist-badge" class="qty">' . htmlspecialchars($total_wl, flags: ENT_QUOTES) . '</div>
+                </a>
+              </div>
+              
+              <!-- CART-->
+              <div class="dropdown right-section-items">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown">
+                  <i class="fas fa-shopping-cart"></i>
+                  <span>Giỏ hàng</span>
+                  <div id="cart-badge" class="qty">' . htmlspecialchars($total_cart, flags: ENT_QUOTES) . '</div>
+                </a>
+                  <div class="dropdown-menu cart-dropdown">
+                    <div class="cart-list" id="cart_product"></div>
+                    <div class="cart-button">
+                      <a href="cart.php">
+                        <i class="fas fa-edit"></i> Thay đổi giỏ hàng
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!-- /CART-->
+            ';
+          } else {
+            echo '
+              <div class="wish-list right-section-items">
+                <a href="wishlist.php">
                   <i class="far fa-heart"></i>
                   <span>Yêu thích</span>
                   <div id="wishlist-badge" class="qty">0</div>
-              </a>
-          </div>
-          
-          <!-- CART-->
-          <div class="dropdown right-section-items">
-              <a class="dropdown-toggle" data-bs-toggle="dropdown">
+                </a>
+              </div>
+              
+              <!-- CART-->
+              <div class="dropdown right-section-items">
+                <a class="dropdown-toggle" data-bs-toggle="dropdown">
                   <i class="fas fa-shopping-cart"></i>
                   <span>Giỏ hàng</span>
                   <div id="cart-badge" class="qty">0</div>
-              </a>
-              <div class="dropdown-menu cart-dropdown">
-                  <div class="cart-list" id="cart_product"></div>
-                  <div class="cart-button">
+                </a>
+                  <div class="dropdown-menu cart-dropdown">
+                    <div class="cart-list" id="cart_product"></div>
+                    <div class="cart-button">
                       <a href="cart.php">
-                          <i class="fas fa-edit"></i> Thay đổi giỏ hàng
+                        <i class="fas fa-edit"></i> Thay đổi giỏ hàng
                       </a>
+                    </div>
                   </div>
-              </div>
-          </div>
-          <!-- /CART-->
+                </div>
+                <!-- /CART-->
+            ';
+          }
+          ?>
+          
 
         </div>
         <!-- /RIGHT SECTION -->
