@@ -78,7 +78,7 @@ include "../Database/db_connection.php";
                     <i class="fas fa-user"></i> Tài khoản
                 </a>
                 <div class="dropdownmenu-content">
-                    <li><a href="../Admin/login.php"><i class="fas fa-user-shield"></i> Quản trị</a></li>
+                    <li><a href="../Admin/login_admin.php"><i class="fas fa-user-shield"></i> Quản trị</a></li>
                     <li><a href="./signin.php"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
                     <li><a href="./signup.php"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
                 </div>
