@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "../Database/db_connection.php";
 ?>
 
@@ -78,7 +77,7 @@ include "../Database/db_connection.php";
                     <i class="fas fa-user"></i> Tài khoản
                 </a>
                 <div class="dropdownmenu-content">
-                    <li><a href="../Admin/login.html"><i class="fas fa-user-shield"></i> Quản trị</a></li>
+                    <li><a href="../Admin/login.php"><i class="fas fa-user-shield"></i> Quản trị</a></li>
                     <li><a href="./signin.php"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a></li>
                     <li><a href="./signup.php"><i class="fas fa-user-plus"></i> Đăng ký</a></li>
                 </div>
@@ -112,7 +111,7 @@ include "../Database/db_connection.php";
 
         <!-- MIDDLE SECTION-->
         <div class="main-header-middle-section">
-          <form nethod="GET" action="products.php" class="search">
+          <form method="GET" action="products.php" class="search">
               <input class="search-bar" id="search-bar" name="q" type="text" placeholder="Nhập từ khoá">
               <button type="submit" id="search_btn" class="search-btn"><i class="fas fa-magnifying-glass"></i></button>
           </form>
@@ -159,7 +158,7 @@ include "../Database/db_connection.php";
         <div id="get_category_home">
           <div class="responsive-nav">
             <ul class="main-nav">
-              <li class="home-category active"><a href="index.php">Trang chủ</a></li>
+              <li class="category" cid="0"><a href="index.php">Trang chủ</a></li>
               <li class="category" cid="1"><a href="products.php?cid=1">Laptop Gaming</a></li>
               <li class="category" cid="2"><a href="products.php?cid=2">Laptop Học tập, Văn phòng</a></li>
               <li class="category" cid="3"><a href="products.php?cid=3">Laptop Đồ họa</a></li>
@@ -184,7 +183,7 @@ include "../Database/db_connection.php";
   <!-- /HEADER -->
 
   <script src="../Assets/js/bootstrap.bundle.min.js"></script>
-  <script src="js/header.js"></script>
+  <script src="./Js/header.js"></script>
 </body>
 </html>
 
