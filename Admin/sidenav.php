@@ -14,7 +14,7 @@ if (!isset($_SESSION['admin_name'])) {
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<header>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -37,7 +37,7 @@ if (!isset($_SESSION['admin_name'])) {
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="76x76" href="../Assets/img/logo.png">
     <link rel="icon" type="image/png" href="../Assets/img/logo.png">
-</head>
+</header>
 
 <body class="dark-edition">
     <div class="wrapper position-fixed">
@@ -96,3 +96,5 @@ if (!isset($_SESSION['admin_name'])) {
             </div>
         </div>
     </div>
+</body>
+</html>

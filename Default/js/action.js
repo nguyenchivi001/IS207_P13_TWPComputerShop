@@ -90,7 +90,7 @@ async function ShowProductDetails(productId, token) {
           window.location.href = './product_details.php';   
           console.log("success");  
         } else {
-          console.log("failed");
+          console.log("failed", result);
         }
     } catch (e) {
         console.error(e);
