@@ -1,68 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="apple-touch-icon" sizes="76x76" href="../Assets/img/logo.png">
-    <link rel="icon" type="image/png" href="../Assets/img/logo.png">
-    <title>TWPComputerShop | Add product</title>
-    <link rel="stylesheet" href="./css/resize_the_navigation_bar.css" />
-  </head>
-  <body class="dark-edition">
-    <!-- Gọi file sidenav.html tại đây -->
-    <div w3-include-html="sidenav.html" class="sidebar"></div>
+<?php
+session_start();
+include "../Database/db.php";
 
-    <!-- Gọi file topheader.html tại đây -->
-    <div w3-include-html="topheader.html" class="main-panel"></div>
+if (isset($_POST['btn_save'])) {
+    $product_name = $_POST['product_name'];
+    $details = $_POST['details'];
+    $price = $_POST['price'];
+    $c_price = $_POST['c_price'];
+    $product_type = $_POST['product_type'];
+    $brand = $_POST['brand'];
+    $tags = $_POST['tags'];
 
-    <!-- Nội dung chính -->
-    <div class="content">
-      <div class="container-fluid">
-        <form action="" method="post" enctype="multipart/form-data">
-          <!-- Nội dung form sản phẩm của bạn -->
-        </form>
-      </div>
-    </div>
-
-    <!-- JavaScript để load các file HTML -->
-    <script>
-      function loadHTML(element, file) {
-  return new Promise(function (resolve, reject) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        if (this.status == 200) {
-          element.innerHTML = this.responseText;
-          resolve();  // Thông báo khi thành công
-        } else {
-          reject();  // Thông báo khi lỗi
-        }
-      }
-    };
-    xhttp.open("GET", file, true);
-    xhttp.send();
-  });
-}
-
-async function includeHTML() {
-  var z = document.querySelectorAll("[w3-include-html]");
-  for (var i = 0; i < z.length; i++) {
-    var elmnt = z[i];
-    var file = elmnt.getAttribute("w3-include-html");
-    if (file) {
-      try {
-        await loadHTML(elmnt, file);  // Chờ nội dung được tải trước khi tiếp tục
-        elmnt.removeAttribute("w3-include-html");
-      } catch (error) {
-        console.error("Error loading HTML:", error);
-      }
+    // Kiểm tra tính hợp lệ của dữ liệu (basic validation)
+    if (empty($product_name) || empty($details) || empty($price) || empty($product_type) || empty($brand)) {
+        echo "Vui lòng điền đầy đủ thông tin.";
+        exit;
     }
-  }
+
+    // Kiểm tra ảnh
+    $picture_name = $_FILES['picture']['name'];
+    $picture_type = $_FILES['picture']['type'];
+    $picture_tmp_name = $_FILES['picture']['tmp_name'];
+    $picture_size = $_FILES['picture']['size'];
+
+    // Kiểm tra loại ảnh và kích thước
+    if ($picture_type == "image/jpeg" || $picture_type == "image/jpg" || $picture_type == "image/png" || $picture_type == "image/gif") {
+        if ($picture_size <= 50000000) {
+            // Tạo tên file duy nhất cho ảnh
+            $pic_name = time() . "_" . $picture_name;
+            move_uploaded_file($picture_tmp_name, "../product_images/" . $pic_name);
+            
+            // Sử dụng prepared statements để tránh SQL injection
+            $stmt = $con->prepare("INSERT INTO products (product_cat, product_brand, product_title, product_price, product_desc, product_image, product_keywords) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssssss", $product_type, $brand, $product_name, $price, $details, $pic_name, $tags);
+            
+            if ($stmt->execute()) {
+                header("Location: sumit_form.php?success=1");
+            } else {
+                echo "Lỗi khi thêm sản phẩm.";
+            }
+
+            // Đóng statement
+            $stmt->close();
+        } else {
+            echo "Ảnh quá lớn. Vui lòng chọn ảnh dưới 50MB.";
+        }
+    } else {
+        echo "Loại file không hợp lệ. Vui lòng chọn hình ảnh có định dạng .jpg, .jpeg, .png, hoặc .gif.";
+    }
+
+    mysqli_close($con);
 }
 
-document.addEventListener("DOMContentLoaded", includeHTML);
+include "sidenav.php";
+include "topheader.php";
+?>
 
-   </script>
     <div class="content">
       <div class="container-fluid">
         <form
@@ -152,8 +145,22 @@ document.addEventListener("DOMContentLoaded", includeHTML);
                           <option value="" style="color: black">
                             Chọn phân loại
                           </option>
-                          <!-- PHP sẽ đưa dữ liệu vào đây -->
-                        </select>
+                          <?php 
+                                
+                          $result1=mysqli_query($con,"SELECT * FROM `categories` ORDER BY `cat_id` ASC") or die ("query 1 incorrect.....");
+
+                          while(list($cat_id,$cat_title)=mysqli_fetch_array($result1))
+                          {
+                          
+                              if($cat_id==$product_type){
+                                  echo "<option value='$cat_id' style='color:black;' selected>$cat_title</option>";
+                              }else{
+                                  echo "<option value='$cat_id' style='color:black;'>$cat_title</option>";
+                              }
+                          }
+                          
+                      ?>
+                  </select>
                       </div>
                     </div>
                     <div class="col-md-12">
@@ -168,7 +175,18 @@ document.addEventListener("DOMContentLoaded", includeHTML);
                           <option value="" style="color: black">
                             Chọn hãng
                           </option>
-                          <!-- PHP sẽ đưa dữ liệu vào đây -->
+                          <?php
+                                    $result2=mysqli_query($con,"SELECT * FROM `brands`") or die ("query 1 incorrect.....");
+
+                                    while(list($brand_id,$brand_title)=mysqli_fetch_array($result2))
+                                    {
+                                        if($brand_id==$brand){
+                                            echo "<option value='$brand_id' style='color:black;' selected>$brand_title</option>";
+                                        }else{
+                                            echo "<option value='$brand_id' style='color:black;'>$brand_title</option>";
+                                        }
+                                    }
+                                ?>
                         </select>
                       </div>
                     </div>
@@ -203,5 +221,7 @@ document.addEventListener("DOMContentLoaded", includeHTML);
         </form>
       </div>
     </div>
-    <div w3-include-html="footer.html"></div> 
 
+<?php
+include "footer.php";
+?>

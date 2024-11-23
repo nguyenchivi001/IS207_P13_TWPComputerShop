@@ -7,9 +7,13 @@ async function addToCart(productId, quantity, token) {
         })
         const result = await response.json();    
         if (result.success) {
-            console.log("success");    
+            console.log("success");
+            confirm('Thêm thành công');
+            location.reload();  
         } else {
             console.log(result);
+            confirm('Thêm không thành công');
+            location.reload();
         }
     } catch (e) {
         console.error(e);
@@ -63,6 +67,7 @@ async function addToWishlist(productId, token) {
         const result = await response.json();    
         if (result.success) {
             console.log("success"); 
+            confirm('Thêm thành công');
             location.reload();  
         } else {
             console.log(result);

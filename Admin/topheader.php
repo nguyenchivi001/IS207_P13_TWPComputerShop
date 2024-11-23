@@ -4,11 +4,8 @@
         <div class="container-fluid">
             <div class="navbar-wrapper">
                 <div class="navbar-wrapper">
-                    <a class="navbar-brand" style="color: #fff;">
-                        Welcome: <span style="font-weight: bold; color: #fff;">
-                            <?php include 'admin_name.php'; ?>
-                        </span>
-                    </a>
+                    <a class="navbar-brand" style="color: #fff;">Welcome: <span style="font-weight:bold; color:#fff;"><?php  if (isset($_SESSION['admin_name'])) : ?><?php echo $_SESSION['admin_name']; ?>
+         <?php endif ?></span></a>
                 </div>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">

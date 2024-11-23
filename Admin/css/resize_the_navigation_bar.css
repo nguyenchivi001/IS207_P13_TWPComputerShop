@@ -1,22 +1,32 @@
 
 /* Căn chỉnh nội dung */
-.content {
-    margin-top: 60px;
-    margin-left: 260px;
-    padding: 5px;
-     transition: color 0.075s ease; 
-}
-.main-panel
-{
-    margin-top: -30px;
-    margin-right: 5px;
-    padding: -40px;
-     transition: color 0.075s ease; 
-}
-.footer
-{
-    padding: 5px;
-}
+
+html, body {
+    height: 80%;
+    margin-top: 50px;    
+  }
+  
+  .main-panel {
+    display: grid;
+    padding-left: 50px; /* Khoảng cách bên trái */
+    align-items: start; /* Căn theo chiều dọc từ trên xuống */
+   
+  }
+  
+  .content {
+    width: 1500px; /* Chiều rộng phần content */
+    padding: 10px;
+    padding-left: 300px; /* Khoảng cách bên trái */
+    transition: color 0.075s ease;
+  }
+  
+  .footer {
+    padding: 20px;
+    text-align: center;
+    
+  }
+  
+
 .form-group {
     position: relative;
 }

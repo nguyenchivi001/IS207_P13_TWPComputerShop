@@ -4,13 +4,12 @@ session_start();
 }
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-  }
+ }
 if (!isset($_SESSION['admin_name'])) {
     header('Location: ./login.php');
     exit;
 }
 
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +30,7 @@ if (!isset($_SESSION['admin_name'])) {
     <!-- Main CSS -->
     <link rel="stylesheet" href="./css/material-dashboard.css">
     <link rel="stylesheet" href="./demo/demo.css">
-    <link rel="stylesheet" href="./css/resize_the_navigation_bar.css">
+  <link rel="stylesheet" href="./css/resize_the_navigation_bar.css">
    
 
     <!-- Favicon -->
@@ -42,7 +41,7 @@ if (!isset($_SESSION['admin_name'])) {
 <body class="dark-edition">
     <div class="wrapper position-fixed">
         <!-- Sidebar -->
-        <div class="sidebar" data-color="purple" data-background-color="black" data-image="../assets/img/sidebar-2.jpg">
+        <div class="sidebar" data-color="purple" data-background-color="black">
             <div class="logo">
                 <a href="index.php" class="simple-text logo-normal">
                     <img src="../Assets/img/logo.png" alt="Logo" style="width: 150px;">
@@ -90,12 +89,9 @@ if (!isset($_SESSION['admin_name'])) {
                         <a class="nav-link" href="saleofday.php">
                             <i class="fa-solid fa-receipt"></i>
                             <p>Hóa đơn</p>
-                        </a>
+                        </>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-</body>
-
-</html>
