@@ -11,7 +11,6 @@ if (!isset($_SESSION['admin_name'])) {
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
