@@ -1,6 +1,7 @@
 <?php 
 include"db.php";
 
+$con=OpenCon();
 function countRows($con, $table) {
     $query = "SELECT COUNT(*) AS count FROM $table";
     $stmt = mysqli_prepare($con, $query);
@@ -13,6 +14,7 @@ function countRows($con, $table) {
     }
     return 0; 
 }
+CloseCon($con);
 ?>
 
 <div class="row" style="padding-top: 10vh;">

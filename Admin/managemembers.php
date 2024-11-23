@@ -106,6 +106,5 @@ include "sidenav.php";
 </div>
 
 <?php
-// Đóng kết nối
 CloseCon($con);
 ?>
