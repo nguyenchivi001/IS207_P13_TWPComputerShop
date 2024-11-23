@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../Database/db.php";
+include "../Database/db_connection.php";
 
 if (isset($_POST['btn_save'])) {
     $product_name = $_POST['product_name'];
@@ -29,8 +29,8 @@ if (isset($_POST['btn_save'])) {
             // Tạo tên file duy nhất cho ảnh
             $pic_name = time() . "_" . $picture_name;
             move_uploaded_file($picture_tmp_name, "../product_images/" . $pic_name);
-            
-            // Sử dụng prepared statements để tránh SQL injection
+            $con=OpenCon();
+                 // Sử dụng prepared statements để tránh SQL injection
             $stmt = $con->prepare("INSERT INTO products (product_cat, product_brand, product_title, product_price, product_desc, product_image, product_keywords) VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("sssssss", $product_type, $brand, $product_name, $price, $details, $pic_name, $tags);
             
@@ -49,7 +49,7 @@ if (isset($_POST['btn_save'])) {
         echo "Loại file không hợp lệ. Vui lòng chọn hình ảnh có định dạng .jpg, .jpeg, .png, hoặc .gif.";
     }
 
-    mysqli_close($con);
+    CloseCon($con);
 }
 
 include "sidenav.php";
@@ -146,7 +146,7 @@ include "topheader.php";
                             Chọn phân loại
                           </option>
                           <?php 
-                                
+                                $con=OpenCon();
                           $result1=mysqli_query($con,"SELECT * FROM `categories` ORDER BY `cat_id` ASC") or die ("query 1 incorrect.....");
 
                           while(list($cat_id,$cat_title)=mysqli_fetch_array($result1))
@@ -158,7 +158,7 @@ include "topheader.php";
                                   echo "<option value='$cat_id' style='color:black;'>$cat_title</option>";
                               }
                           }
-                          
+                          CloseCon($con);
                       ?>
                   </select>
                       </div>
@@ -176,6 +176,7 @@ include "topheader.php";
                             Chọn hãng
                           </option>
                           <?php
+                          $con=OpenCon();
                                     $result2=mysqli_query($con,"SELECT * FROM `brands`") or die ("query 1 incorrect.....");
 
                                     while(list($brand_id,$brand_title)=mysqli_fetch_array($result2))
@@ -186,6 +187,7 @@ include "topheader.php";
                                             echo "<option value='$brand_id' style='color:black;'>$brand_title</option>";
                                         }
                                     }
+                                    CloseCon($con);
                                 ?>
                         </select>
                       </div>
@@ -221,7 +223,15 @@ include "topheader.php";
         </form>
       </div>
     </div>
-
+    <?php
+    if (isset($_POST['success'])) {
+      echo ' 
+      <script>
+        confirm("Thêm thành công");
+      </script>
+      ';
+    } 
+    ?>       
 <?php
 include "footer.php";
 ?>

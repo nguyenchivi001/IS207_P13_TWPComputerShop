@@ -1,9 +1,9 @@
 <?php
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
-  }
-  
-include"db.php";
+ }
+include "../Database/db_connection.php";
 
 include "sidenav.php";
 //include "topheader.php";

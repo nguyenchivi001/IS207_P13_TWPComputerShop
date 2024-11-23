@@ -6,12 +6,7 @@ html, body {
     margin-top: 50px;    
   }
   
-  .main-panel {
-    display: grid;
-    padding-left: 50px; /* Khoảng cách bên trái */
-    align-items: start; /* Căn theo chiều dọc từ trên xuống */
-   
-  }
+  
   
   .content {
     width: 1500px; /* Chiều rộng phần content */
