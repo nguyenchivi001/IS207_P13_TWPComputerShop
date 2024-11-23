@@ -13150,10 +13150,8 @@ fieldset[disabled] .form-group .form-control {
 .navbar .navbar-brand {
   position: relative;
   color: inherit;
-  height: 50px;
   font-size: 1.125rem;
   line-height: 30px;
-  padding: 0.625rem 0;
   font-weight: 300;
   margin-left: 1rem;
 }

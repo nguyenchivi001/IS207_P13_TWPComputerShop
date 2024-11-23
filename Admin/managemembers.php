@@ -1,9 +1,11 @@
 <?php
-session_start();
-include_once "db.php";
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+  }
+include "../Database/db_connection.php";
 
 // Mở kết nối
-$con = OpenCon(); // Sử dụng hàm OpenCon từ db.php
+$con = OpenCon();
 
 // Kiểm tra kết nối
 if (!$con) {
@@ -30,6 +32,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
         echo "<script>alert('Có lỗi xảy ra trong truy vấn SQL.');</script>";
     }
 }
+
+CloseCon($con);
 
 include "sidenav.php";
 // include "topheader.php";
@@ -62,6 +66,7 @@ include "sidenav.php";
                             </thead>
                             <tbody>
                                 <?php
+                                $con = OpenCon();
                                 // Lấy danh sách thành viên
                                 $stmt = $con->prepare("SELECT user_id, first_name, last_name, email, mobile, address1, address2 FROM user_info");
                                 if ($stmt) {
@@ -89,6 +94,7 @@ include "sidenav.php";
                                 } else {
                                     echo "<tr><td colspan='8'>Không thể lấy danh sách thành viên. Vui lòng thử lại sau.</td></tr>";
                                 }
+                                CloseCon($con);
                                 ?>
                             </tbody>
                         </table>
@@ -104,7 +110,3 @@ include "sidenav.php";
         </div>
     </div>
 </div>
-
-<?php
-CloseCon($con);
-?>
