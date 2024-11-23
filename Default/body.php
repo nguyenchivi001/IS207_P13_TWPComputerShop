@@ -29,14 +29,14 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-3 col-6">
-					<a href="#" class="text-decoration-none">
+					<a href="products.php?cid=1" class="text-decoration-none">
 						<div class="catalog main-raised">
 							<div class="catalog-img">
 								<img src="../Assets/img/alienware3.png" class="img-fluid" alt="Laptop Gaming">
 							</div>
 							<div class="catalog-body text-start">
 								<h4>Laptop<br>Gaming</h4>
-								<a href="#" class="cta-btn">
+								<a href="products.php?cid=1" class="cta-btn">
 									Mua ngay 
 								</a>
 							</div>
@@ -45,14 +45,14 @@
 				</div>
 
 				<div class="col-md-3 col-6">
-					<a href="#" class="text-decoration-none">
+					<a href="products.php?cid=2" class="text-decoration-none">
 						<div class="catalog main-raised">
 							<div class="catalog-img">
 								<img src="../Assets/img/msi5.png" class="img-fluid" alt="Laptop Văn Phòng">
 							</div>
 							<div class="catalog-body text-start">
 								<h4>Laptop<br>Văn Phòng</h4>
-								<a href="#" class="cta-btn">
+								<a href="products.php?cid=2" class="cta-btn">
 									Mua ngay
 								</a>
 							</div>
@@ -61,14 +61,14 @@
 				</div>
 
 				<div class="col-md-3 col-6">
-					<a href="#" class="text-decoration-none">
+					<a href="products.php?cid=3" class="text-decoration-none">
 						<div class="catalog main-raised">
 							<div class="catalog-img">
 								<img src="../Assets/img/apple1.png" class="img-fluid" alt="Laptop Đồ Họa">
 							</div>
 							<div class="catalog-body text-start">
 								<h4>Laptop<br>Đồ Họa</h4>
-								<a href="#" class="cta-btn">
+								<a href="products.php?cid=3" class="cta-btn">
 									Mua ngay
 								</a>
 							</div>
@@ -77,14 +77,14 @@
 				</div>
 
 				<div class="col-md-3 col-6">
-					<a href="#" class="text-decoration-none">
+					<a href="products.php?cid=4" class="text-decoration-none">
 						<div class="catalog main-raised">
 							<div class="catalog-img">
 								<img src="../Assets/img/lg6.png" class="img-fluid" alt="Laptop Mỏng nhẹ">
 							</div>
 							<div class="catalog-body text-start">
 								<h4>Laptop<br>Mỏng nhẹ</h4>
-								<a href="#" class="cta-btn">
+								<a href="products.php?cid=4" class="cta-btn">
 									Mua ngay
 								</a>
 							</div>

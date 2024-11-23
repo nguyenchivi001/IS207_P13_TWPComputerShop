@@ -1,0 +1,263 @@
+.main 
+{
+  margin-top: 200px;
+  padding-top: 20px;
+  position: relative;
+  z-index: 10;
+  background-color: white;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.product-page {
+  display: flex;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.product-gallery {
+  display: flex;
+  margin-right: 20px;
+  width: 50%;
+}
+
+.image-thumbnails {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+}
+
+.image-thumbnails img {
+  width: 80px;
+  height: auto;
+  cursor: pointer;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+
+.image-thumbnails img:hover {
+  border-color: #e63946;
+}
+
+.main-image {
+  margin-right: 10px;
+}
+.main-image img {
+  width: 100%;
+  border-radius: 4px;
+  border: 2px solid #ddd;
+}
+
+.product-info {
+  width: 50%
+}
+
+.product-info h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.price .current-price {
+  color: #e63946;
+  font-weight: bold;
+}
+
+.price .old-price {
+  text-decoration: line-through;
+  color: #999;
+  margin-left: 10px;
+}
+
+.status {
+  font-size: 16px;
+  color: #28a745;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.description {
+  margin-bottom: 20px;
+}
+
+.product-options label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.product-options select,
+.product-options input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.add-to-cart {
+  width: 100%;
+  background-color: #e63946;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.add-to-cart:hover {
+  background-color: #d32f2f;
+}
+
+.additional-info {
+  margin-top: 20px;
+}
+
+.additional-info p {
+  margin: 5px 0;
+}
+
+.additional-info a {
+  color: #007bff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.additional-info a:hover {
+  text-decoration: underline;
+}
+
+.add-to-cart {
+  width: 50%;
+  text-align: center;
+  transform: translateY(0%);
+  transition: 0.2s all;
+  z-index: 20;
+  background-color: white;
+}
+
+.add-to-cart .add-to-cart-btn 
+{
+  position: relative;
+  border: 2px solid transparent;
+  height: 40px;
+  padding: 0 30px;
+  background-color: #ef233c;
+  color: #FFF;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 40px;
+  transition: 0.2s all;
+}
+
+.add-to-cart .add-to-cart-btn i 
+{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  line-height: 38px;
+  color: #D10024;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.add-to-cart .add-to-cart-btn:hover 
+{
+  background-color: #FFF;
+  color: #D10024;
+  border-color: #D10024;
+  padding: 0px 30px 0px 50px;
+}
+
+.add-to-cart .add-to-cart-btn:hover i 
+{
+  opacity: 1;
+  visibility: visible;
+}
+
+.option {
+  margin: 10px auto;
+}
+
+.option label {
+  margin-right: 30px;
+}
+
+.button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.add-wishlist button 
+{
+
+  position: relative;
+  width: 50px;
+  height: 50px;
+  line-height: 40px;
+  background: transparent;
+  border: none;
+  transition: 0.2s all;
+}
+
+.add-wishlist button 
+{
+  color: red;
+}
+
+.add-wishlist button:hover 
+{
+  background-color: #E4E7ED;
+  color: #D10024;
+  border-radius: 50%;
+}
+
+.add-wishlist button .tooltip
+{
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, -15px);
+  width: 150px;
+  height: 50px;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 16px;
+  background: #1e1f29;
+  color: #FFF;
+  text-transform: uppercase;
+  z-index: 30;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s all;
+  text-align: center;
+}
+
+.add-wishlist button:hover .tooltip
+{
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -5px);
+}
+
