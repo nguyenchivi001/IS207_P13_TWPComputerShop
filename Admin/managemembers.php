@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("db.php");
+include "../Database/db.php";
 
 // Xóa thành viên nếu có yêu cầu
 if (isset($_GET['action']) && $_GET['action'] == 'delete') {
@@ -20,7 +20,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete') {
 }
 
 include "sidenav.php";
-//include "topheader.php";
+include "topheader.php";
 ?>
 
 <!-- Giao diện Quản lý Thành viên -->
@@ -88,4 +88,6 @@ include "sidenav.php";
         </div>
     </div>
 </div>
-
+<?php
+include "footer.php";
+?>

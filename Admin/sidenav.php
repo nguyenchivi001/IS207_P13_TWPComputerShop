@@ -1,21 +1,10 @@
-<<<<<<< HEAD
 <!-- <?php
 
-=======
-<?php
-if (session_status() == PHP_SESSION_NONE) {
-session_start();
-}
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-  }
->>>>>>> 9327782a3839b77f73f902d34d880e56ea8dc250
 if (!isset($_SESSION['admin_name'])) {
     header('Location: ./login.php');
     exit;
 }
 
-<<<<<<< HEAD
 if (isset($_GET['logout'])) {
     session_destroy();
     unset($_SESSION['admin_name']);
@@ -23,9 +12,6 @@ if (isset($_GET['logout'])) {
     exit;
 }
 ?> -->
-=======
-?>
->>>>>>> 9327782a3839b77f73f902d34d880e56ea8dc250
 <!DOCTYPE html>
 <html lang="en">
 
