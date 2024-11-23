@@ -1,6 +1,8 @@
 <?php
-session_start();
-include("db.php");
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+  }
+include "db.php";
 
 error_reporting(0);
 

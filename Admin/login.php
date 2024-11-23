@@ -68,7 +68,7 @@ if (empty($_SESSION['csrf_token'])) {
 
                 if (result.success) {
                     console.log("success");
-                    window.location.href = './sidenav.php';
+                    window.location.href = './index.php';
                 } else {
                     errorElement.textContent = result.message || "Tên đăng nhập hoặc mật khẩu không hợp lệ";
                     errorElement.style.display = 'block';
