@@ -1,10 +1,10 @@
 <?php
 session_start();
-include "../Database/db.php";
+include "../Database/db_connection.php";
 
 include "sidenav.php";
-//include "topheader.php";
-//include "activitity.php";
+include "topheader.php";
+include "activitity.php";
 
 function fetchData($con, $sql, $params = [])
 {
