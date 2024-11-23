@@ -1,6 +1,8 @@
 <?php
-session_start();
-include("db.php");
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+  }
+include "../Database/db_connection.php";
 include "sidenav.php";
 //include "topheader.php";
 
@@ -20,7 +22,7 @@ if (isset($_POST['btn_save'])) {
     } else {
     
         $hashed_password = password_hash($user_password, PASSWORD_BCRYPT);
-
+        $con = OpenCon();
         $stmt = $con->prepare("INSERT INTO user_info (first_name, last_name, email, password, mobile, address1, address2) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssss", $first_name, $last_name, $email, $hashed_password, $mobile, $address1, $address2);
 
@@ -29,10 +31,10 @@ if (isset($_POST['btn_save'])) {
         } else {
             echo "<script>alert('Có lỗi xảy ra khi thêm thành viên mới.');</script>";
         }
-
+        
         $stmt->close();
+        CloseCon($con);
     }
-    mysqli_close($con);
 }
 ?>
 <!-- End Navbar -->

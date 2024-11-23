@@ -1,4 +1,7 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 if (empty($_SESSION['csrf_token'])) {
   $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -175,8 +178,7 @@ require "header.php";
           JOIN categories AS C ON P.product_cat = C.cat_id 
           WHERE 1=1 $search_condition $price_condition $brand_condition $cpu_condition $ram_condition $order_by  
           LIMIT ? OFFSET ?";
-
-          echo $sql;
+          
           $stmt = $con->prepare($sql);
           $params = [];
           foreach ($search_terms as $term) {

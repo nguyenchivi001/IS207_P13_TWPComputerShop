@@ -1,5 +1,5 @@
 <?php 
-include"db.php";
+include "../Database/db_connection.php";
 
 $con=OpenCon();
 function countRows($con, $table) {

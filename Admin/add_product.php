@@ -39,7 +39,7 @@ if (isset($_POST['btn_save'])) {
             } else {
                 echo "Lỗi khi thêm sản phẩm.";
             }
-
+            CloseCon($con);
             // Đóng statement
             $stmt->close();
         } else {
@@ -47,9 +47,7 @@ if (isset($_POST['btn_save'])) {
         }
     } else {
         echo "Loại file không hợp lệ. Vui lòng chọn hình ảnh có định dạng .jpg, .jpeg, .png, hoặc .gif.";
-    }
-
-    CloseCon($con);
+    }  
 }
 
 include "sidenav.php";
@@ -146,7 +144,7 @@ include "topheader.php";
                             Chọn phân loại
                           </option>
                           <?php 
-                                $con=OpenCon();
+                          $con=OpenCon();
                           $result1=mysqli_query($con,"SELECT * FROM `categories` ORDER BY `cat_id` ASC") or die ("query 1 incorrect.....");
 
                           while(list($cat_id,$cat_title)=mysqli_fetch_array($result1))
@@ -177,18 +175,18 @@ include "topheader.php";
                           </option>
                           <?php
                           $con=OpenCon();
-                                    $result2=mysqli_query($con,"SELECT * FROM `brands`") or die ("query 1 incorrect.....");
+                            $result2=mysqli_query($con,"SELECT * FROM `brands`") or die ("query 1 incorrect.....");
 
-                                    while(list($brand_id,$brand_title)=mysqli_fetch_array($result2))
-                                    {
-                                        if($brand_id==$brand){
-                                            echo "<option value='$brand_id' style='color:black;' selected>$brand_title</option>";
-                                        }else{
-                                            echo "<option value='$brand_id' style='color:black;'>$brand_title</option>";
-                                        }
-                                    }
-                                    CloseCon($con);
-                                ?>
+                            while(list($brand_id,$brand_title)=mysqli_fetch_array($result2))
+                            {
+                                if($brand_id==$brand){
+                                    echo "<option value='$brand_id' style='color:black;' selected>$brand_title</option>";
+                                }else{
+                                    echo "<option value='$brand_id' style='color:black;'>$brand_title</option>";
+                                }
+                            }
+                            CloseCon($con);
+                          ?>
                         </select>
                       </div>
                     </div>

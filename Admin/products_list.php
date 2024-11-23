@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 include "../Database/db.php";
 error_reporting(0);
 if(isset($_GET['action']) && $_GET['action']!="" && $_GET['action']=='delete')
