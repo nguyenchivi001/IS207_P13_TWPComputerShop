@@ -1,5 +1,5 @@
 <?php 
-include("db.php");
+include"db.php";
 
 function countRows($con, $table) {
     $query = "SELECT COUNT(*) AS count FROM $table";
