@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("db.php");
+include "../Database/db.php";
 
 include "sidenav.php";
 //include "topheader.php";

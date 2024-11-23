@@ -20,7 +20,7 @@ if (!$link) {
 </head>
 <body>
     <!-- Form gửi dữ liệu -->
-    <form action="index.php" method="post" id="myform">
+    <form action="add_product.php" method="post" id="myform">
         <input type="hidden" name="success" value="<?php echo $link; ?>">
     </form>
 
