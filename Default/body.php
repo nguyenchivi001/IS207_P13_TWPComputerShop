@@ -1,3 +1,12 @@
+<?php
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
+if (empty($_SESSION['csrf_token'])) {
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+?>
+
 <!-- Custom Stylesheet -->
 <link rel="stylesheet" href="css/body.css">
 
@@ -104,201 +113,77 @@
 							<h3 class="title">Sản phẩm mới nhất</h3>
 						</div>
 					</div>
-          <div class="col-md-3 col-6">
-            <div class="product main-raised">
-              <a href="#">
-                <div class="product-img">
-                  <img src="../Assets/product_images/acer1.png" alt="acer1">
-                  <div class="product-label">
-                    <span class="sale">-30%</span>
-                    <span class="new">NEW</span>
-                  </div>
-                </div>
-              </a>
-              <div class="product-body">
-                  <p class="product-category">Laptop Gaming</p>
-                  <h3 class="product-name header-cart-item-name">
-                      <a href="#">Acer Nitro 5</a>
-                  </h3>
-                  <h4 class="product-price header-cart-item-info">
-                      1,000,000Đ <del class="product-old-price">1,500,000Đ</del>
-                  </h4>
-                  <div class="product-rating">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-regular fa-star"></i>
-                  </div>
-                  <div class="product-btns">
-                      <button class="add-to-wishlist">
-                        <i class="fa-regular fa-heart"></i>
-                        <span class="tooltip">Thêm vào danh sách ưa thích</span>
-                      </button>
-                      <button class="add-to-compare">
-                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                        <span class="tooltip">So sánh</span>
-                      </button>
-                      <button class="quick-view">
-                        <i class="fa-solid fa-eye"></i>
-                        <span class="tooltip">Xem nhanh</span>
-                      </button>
-                  </div>
-              </div>
-              <div class="add-to-cart">
-                  <button class="add-to-cart-btn">
-                    <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
-                  </button>
-              </div>
-            </div>
-          </div>
+
+          <?php
+          $con = OpenCon();
           
-          <div class="col-md-3 col-6">
-            <div class="product main-raised">
-              <a href="#">
-                <div class="product-img">
-                  <img src="../Assets/product_images/acer1.png" alt="acer1">
-                  <div class="product-label">
-                    <span class="sale">-30%</span>
-                    <span class="new">NEW</span>
+          $sql = "SELECT * FROM products AS P 
+                  JOIN categories AS C ON P.product_cat = C.cat_id
+                  WHERE C.cat_id = 1 ";
+          $stmt = $con->prepare($sql);
+          $stmt->execute();
+          $result = $stmt->get_result();
+          $count = 0;
+          while ($row = $result->fetch_assoc())
+          {
+            if($count > 3) break;
+            echo 
+            '<div class="col-md-3 col-6">
+              <div class="product main-raised">
+                <a class="product" pid="' . intval($row['product_id']) . '" 
+                  token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '"
+                >
+                  <div class="product-img">
+                    <img src="../Assets/product_images/' . htmlspecialchars($row['product_image'], ENT_QUOTES) . '" alt="">
+                    <div class="product-label">
+                      <span class="sale">-15%</span>
+                      <span class="new">NEW</span>
+                    </div>
                   </div>
+                </a>
+                <div class="product-body">
+                    <p class="product-category">Laptop Gaming</p>
+                    <h3 class="product-name header-cart-item-name">
+                        <h5 class="product-name">' 
+                          . htmlspecialchars($row['product_title'], ENT_QUOTES) . 
+                        '</h5>
+                    </h3>
+                    <h4 class="product-price header-cart-item-info">
+                        ' . number_format($row['product_price'], 0, '', ',') . 'Đ
+                        <del class="product-old-price">' . number_format($row['product_price']*1.15, 0, '', ',') . 'Đ</del>
+                    </h4>
+                    <div class="product-rating">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="product-btns">
+                        <button class="add-to-wishlist">
+                          <i class="fa-regular fa-heart"></i>
+                          <span class="tooltip">Thêm vào danh sách ưa thích</span>
+                        </button>
+                        <button class="add-to-compare">
+                          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                          <span class="tooltip">So sánh</span>
+                        </button>
+                        <button class="quick-view">
+                          <i class="fa-solid fa-eye"></i>
+                          <span class="tooltip">Xem nhanh</span>
+                        </button>
+                    </div>
                 </div>
-              </a>
-              <div class="product-body">
-                  <p class="product-category">Laptop Gaming</p>
-                  <h3 class="product-name header-cart-item-name">
-                      <a href="#">Acer Nitro 5</a>
-                  </h3>
-                  <h4 class="product-price header-cart-item-info">
-                      1,000,000Đ <del class="product-old-price">1,500,000Đ</del>
-                  </h4>
-                  <div class="product-rating">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-regular fa-star"></i>
-                  </div>
-                  <div class="product-btns">
-                      <button class="add-to-wishlist">
-                        <i class="fa-regular fa-heart"></i>
-                        <span class="tooltip">Thêm vào danh sách ưa thích</span>
-                      </button>
-                      <button class="add-to-compare">
-                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                        <span class="tooltip">So sánh</span>
-                      </button>
-                      <button class="quick-view">
-                        <i class="fa-solid fa-eye"></i>
-                        <span class="tooltip">Xem nhanh</span>
-                      </button>
-                  </div>
-              </div>
-              <div class="add-to-cart">
-                  <button class="add-to-cart-btn">
-                    <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
-                  </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3 col-6">
-            <div class="product main-raised">
-              <a href="#">
-                <div class="product-img">
-                  <img src="../Assets/product_images/acer1.png" alt="acer1">
-                  <div class="product-label">
-                    <span class="sale">-30%</span>
-                    <span class="new">NEW</span>
-                  </div>
+                <div class="add-to-cart">
+                    <button class="add-to-cart-btn">
+                      <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
+                    </button>
                 </div>
-              </a>
-              <div class="product-body">
-                  <p class="product-category">Laptop Gaming</p>
-                  <h3 class="product-name header-cart-item-name">
-                      <a href="#">Acer Nitro 5</a>
-                  </h3>
-                  <h4 class="product-price header-cart-item-info">
-                      1,000,000Đ <del class="product-old-price">1,500,000Đ</del>
-                  </h4>
-                  <div class="product-rating">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-regular fa-star"></i>
-                  </div>
-                  <div class="product-btns">
-                      <button class="add-to-wishlist">
-                        <i class="fa-regular fa-heart"></i>
-                        <span class="tooltip">Thêm vào danh sách ưa thích</span>
-                      </button>
-                      <button class="add-to-compare">
-                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                        <span class="tooltip">So sánh</span>
-                      </button>
-                      <button class="quick-view">
-                        <i class="fa-solid fa-eye"></i>
-                        <span class="tooltip">Xem nhanh</span>
-                      </button>
-                  </div>
               </div>
-              <div class="add-to-cart">
-                  <button class="add-to-cart-btn">
-                    <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
-                  </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3 col-6">
-            <div class="product main-raised">
-              <a href="#">
-                <div class="product-img">
-                  <img src="../Assets/product_images/acer1.png" alt="acer1">
-                  <div class="product-label">
-                    <span class="sale">-30%</span>
-                    <span class="new">NEW</span>
-                  </div>
-                </div>
-              </a>
-              <div class="product-body">
-                  <p class="product-category">Laptop Gaming</p>
-                  <h3 class="product-name header-cart-item-name">
-                      <a href="#">Acer Nitro 5</a>
-                  </h3>
-                  <h4 class="product-price header-cart-item-info">
-                      1,000,000Đ <del class="product-old-price">1,500,000Đ</del>
-                  </h4>
-                  <div class="product-rating">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-regular fa-star"></i>
-                  </div>
-                  <div class="product-btns">
-                      <button class="add-to-wishlist">
-                        <i class="fa-regular fa-heart"></i>
-                        <span class="tooltip">Thêm vào danh sách ưa thích</span>
-                      </button>
-                      <button class="add-to-compare">
-                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                        <span class="tooltip">So sánh</span>
-                      </button>
-                      <button class="quick-view">
-                        <i class="fa-solid fa-eye"></i>
-                        <span class="tooltip">Xem nhanh</span>
-                      </button>
-                  </div>
-              </div>
-              <div class="add-to-cart">
-                  <button class="add-to-cart-btn">
-                    <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
-                  </button>
-              </div>
-            </div>
-          </div>
+            </div>';
+          $count++;
+          }
+          ?>
 				</div>
 			</div>
 		</div>
@@ -354,11 +239,27 @@
 						</div>
 					</div>
           <div class="row shadow rounded" style="background-color: #EAF3FE;">
-            <div class="col-md-3 col-6">
+          <?php
+          $con = OpenCon();
+          
+          $sql = "SELECT * FROM products AS P 
+                  JOIN categories AS C ON P.product_cat = C.cat_id
+                  WHERE C.cat_id = 4 ";
+          $stmt = $con->prepare($sql);
+          $stmt->execute();
+          $result = $stmt->get_result();
+          $count = 0;
+          while ($row = $result->fetch_assoc())
+          {
+            if($count > 3) break;
+            echo 
+            '<div class="col-md-3 col-6">
               <div class="product main-raised">
-                <a href="#">
+                <a class="product" pid="' . intval($row['product_id']) . '" 
+                  token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '"
+                >
                   <div class="product-img">
-                    <img src="../Assets/product_images/acer1.png" alt="acer1">
+                    <img src="../Assets/product_images/' . htmlspecialchars($row['product_image'], ENT_QUOTES) . '" alt="">
                     <div class="product-label">
                       <span class="sale">-30%</span>
                       <span class="new">NEW</span>
@@ -368,17 +269,20 @@
                 <div class="product-body">
                     <p class="product-category">Laptop Gaming</p>
                     <h3 class="product-name header-cart-item-name">
-                        <a href="#">Acer Nitro 5</a>
+                        <h5 class="product-name">' 
+                          . htmlspecialchars($row['product_title'], ENT_QUOTES) . 
+                        '</h5>
                     </h3>
                     <h4 class="product-price header-cart-item-info">
-                        1,000,000Đ <del class="product-old-price">1,500,000Đ</del>
+                        ' . number_format($row['product_price'], 0, '', ',') . 'Đ
+                        <del class="product-old-price">' . number_format($row['product_price']*1.4, 0, '', ',') . 'Đ</del>
                     </h4>
                     <div class="product-rating">
                       <i class="fa-solid fa-star"></i>
                       <i class="fa-solid fa-star"></i>
                       <i class="fa-solid fa-star"></i>
                       <i class="fa-solid fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
                     </div>
                     <div class="product-btns">
                         <button class="add-to-wishlist">
@@ -401,154 +305,10 @@
                     </button>
                 </div>
               </div>
-            </div>
-            
-            <div class="col-md-3 col-6">
-              <div class="product main-raised">
-                <a href="#">
-                  <div class="product-img">
-                    <img src="../Assets/product_images/acer1.png" alt="acer1">
-                    <div class="product-label">
-                      <span class="sale">-30%</span>
-                      <span class="new">NEW</span>
-                    </div>
-                  </div>
-                </a>
-                <div class="product-body">
-                    <p class="product-category">Laptop Gaming</p>
-                    <h3 class="product-name header-cart-item-name">
-                        <a href="#">Acer Nitro 5</a>
-                    </h3>
-                    <h4 class="product-price header-cart-item-info">
-                        1,000,000Đ <del class="product-old-price">1,500,000Đ</del>
-                    </h4>
-                    <div class="product-rating">
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                    </div>
-                    <div class="product-btns">
-                        <button class="add-to-wishlist">
-                          <i class="fa-regular fa-heart"></i>
-                          <span class="tooltip">Thêm vào danh sách ưa thích</span>
-                        </button>
-                        <button class="add-to-compare">
-                          <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                          <span class="tooltip">So sánh</span>
-                        </button>
-                        <button class="quick-view">
-                          <i class="fa-solid fa-eye"></i>
-                          <span class="tooltip">Xem nhanh</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="add-to-cart">
-                    <button class="add-to-cart-btn">
-                      <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
-                    </button>
-                </div>
-              </div>
-            </div>
-  
-            <div class="col-md-3 col-6">
-              <div class="product main-raised">
-                <a href="#">
-                  <div class="product-img">
-                    <img src="../Assets/product_images/acer1.png" alt="acer1">
-                    <div class="product-label">
-                      <span class="sale">-30%</span>
-                      <span class="new">NEW</span>
-                    </div>
-                  </div>
-                </a>
-                <div class="product-body">
-                    <p class="product-category">Laptop Gaming</p>
-                    <h3 class="product-name header-cart-item-name">
-                        <a href="#">Acer Nitro 5</a>
-                    </h3>
-                    <h4 class="product-price header-cart-item-info">
-                        1,000,000Đ <del class="product-old-price">1,500,000Đ</del>
-                    </h4>
-                    <div class="product-rating">
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                    </div>
-                    <div class="product-btns">
-                        <button class="add-to-wishlist">
-                          <i class="fa-regular fa-heart"></i>
-                          <span class="tooltip">Thêm vào danh sách ưa thích</span>
-                        </button>
-                        <button class="add-to-compare">
-                          <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                          <span class="tooltip">So sánh</span>
-                        </button>
-                        <button class="quick-view">
-                          <i class="fa-solid fa-eye"></i>
-                          <span class="tooltip">Xem nhanh</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="add-to-cart">
-                    <button class="add-to-cart-btn">
-                      <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
-                    </button>
-                </div>
-              </div>
-            </div>
-  
-            <div class="col-md-3 col-6">
-              <div class="product main-raised">
-                <a href="#">
-                  <div class="product-img">
-                    <img src="../Assets/product_images/acer1.png" alt="acer1">
-                    <div class="product-label">
-                      <span class="sale">-30%</span>
-                      <span class="new">NEW</span>
-                    </div>
-                  </div>
-                </a>
-                <div class="product-body">
-                    <p class="product-category">Laptop Gaming</p>
-                    <h3 class="product-name header-cart-item-name">
-                        <a href="#">Acer Nitro 5</a>
-                    </h3>
-                    <h4 class="product-price header-cart-item-info">
-                        1,000,000Đ <del class="product-old-price">1,500,000Đ</del>
-                    </h4>
-                    <div class="product-rating">
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-solid fa-star"></i>
-                      <i class="fa-regular fa-star"></i>
-                    </div>
-                    <div class="product-btns">
-                        <button class="add-to-wishlist">
-                          <i class="fa-regular fa-heart"></i>
-                          <span class="tooltip">Thêm vào danh sách ưa thích</span>
-                        </button>
-                        <button class="add-to-compare">
-                          <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                          <span class="tooltip">So sánh</span>
-                        </button>
-                        <button class="quick-view">
-                          <i class="fa-solid fa-eye"></i>
-                          <span class="tooltip">Xem nhanh</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="add-to-cart">
-                    <button class="add-to-cart-btn">
-                      <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
-                    </button>
-                </div>
-              </div>
-            </div>
+            </div>';
+          $count++;
+          }
+          ?>
           </div>
 				</div>
 			</div>
