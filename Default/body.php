@@ -175,7 +175,11 @@ if (empty($_SESSION['csrf_token'])) {
                     </div>
                 </div>
                 <div class="add-to-cart">
-                    <button class="add-to-cart-btn">
+                    <button class="add-to-cart-btn"
+                      pid="' . intval($row['product_id']) . '" 
+                      id="product"
+                      token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '"
+                    >
                       <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
                     </button>
                 </div>
@@ -300,7 +304,11 @@ if (empty($_SESSION['csrf_token'])) {
                     </div>
                 </div>
                 <div class="add-to-cart">
-                    <button class="add-to-cart-btn">
+                    <button class="add-to-cart-btn"
+                      pid="' . intval($row['product_id']) . '" 
+                      id="product"
+                      token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '"
+                    >
                       <i class="fa-solid fa-cart-shopping"></i> Thêm vào giỏ hàng
                     </button>
                 </div>
@@ -315,4 +323,25 @@ if (empty($_SESSION['csrf_token'])) {
 		</div>
 	</div>
 </div>
+
+<script src="js/action.js"></script>
+<script>
+  document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+    button.addEventListener('click', () => {
+        const productId = button.getAttribute('pid');
+        const csrfToken = button.getAttribute('token');
+        addToCart(productId, 1, csrfToken);
+    });
+  });
+  
+  document.querySelectorAll('a.product').forEach(function(product) {
+    product.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        const productId = this.getAttribute('pid');
+        const csrfToken = this.getAttribute('token');
+        ShowProductDetails(productId, csrfToken);
+    });
+});
+</script>
   
