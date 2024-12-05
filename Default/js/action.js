@@ -97,3 +97,28 @@ async function ShowProductDetails(productId, token) {
     }
 }
 
+async function updateCart(cid, qty, token) {
+    try {
+        if (qty < 0) {
+            alert("Số lượng không hợp lệ.");
+        } else {
+            const response = await fetch('./Control/update_cart.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ c_id: cid, quantity: qty, csrf_token: token })
+            })
+            const result = await response.json();     
+            if (result.success) {
+              location.reload();    
+              console.log("success");  
+            } else {
+              alert("Có lỗi xảy ra: " + result.message);
+              location.reload();
+              console.log("failed", result);
+            }
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+

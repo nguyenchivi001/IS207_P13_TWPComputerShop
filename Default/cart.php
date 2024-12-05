@@ -74,12 +74,17 @@ require './header.php';
                           </td>
                           <td><input type="text" class="form-control price" value="' . htmlspecialchars($item->p_price) . '" readonly="readonly"></td>
                           <td>
-                              <input type="number" min="1" value="' . htmlspecialchars($item->qty) . '" class="form-control">
+                              <input type="number" name="quantity" min="1" value="' . htmlspecialchars($item->qty) . '" class="form-control">
                           </td>
                           <td class="text-center"><input type="text" class="form-control total" value="' . htmlspecialchars($item->p_price * $item->qty) . '" readonly="readonly"></td>
                           <td>
                               <div class="btn-group">
-                                  <a href="#" class="btn update-btn"><i class="fa fa-refresh"></i></a>
+                                  <a 
+                                    class="btn update-btn update-cart-item"
+                                    cid="' . htmlspecialchars($item->id) . '" 
+                                    token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '">
+                                    <i class="fa fa-refresh"></i>
+                                  </a>
                                   <a
                                     class="btn remove-btn delete-cart-item" 
                                     cid="' . htmlspecialchars($item->id) . '" 
@@ -164,5 +169,18 @@ require './header.php';
         }
     });
   });
+  document.querySelectorAll(".update-cart-item").forEach(button => {
+    button.addEventListener('click', () => {
+        const csrfToken = button.getAttribute('token');
+        const id = button.getAttribute('cid');
+        const quantityInput = button.closest('tr').querySelector('input[name="quantity"]');
+        const quantity = quantityInput.value;
+        const quantityInt = parseInt(quantity, 10);
+        if (confirm('Bạn có chắc chắn muốn cập nhật số lượng sản phẩm này?')) {
+          updateCart(id, quantityInt, csrfToken);
+        }
+    });
+  });
+  
 </script>
 <?php require './footer.html'?>
