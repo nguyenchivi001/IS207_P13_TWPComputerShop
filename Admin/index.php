@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 session_start();
 include "../Database/db_connection.php";
 
@@ -6,6 +7,18 @@ include "sidenav.php";
 include "topheader.php";
 include "activitity.php";
 
+=======
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+ }
+include "../Database/db_connection.php";
+
+include "sidenav.php";
+//include "topheader.php";
+include "activitity.php";
+$con =OpenCon();
+>>>>>>> main
 function fetchData($con, $sql, $params = [])
 {
     $stmt = $con->prepare($sql);
@@ -16,7 +29,7 @@ function fetchData($con, $sql, $params = [])
     $stmt->execute();
     return $stmt->get_result();
 }
-
+CloseCon($con);
 ?>
 <!-- End Navbar -->
 <div class="content">
