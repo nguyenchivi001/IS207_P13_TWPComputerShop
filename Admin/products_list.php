@@ -1,9 +1,11 @@
 <?php
 session_start();
-include "../Database/db.php";
+include "../Database/db_connection.php";
 error_reporting(0);
 if(isset($_GET['action']) && $_GET['action']!="" && $_GET['action']=='delete')
 {
+  $con=OpenCon();
+ /*this is delet query*/
 $product_id=$_GET['product_id'];
 ///////picture delete/////////
 $result=mysqli_query($con,"select product_image from products where product_id='$product_id'")
@@ -20,6 +22,7 @@ else
 {}
 /*this is delet query*/
 mysqli_query($con,"delete from products where product_id='$product_id'")or die("query is incorrect...");
+CloseCon($con);
 }
 
 ///pagination
@@ -65,7 +68,7 @@ include "topheader.php";
 	                  </th></tr></thead>
                     <tbody>
                       <?php 
-
+                        $con=OpenCon();
                         $result=mysqli_query($con,"select product_id,product_image, product_title,product_price from products  where  product_cat=1 or product_cat=2 or product_cat=3 Limit $page1,12")or die ("query 1 incorrect.....");
 
                         while(list($product_id,$image,$product_name,$price)=mysqli_fetch_array($result))
@@ -87,7 +90,6 @@ include "topheader.php";
                         
                         </td></tr>";
                         }
-
                         ?>
                     </tbody>
                   </table>
@@ -103,7 +105,7 @@ include "topheader.php";
                   </a>
                 </li>
                  <?php 
-
+                 $con=OpenCon();
                 $paging=mysqli_query($con,"select product_id,product_image, product_title,product_price from products");
                 $count=mysqli_num_rows($paging);
 
@@ -116,6 +118,7 @@ include "topheader.php";
                 <li class="page-item"><a class="page-link" href="products_list.php?page=<?php echo $b;?>"><?php echo $b." ";?></a></li>
                 <?php	
 }
+              CloseCon($con);
 ?>
                 <li class="page-item">
                   <a class="page-link" href="#" aria-label="Sau">

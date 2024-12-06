@@ -4,7 +4,7 @@ include "../Database/db_connection.php";
 
 include "sidenav.php";
 include "topheader.php";
-//include "activitity.php";
+include "activitity.php";
 $con=OpenCon();
 function fetchData($con, $sql, $params = [])
 {

@@ -29,8 +29,8 @@ if (!$con) {
   } else {
       echo "<script>alert('Có lỗi xảy ra trong truy vấn SQL.');</script>";
   }
+  CloseCon($con);
 }
-CloseCon($con);
 include "sidenav.php";
 include "topheader.php";
 ?>
@@ -62,6 +62,7 @@ include "topheader.php";
                             </thead>
                             <tbody>
                                 <?php
+                                $con=OpenCon();
                                 // Lấy danh sách thành viên
                                 $stmt = $con->prepare("SELECT user_id, first_name, last_name, email, mobile, address1, address2 FROM user_info");
                                 if ($stmt) {
@@ -89,6 +90,7 @@ include "topheader.php";
                                 } else {
                                     echo "<tr><td colspan='8'>Không thể lấy danh sách thành viên. Vui lòng thử lại sau.</td></tr>";
                                 }
+                                CloseCon($con);
                                 ?>
                             </tbody>
                         </table>

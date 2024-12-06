@@ -1,8 +1,8 @@
 <?php
 session_start();
-include("db.php");
+include "../Database/db_connection.php";
 include "sidenav.php";
-//include "topheader.php";
+include "topheader.php";
 
 if (isset($_POST['btn_save'])) {
     $first_name = trim($_POST['first_name']);
@@ -20,7 +20,7 @@ if (isset($_POST['btn_save'])) {
     } else {
     
         $hashed_password = password_hash($user_password, PASSWORD_BCRYPT);
-
+$con=OpenCon();
         $stmt = $con->prepare("INSERT INTO user_info (first_name, last_name, email, password, mobile, address1, address2) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("sssssss", $first_name, $last_name, $email, $hashed_password, $mobile, $address1, $address2);
 
@@ -33,6 +33,7 @@ if (isset($_POST['btn_save'])) {
         $stmt->close();
     }
     mysqli_close($con);
+    CloseCon($con);
 }
 ?>
 <!-- End Navbar -->
@@ -101,3 +102,7 @@ if (isset($_POST['btn_save'])) {
         </div>
     </div>
 </div>
+
+<?php
+    include "footer.php";
+ ?>

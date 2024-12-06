@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "../Database/db.php";
+include "../Database/db_connection.php";
 
 if (!isset($_SESSION['admin_email'])) {
     header("Location: login.php");
@@ -25,6 +25,7 @@ if (isset($_POST['re_password'])) {
         echo "<script>alert('Mật khẩu mới phải có ít nhất 8 ký tự');</script>";
         exit();
     }
+    $con=OpenCon();
 
     // Lấy mật khẩu hiện tại từ cơ sở dữ liệu
     $stmt = $con->prepare("SELECT admin_password FROM admin_info WHERE admin_email = ?");
@@ -54,6 +55,7 @@ if (isset($_POST['re_password'])) {
     }
 
     $stmt->close();
+    CloseCon($con);
 }
 
 include "sidenav.php";
