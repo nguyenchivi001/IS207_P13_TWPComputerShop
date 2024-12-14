@@ -2,13 +2,17 @@
 session_start();
 include "../Database/db_connection.php";
 
-if (!isset($_SESSION['admin_email'])) {
-    header("Location: login.php");
-    exit();
+// if (!isset($_SESSION['admin_email'])) {
+//     header("Location: login.php");
+//     exit();
+// }
+if (!isset($_SESSION['admin_name'])) {
+    echo "<script>alert('Bạn cần đăng nhập để thực hiện thao tác này');</script>";
+        exit();
 }
 
 if (isset($_POST['re_password'])) {
-    $email = $_SESSION['admin_email'];
+    $email = $_SESSION['admin_name'];
 
     $old_pass = $_POST['old_pass'] ?? '';
     $new_pass = $_POST['new_pass'] ?? '';
@@ -28,24 +32,27 @@ if (isset($_POST['re_password'])) {
     $con=OpenCon();
 
     // Lấy mật khẩu hiện tại từ cơ sở dữ liệu
-    $stmt = $con->prepare("SELECT admin_password FROM admin_info WHERE admin_email = ?");
+    $stmt = $con->prepare("SELECT admin_password FROM admin_info WHERE admin_name = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->bind_result($database_password);
     $stmt->fetch();
     $stmt->close();
-
+    if (!$database_password) {
+        echo "<script>alert('Không tìm thấy thông tin tài khoản.');</script>";
+        exit();
+    }
     // Xác minh mật khẩu cũ
-    if (!password_verify($old_pass, $database_password)) {
-        echo "<script>alert('Mật khẩu cũ không chính xác');</script>";
+    if (md5($old_pass) != $database_password) {
+        echo "<script>alert('Mật khẩu cũ không chính xác " . $database_password . "');</script>";
         exit();
     }
 
     // Băm mật khẩu mới
-    $hashed_new_pass = password_hash($new_pass, PASSWORD_BCRYPT);
+    $hashed_new_pass = md5($new_pass);
 
     // Cập nhật mật khẩu trong cơ sở dữ liệu
-    $stmt = $con->prepare("UPDATE admin_info SET admin_password = ? WHERE admin_email = ?");
+    $stmt = $con->prepare("UPDATE admin_info SET admin_password = ? WHERE admin_name = ?");
     $stmt->bind_param("ss", $hashed_new_pass, $email);
 
     if ($stmt->execute()) {

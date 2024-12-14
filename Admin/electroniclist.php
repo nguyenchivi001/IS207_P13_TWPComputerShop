@@ -1,11 +1,11 @@
 <?php
 session_start();
-include("db.php");
+include "../Database/db_connection.php";
 error_reporting(0);
 
 if (isset($_GET['action']) && $_GET['action'] != "" && $_GET['action'] == 'delete') {
     $product_id = $_GET['product_id'];
-
+$con=OpenCon();
     // Truy vấn để lấy tên file ảnh
     $stmt = $con->prepare("SELECT product_image FROM products WHERE product_id = ?");
     $stmt->bind_param("i", $product_id);
@@ -34,6 +34,7 @@ if (isset($_GET['action']) && $_GET['action'] != "" && $_GET['action'] == 'delet
         die("Không thể xóa sản phẩm: " . $stmt->error);
     }
     $stmt->close();
+    CloseCon($con);
 }
 
 // Phân trang
@@ -78,6 +79,7 @@ include "topheader.php";
                             </thead>
                             <tbody>
                                 <?php
+                                $con = OpenCon();
                                 $stmt = $con->prepare("SELECT product_id, product_image, product_title, product_price FROM products WHERE product_cat = 1 LIMIT ?, 10");
                                 $stmt->bind_param("i", $offset);
                                 $stmt->execute();
@@ -95,6 +97,7 @@ include "topheader.php";
                                     </tr>";
                                 }
                                 $stmt->close();
+                                CloseCon($con);
                                 ?>
                             </tbody>
                         </table>
@@ -105,6 +108,7 @@ include "topheader.php";
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <?php
+                    $con = OpenCon();
                     $result = $con->query("SELECT COUNT(*) as total FROM products WHERE product_cat = 1");
                     $row = $result->fetch_assoc();
                     $total_pages = ceil($row['total'] / 10);
@@ -112,6 +116,7 @@ include "topheader.php";
                     for ($i = 1; $i <= $total_pages; $i++) {
                         echo "<li class='page-item'><a class='page-link' href='productlist.php?page=$i'>$i</a></li>";
                     }
+                    CloseCon($con);
                     ?>
                 </ul>
             </nav>

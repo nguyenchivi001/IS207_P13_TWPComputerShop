@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("db.php");
+include "../Database/db_connection.php";
 
 // Lấy thông tin user_id
 $user_id = isset($_REQUEST['user_id']) ? intval($_REQUEST['user_id']) : 0;
@@ -15,7 +15,7 @@ if (isset($_POST['btn_save'])) {
     $last_name = trim($_POST['last_name']);
     $email = trim($_POST['email']);
     $user_password = trim($_POST['password']);
-
+$con=OpenCon();
     // Chuẩn bị câu lệnh an toàn
     $query = "UPDATE user_info SET first_name = ?, last_name = ?, email = ?, password = ? WHERE user_id = ?";
     $stmt = mysqli_prepare($con, $query);
@@ -31,8 +31,9 @@ if (isset($_POST['btn_save'])) {
     } else {
         die("Chuẩn bị truy vấn thất bại: " . mysqli_error($con));
     }
+    CloseCon($con);
 }
-
+$con=OpenCon();
 // Lấy thông tin người dùng để hiển thị trên form
 $query = "SELECT first_name, last_name, email, password FROM user_info WHERE user_id = ?";
 $stmt = mysqli_prepare($con, $query);
@@ -47,7 +48,7 @@ if ($stmt) {
 } else {
     die("Truy vấn thất bại: " . mysqli_error($con));
 }
-
+CloseCon($con);
 include "sidenav.php";
 include "topheader.php";
 ?>
