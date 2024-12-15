@@ -340,7 +340,7 @@ require "header.php";
         const csrfToken = this.getAttribute('token');
         ShowProductDetails(productId, csrfToken);
     });
-});
+  });
 </script>
 
 <?php
