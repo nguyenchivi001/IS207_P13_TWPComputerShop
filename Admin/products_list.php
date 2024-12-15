@@ -58,7 +58,7 @@ include "topheader.php";
                     <thead class=" text-primary">
                       <tr><th>Ảnh</th><th>Tên sản phẩm</th><th>Đơn giá</th><th>
                       <?php
-                      if ($_SESSION['role'] != 'e') {
+                      if ($_SESSION['role'] == 'Manager') {
                         echo'
                             <a class=" btn btn-primary" href="add_product.php">Thêm mới</a>
                         ';
@@ -79,7 +79,7 @@ include "topheader.php";
                         <td>$price</td>
                         <td> ";
                     
-                      if ($_SESSION['role'] != 'e') {
+                      if ($_SESSION['role'] == 'Manager') {
                         echo"
                         <a class=' btn btn-success' href='edit_product.php?product_id=$product_id'>Edit</a>
                         <a class=' btn btn-danger' href='products_list.php?product_id=$product_id&action=delete'>Delete</a>

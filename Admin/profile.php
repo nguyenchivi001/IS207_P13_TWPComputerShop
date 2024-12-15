@@ -2,10 +2,10 @@
 session_start();
 include "../Database/db_connection.php";
 
-// if (!isset($_SESSION['admin_email'])) {
-//     header("Location: login.php");
-//     exit();
-// }
+ if (!isset($_SESSION['admin_name'])) {
+     header("Location: login.php");
+     exit();
+ }
 if (!isset($_SESSION['admin_name'])) {
     echo "<script>alert('Bạn cần đăng nhập để thực hiện thao tác này');</script>";
         exit();

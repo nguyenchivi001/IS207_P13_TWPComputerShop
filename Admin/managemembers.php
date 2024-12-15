@@ -41,7 +41,7 @@ include "topheader.php";
         <div class="col-md-14">
             <div class="card">
                 <div class="card-header card-header-primary">
-                    <h4 class="card-title">Quản lý thành viên</h4>
+                    <h4 class="card-title">Quản lý khách hàng</h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive ps">
@@ -55,43 +55,51 @@ include "topheader.php";
                                     <th>SĐT</th>
                                     <th>Địa chỉ</th>
                                     <th>Thành phố</th>
-                                    <th>
-                                        <a href="addmembers.php" class="btn btn-success">Thêm mới</a>
-                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $con=OpenCon();
-                                // Lấy danh sách thành viên
-                                $stmt = $con->prepare("SELECT user_id, first_name, last_name, email, mobile, address1, address2 FROM user_info");
-                                if ($stmt) {
-                                    $stmt->execute();
-                                    $stmt->bind_result($user_id, $first_name, $last_name, $email, $mobile, $address1, $address2);
-
-                                    $counter = 1; // Đếm số thứ tự
-                                    while ($stmt->fetch()) {
-                                        echo "<tr>
-                                            <td>{$counter}</td>
-                                            <td>{$first_name}</td>
-                                            <td>{$last_name}</td>
-                                            <td>{$email}</td>
-                                            <td>{$mobile}</td>
-                                            <td>{$address1}</td>
-                                            <td>{$address2}</td>
-                                            <td>
-                                                <a class='btn btn-danger' href='managemembers.php?user_id={$user_id}&action=delete'>Xóa<div class='ripple-container'></div></a>
-                                            </td>
-                                        </tr>";
-                                        $counter++;
-                                    }
-
-                                    $stmt->close();
-                                } else {
-                                    echo "<tr><td colspan='8'>Không thể lấy danh sách thành viên. Vui lòng thử lại sau.</td></tr>";
-                                }
-                                CloseCon($con);
-                                ?>
+                               $con = OpenCon();
+                               // Lấy danh sách thành viên
+                               $stmt = $con->prepare("SELECT user_id, first_name, last_name, email, mobile, address1, address2 FROM user_info");
+                               
+                               if ($stmt) {
+                                   $stmt->execute();
+                                   $stmt->bind_result($user_id, $first_name, $last_name, $email, $mobile, $address1, $address2);
+                                   $counter = 1; // Đếm số thứ tự
+                                   
+                                   while ($stmt->fetch()) {                                       
+                                       echo "<tr>
+                                           <td>{$counter}</td>
+                                           <td>{$first_name}</td>
+                                           <td>{$last_name}</td>
+                                           <td>{$email}</td>
+                                           <td>{$mobile}</td>
+                                           <td>{$address1}</td>
+                                           <td>{$address2}</td>
+                                           <td>
+                                             <a class='btn btn-success' href='editmembers.php?user_id=$user_id'>Edit</a>
+                                           </td>
+                                           <td>";
+                                           
+                                               if ($_SESSION['role'] == 'Manager') {
+                                                 echo"
+                                               <a class='btn btn-danger' href='managemembers.php?user_id={$user_id}&action=delete'>Xóa<div class='ripple-container'></div></a>
+                                                    ";
+                                                }
+                                                echo "
+                                                </td>
+                                       </tr>";
+                                       $counter++;
+                                   }
+                               
+                                   $stmt->close();
+                               } else {
+                                   echo "<tr><td colspan='8'>Không thể lấy danh sách thành viên. Vui lòng thử lại sau.</td></tr>";
+                               }
+                               
+                               CloseCon($con);
+                               ?>
                             </tbody>
                         </table>
                         <div class="ps__rail-x" style="left: 0px; bottom: 0px;">

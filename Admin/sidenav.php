@@ -10,6 +10,7 @@ if (!isset($_SESSION['admin_name'])) {
     header('Location: ./login.php');
     exit;
 }
+$role = $_SESSION['role']
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,24 +57,40 @@ if (!isset($_SESSION['admin_name'])) {
                             <p>Trang chủ</p>
                         </a>
                     </li>
+                   <!-- Kiểm tra nếu role là manager -->
+        <?php if ($role === 'Manager'): ?>
+            <li class="nav-item">
+                <a class="nav-link" href="./addmembers.php">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <p>Thêm nhân viên</p>
+                </a>
+            </li>
+        <?php endif; ?>
+
+        <?php if ($role === 'Manager'): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="./addmembers.php">
-                            <i class="fa-solid fa-user-plus"></i>
-                            <p>Thêm thành viên</p>
+                        <a class="nav-link" href="./list_employee.php">
+                        <i class="fa-solid fa-user"></i>
+                        <p>Danh sách nhân viên</p>
                         </a>
                     </li>
+                    <?php endif; ?>
+
                     <li class="nav-item">
                         <a class="nav-link" href="managemembers.php">
                             <i class="fa-solid fa-user"></i>
-                            <p>Danh sách thành viên</p>
+                            <p>Danh sách khách hàng</p>
                         </a>
                     </li>
+                    <?php if ($role === 'Manager'): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="add_product.php">
                             <i class="fa-solid fa-plus"></i>
                             <p>Thêm sản phẩm</p>
                         </a>
                     </li>
+                    <?php endif; ?>
+
                     <li class="nav-item">
                         <a class="nav-link" href="products_list.php">
                             <i class="fa-solid fa-list"></i>
