@@ -34,60 +34,48 @@ include "header.php";
       <h2><?php echo htmlspecialchars($product['product_title']); ?></h2>
       <h3 class="text-danger">
         <?php echo number_format($product['product_price'], 0, '', ','); ?>Đ
-        <del class="text-muted"><?php echo number_format($product['product_price']*1.3, 0, '', ','); ?>Đ</del>
+        <del class="text-muted"><?php echo number_format($product['product_price'] * 1.3, 0, '', ','); ?>Đ</del>
       </h3>
       <p class="status">Còn hàng</p>
       <p class="description">
         Laptop thế hệ mới mang đam mê của bạn bắt nhịp với lối sống năng động. Dù là làm việc hay sử dụng trên giảng đường...
       </p>
 
-      <table class="w-100 mb-5">
-        <tr>
-          <td>
-            <label for="storage">Ổ Cứng:</label>
-          </td>
-          <td>
-            <select id="storage" name="storage" class="w-25 h-100">
-              <option>512GB</option>
-              <option>1024GB</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="color">Màu Sắc:</label>
-          </td>
-          <td>
-            <select id="color" name="color" class="w-25 h-100">
-              <option value="red">Đen</option>
-              <option value="red">Xanh</option>
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <label for="quantity">Số Lượng:</label>
-          </td>
-          <td>
-            <input type="number" class="w-25 h-100" id="quantity" name="quantity" value="1" min="1">
-          </td>
-        </tr>
-      </table>
+      <div class="product-options">
+        <div class="option">
+          <label for="storage">Ổ Cứng:</label>
+          <select id="storage" name="storage">
+            <option>512GB</option>
+            <option>1024GB</option>
+          </select>
+        </div>
+        <div class="option">
+          <label for="color">Màu Sắc:</label>
+          <select id="color" name="color">
+            <option value="black">Đen</option>
+            <option value="blue">Xanh</option>
+          </select>
+        </div>
+        <div class="option">
+          <label for="quantity">Số Lượng:</label>
+          <input type="number" id="quantity" name="quantity" value="1" min="1">
+        </div>
+      </div>
 
-      <div class="button">
+      <div class="button-box mt-3">
         <?php
         echo '
           <div id="add_Wl" class="add-wishlist" 
-              pid="' . intval($product['product_id']) . '"
-              token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '"
+            pid="' . intval($product['product_id']) . '"
+            token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '"
           >
-            <button class="add-to-wishlist">
-              <i class="fa-regular fa-heart"></i>
-              <span class="tooltip">Thêm vào danh sách ưa thích</span>
-            </button>
+            <button class="add-wishlist-btn"><i class="fa-regular fa-heart"></i>Thêm vào yêu thích</button>
           </div>
-          <div id="add-to-cart" class="add-to-cart" pid="' . intval($product['product_id']) . '"
-              token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '">
+
+          <div id="add-to-cart" class="add-to-cart" 
+            pid="' . intval($product['product_id']) . '"
+            token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '"
+          >
             <button class="add-to-cart-btn"><i class="fa-solid fa-cart-shopping"></i>Thêm vào giỏ hàng</button>
           </div>  
         ';
