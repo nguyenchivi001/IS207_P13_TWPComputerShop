@@ -30,21 +30,40 @@ if (!is_numeric($qty) || $qty <= 0) {
 }
 
 try {
-    $query1 = "SELECT MAX(id) FROM cart";
-    $result = $conn->query($query1);
-    $id = 1;
-    // Check if the query was successful
-    if ($result) {
-        $row = $result->fetch_row();
-        $id = $row[0] + 1;
-    }
+    $check_query = "SELECT qty FROM cart WHERE p_id = ? AND user_id = ?";
+    $check_stmt = $conn->prepare($check_query);
+    $check_stmt->bind_param("ii", $pid, $_SESSION['uid']);
+    $check_stmt->execute();
+    $result = $check_stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $new_qty = $row['qty'] + $qty;
 
-    $query = "INSERT INTO cart (`id`, `p_id`, `ip_add`, `user_id`, `qty`)
-        VALUES (?, ?, '', ?, ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("iiii", $id, $pid, $_SESSION['uid'], $qty);
-    $stmt->execute();
-    echo json_encode(["success" => true, "message" => "success"]);
+        $update_query = "UPDATE cart SET qty = ? WHERE p_id = ? AND user_id = ?";
+        $update_stmt = $conn->prepare($update_query);
+        $update_stmt->bind_param("iii", $new_qty, $pid, $_SESSION['uid']);
+        $update_stmt->execute();
+
+        echo json_encode(["success" => true, "message" => "Tăng số lượng sản phẩm trong giỏ hàng"]);
+    } else {
+
+        $query1 = "SELECT MAX(id) FROM cart";
+        $result = $conn->query($query1);
+        $id = 1;
+        // Check if the query was successful
+        if ($result) {
+            $row = $result->fetch_row();
+            $id = $row[0] + 1;
+        }
+    
+        $query = "INSERT INTO cart (`id`, `p_id`, `ip_add`, `user_id`, `qty`)
+            VALUES (?, ?, '', ?, ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("iiii", $id, $pid, $_SESSION['uid'], $qty);
+        $stmt->execute();
+        echo json_encode(["success" => true, "message" => "success"]);
+    }
 } catch (Exception $e) {
     echo json_encode(["success" => false, "message" => "Đã xảy ra lỗi hệ thống."]);
 }

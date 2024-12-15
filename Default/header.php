@@ -163,22 +163,14 @@ include "../Database/db_connection.php";
               </div>
               
               <!-- CART-->
-              <div class="dropdown right-section-items">
-                <a class="dropdown-toggle" data-bs-toggle="dropdown">
+              <div class="right-section-items">
+                <a href="cart.php">
                   <i class="fas fa-shopping-cart"></i>
                   <span>Giỏ hàng</span>
                   <div id="cart-badge" class="qty">' . htmlspecialchars($total_cart, flags: ENT_QUOTES) . '</div>
                 </a>
-                  <div class="dropdown-menu cart-dropdown">
-                    <div class="cart-list" id="cart_product"></div>
-                    <div class="cart-button">
-                      <a href="cart.php">
-                        <i class="fas fa-edit"></i> Thay đổi giỏ hàng
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <!-- /CART-->
+              </div>
+              <!-- /CART-->
             ';
           } else {
             echo '
@@ -192,21 +184,13 @@ include "../Database/db_connection.php";
               
               <!-- CART-->
               <div class="dropdown right-section-items">
-                <a class="dropdown-toggle" data-bs-toggle="dropdown">
+                <a href="cart.php">
                   <i class="fas fa-shopping-cart"></i>
                   <span>Giỏ hàng</span>
                   <div id="cart-badge" class="qty">0</div>
                 </a>
-                  <div class="dropdown-menu cart-dropdown">
-                    <div class="cart-list" id="cart_product"></div>
-                    <div class="cart-button">
-                      <a href="cart.php">
-                        <i class="fas fa-edit"></i> Thay đổi giỏ hàng
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <!-- /CART-->
+              </div>
+              <!-- /CART-->
             ';
           }
           ?>

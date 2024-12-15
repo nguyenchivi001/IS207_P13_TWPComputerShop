@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+  }
 include "../Database/db_connection.php";
 include "sidenav.php";
 include "topheader.php";
@@ -25,10 +27,10 @@ $con=OpenCon();
         } else {
             echo "<script>alert('Có lỗi xảy ra khi thêm nhân viên mới.');</script>";
         }
-
+        
         $stmt->close();
+        CloseCon($con);
     }
-    CloseCon($con);
 }
 ?>
 <!-- End Navbar -->
