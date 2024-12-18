@@ -1,8 +1,9 @@
 <?php
+session_start();
+include "../Database/db_connection.php" ;
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
-include "../Database/db_connection.php";
 error_reporting(0);
 ///pagination
 $page = $_GET['page'];
@@ -18,58 +19,46 @@ include "topheader.php";
 
 <!-- Nội dung chính -->
 <div class="content">
-  <div class="container-fluid">
-    <form action="" method="post" enctype="multipart/form-data">
-      <!-- Nội dung form sản phẩm của bạn -->
-    </form>
-  </div>
-</div>
+    <div class="container-fluid">
+      <!-- your content here -->
+      <div class="col-md-14">
+        <div class="card ">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Hóa đơn <?php echo $page;?> </h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive ps">
+              <table class="table table-hover tablesorter " id="">
+                <thead class=" text-primary">
+                  <tr><th>STT</th><th>Sản phẩm</th><th>SĐT / Email</th><th>Địa chỉ</th><th>Số lượng</th><th>Tổng tiền</th>
+                </tr></thead>
+                <tbody>
+    <?php
+    $con=OpenCon();
+    // Truy vấn dữ liệu từ bảng orders_info
+    $query = "SELECT * FROM orders_info";
+    $run = mysqli_query($con, $query);
 
-<div class="content">
-  <div class="container-fluid">
-    <!-- your content here -->
-    <div class="col-md-14">
-      <div class="card ">
-        <div class="card-header card-header-primary">
-          <h4 class="card-title">Hóa đơn <?php echo $page; ?> </h4>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive ps">
-            <table class="table table-hover tablesorter " id="">
-              <thead class=" text-primary">
-                <tr>
-                  <th>STT</th>
-                  <th>Sản phẩm</th>
-                  <th>SĐT / Email</th>
-                  <th>Địa chỉ</th>
-                  <th>Số lượng</th>
-                  <th>Tổng tiền</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php
-                // Truy vấn dữ liệu từ bảng orders_info
-                $query = "SELECT * FROM orders_info";
-                $run = mysqli_query($con, $query);
-
-                // Kiểm tra nếu có dữ liệu
-                if (mysqli_num_rows($run) > 0) {
-                  // Duyệt qua từng đơn hàng
-                  while ($row = mysqli_fetch_assoc($run)) {
-                    $order_id = $row['order_id'];
-                    $email = $row['email'];
-                    $address = $row['address'];
-                    $total_amount = $row['total_amt'];
-                    $user_id = $row['user_id'];
-                    $qty = $row['prod_count'];
-                ?>
-                    <tr>
-                      <td><?php echo htmlspecialchars($order_id); ?></td>
-                      <td>
-                        <?php
-                        // Truy vấn sản phẩm liên quan đến đơn hàng
-                        $query1 = "SELECT product_id FROM order_products WHERE order_id = $order_id";
-                        $run1 = mysqli_query($con, $query1);
+    // Kiểm tra nếu có dữ liệu
+    if (mysqli_num_rows($run) > 0) {
+        // Duyệt qua từng đơn hàng
+        while ($row = mysqli_fetch_assoc($run))
+        {
+            $order_id = $row['order_id'];
+            $email = $row['email'];
+            $address = $row['address'];
+            $total_amount = $row['total_amt'];
+            $user_id = $row['user_id'];
+            $qty = $row['prod_count'];
+    ?>
+            <tr>
+                <td><?php echo htmlspecialchars($order_id); ?></td>
+                <td>
+                    <?php
+                    $con=OpenCon();
+                    // Truy vấn sản phẩm liên quan đến đơn hàng
+                    $query1 = "SELECT product_id FROM order_products WHERE order_id = $order_id";
+                    $run1 = mysqli_query($con, $query1);
 
                         // Duyệt qua các sản phẩm trong đơn hàng và hiển thị tên sản phẩm
                         while ($row1 = mysqli_fetch_assoc($run1)) {
@@ -85,21 +74,23 @@ include "topheader.php";
                             echo htmlspecialchars($product_title) . "<br>";
                           }
                         }
-                        ?>
-                      </td>
-                      <td><?php echo htmlspecialchars($email); ?></td>
-                      <td><?php echo htmlspecialchars($address); ?></td>
-                      <td><?php echo htmlspecialchars($qty); ?></td>
-                      <td><?php echo htmlspecialchars($total_amount); ?></td>
-                    </tr>
-                <?php
-                  }
-                } else {
-                  // Nếu không có dữ liệu
-                  echo "<center><h2>Không có thành viên</h2><br><hr></center>";
-                }
-                ?>
-              </tbody>
+                    }
+                    ?>
+                </td>
+                <td><?php echo htmlspecialchars($email); ?></td>
+                <td><?php echo htmlspecialchars($address); ?></td>
+                <td><?php echo htmlspecialchars($qty); ?></td>
+                <td><?php echo htmlspecialchars($total_amount); ?></td>
+            </tr>
+    <?php
+        }
+    } else {
+        // Nếu không có dữ liệu
+        echo "<center><h2>Không có thành viên</h2><br><hr></center>";
+    }
+    CloseCon($con);
+    ?>
+</tbody>
 
             </table>
 

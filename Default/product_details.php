@@ -41,7 +41,6 @@ include "header.php";
       <p class="description">
         Laptop thế hệ mới mang đam mê của bạn bắt nhịp với lối sống năng động. Dù là làm việc hay sử dụng trên giảng đường...
       </p>
-
       <div class="product-options">
         <div class="option">
           <label for="storage">Ổ Cứng:</label>
@@ -72,7 +71,6 @@ include "header.php";
           >
             <button class="add-wishlist-btn"><i class="fa-regular fa-heart"></i>Thêm vào yêu thích</button>
           </div>
-
           <div id="add-to-cart" class="add-to-cart" 
             pid="' . intval($product['product_id']) . '"
             token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '"

@@ -1,15 +1,15 @@
 <?php
-
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
- }
+session_start();
 include "../Database/db_connection.php";
 
 include "sidenav.php";
-// include "activitity.php";
-$con = OpenCon();
+include "topheader.php";
+include "activitity.php";
+$con=OpenCon();
 function fetchData($con, $sql, $params = [])
 {
+    
+    $con=OpenCon();
     $stmt = $con->prepare($sql);
     if (!empty($params)) {
         $types = str_repeat("s", count($params)); 
