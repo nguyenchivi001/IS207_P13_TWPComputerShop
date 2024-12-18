@@ -55,7 +55,6 @@ CloseCon($con);
                                     <th>Mật khẩu</th>
                                     <th>SĐT</th>
                                     <th>Địa chỉ</th>
-                                    <th>Thành phố</th>
                                 </tr>
                             </thead>
                             <tbody>
