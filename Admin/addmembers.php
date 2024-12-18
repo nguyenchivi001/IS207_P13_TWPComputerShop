@@ -22,6 +22,7 @@ $con=OpenCon();
         $stmt = $con->prepare("INSERT INTO admin_info (admin_name, admin_email, admin_password, role) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $admin_name, $email, $hashed_password, $role);
 
+
         if ($stmt->execute()) {
             echo "<script>alert('nhân viên mới đã được thêm thành công!');</script>";
         } else {

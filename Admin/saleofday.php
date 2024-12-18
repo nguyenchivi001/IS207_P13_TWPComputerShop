@@ -6,29 +6,18 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 error_reporting(0);
 ///pagination
-$page=$_GET['page'];
+$page = $_GET['page'];
 
-if($page=="" || $page=="1")
-{
-$page1=0; 
-}
-else
-{
-$page1=($page*10)-10; 
+if ($page == "" || $page == "1") {
+  $page1 = 0;
+} else {
+  $page1 = ($page * 10) - 10;
 }
 include "sidenav.php";
 include "topheader.php";
 ?>
-  
-    <!-- Nội dung chính -->
-    <div class="content">
-      <div class="container-fluid">
-        <form action="" method="post" enctype="multipart/form-data">
-          <!-- Nội dung form sản phẩm của bạn -->
-        </form>
-      </div>
-    </div>
 
+<!-- Nội dung chính -->
 <div class="content">
     <div class="container-fluid">
       <!-- your content here -->
@@ -71,18 +60,19 @@ include "topheader.php";
                     $query1 = "SELECT product_id FROM order_products WHERE order_id = $order_id";
                     $run1 = mysqli_query($con, $query1);
 
-                    // Duyệt qua các sản phẩm trong đơn hàng và hiển thị tên sản phẩm
-                    while ($row1 = mysqli_fetch_assoc($run1)) {
-                        $product_id = $row1['product_id'];
+                        // Duyệt qua các sản phẩm trong đơn hàng và hiển thị tên sản phẩm
+                        while ($row1 = mysqli_fetch_assoc($run1)) {
+                          $product_id = $row1['product_id'];
 
-                        // Truy vấn thông tin sản phẩm
-                        $query2 = "SELECT product_title FROM products WHERE product_id = $product_id";
-                        $run2 = mysqli_query($con, $query2);
+                          // Truy vấn thông tin sản phẩm
+                          $query2 = "SELECT product_title FROM products WHERE product_id = $product_id";
+                          $run2 = mysqli_query($con, $query2);
 
-                        // Hiển thị tên sản phẩm
-                        while ($row2 = mysqli_fetch_assoc($run2)) {
+                          // Hiển thị tên sản phẩm
+                          while ($row2 = mysqli_fetch_assoc($run2)) {
                             $product_title = $row2['product_title'];
                             echo htmlspecialchars($product_title) . "<br>";
+                          }
                         }
                     }
                     ?>
@@ -102,15 +92,21 @@ include "topheader.php";
     ?>
 </tbody>
 
-              </table>
-              
-            <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></div>
+            </table>
+
+            <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+              <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+            </div>
+            <div class="ps__rail-y" style="top: 0px; right: 0px;">
+              <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+            </div>
           </div>
         </div>
       </div>
-      
     </div>
+
   </div>
- <?php
+</div>
+<?php
 include "footer.php";
 ?>

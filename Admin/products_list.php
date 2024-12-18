@@ -3,6 +3,9 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 include "../Database/db_connection.php";
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 error_reporting(0);
 if(isset($_GET['action']) && $_GET['action']!="" && $_GET['action']=='delete')
 {
