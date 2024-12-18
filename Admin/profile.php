@@ -1,6 +1,11 @@
 <?php
 session_start();
 include "../Database/db_connection.php";
+=======
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+  }
+
 
  if (!isset($_SESSION['admin_name'])) {
      header("Location: login.php");

@@ -1,38 +1,43 @@
 <?php
 if (session_status() == PHP_SESSION_NONE) {
-  session_start();
-}
-
+    session_start();
+  }
 include "../Database/db_connection.php";
 
-// Xóa thành viên nếu có yêu cầu
-if (isset($_GET['action']) && $_GET['action'] == 'delete') {
-    $user_id = intval($_GET['user_id']); // Đảm bảo $user_id là số nguyên
-$con = OpenCon(); // Sử dụng hàm OpenCon từ db.php
+// Mở kết nối
+$con = OpenCon();
 
 // Kiểm tra kết nối
 if (!$con) {
     die("Không thể kết nối đến cơ sở dữ liệu.");
 }
-  // Sử dụng Prepared Statement để xóa dữ liệu
-  $stmt = $con->prepare("DELETE FROM user_info WHERE user_id = ?");
-  if ($stmt) {
-      $stmt->bind_param("i", $user_id);
 
-      if ($stmt->execute()) {
-          echo "<script>alert('Xóa thành viên thành công!');</script>";
-      } else {
-          echo "<script>alert('Không thể xóa thành viên. Vui lòng thử lại sau!');</script>";
-      }
+// Xóa thành viên nếu có yêu cầu
+if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+    $user_id = intval($_GET['user_id']); // Đảm bảo $user_id là số nguyên
 
-      $stmt->close();
-  } else {
-      echo "<script>alert('Có lỗi xảy ra trong truy vấn SQL.');</script>";
-  }
-  CloseCon($con);
+    // Sử dụng Prepared Statement để xóa dữ liệu
+    $stmt = $con->prepare("DELETE FROM user_info WHERE user_id = ?");
+    if ($stmt) {
+        $stmt->bind_param("i", $user_id);
+
+
+        if ($stmt->execute()) {
+            echo "<script>alert('Xóa thành viên thành công!');</script>";
+        } else {
+            echo "<script>alert('Không thể xóa thành viên. Vui lòng thử lại sau!');</script>";
+        }
+
+        $stmt->close();
+    } else {
+        echo "<script>alert('Có lỗi xảy ra trong truy vấn SQL.');</script>";
+    }
 }
+
+CloseCon($con);
+
 include "sidenav.php";
-include "topheader.php";
+// include "topheader.php";
 ?>
 
 <!-- Giao diện Quản lý Thành viên -->
@@ -100,6 +105,7 @@ include "topheader.php";
                                
                                CloseCon($con);
                                ?>
+
                             </tbody>
                         </table>
                         <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
@@ -114,6 +120,3 @@ include "topheader.php";
         </div>
     </div>
 </div>
-<?php
-include "footer.php";
-?>

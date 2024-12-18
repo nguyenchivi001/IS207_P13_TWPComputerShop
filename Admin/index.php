@@ -60,6 +60,7 @@ CloseCon($con);
                             </thead>
                             <tbody>
                                 <?php
+                                $con = OpenCon();
                                 $result = fetchData($con, "SELECT * FROM user_info");
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {
@@ -76,6 +77,7 @@ CloseCon($con);
                                 } else {
                                     echo "<tr><td colspan='8' class='text-center'>Không có dữ liệu</td></tr>";
                                 }
+                                CloseCon($con);
                                 ?>
                             </tbody>
                         </table>
