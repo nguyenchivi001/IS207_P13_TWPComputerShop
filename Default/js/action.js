@@ -142,3 +142,35 @@ async function changePassword(oldpass, newpass, token) {
         console.error(e);
     }
 }
+
+async function addPayment(data, token) {
+    try {
+        const response = await fetch('./Control/add_payment.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                fullname: data.fullname,
+                email: data.email,
+                address: data.address,
+                city: data.city,
+                zip: data.zip,
+                cardname: data.cardname,
+                cardNumber: data.cardNumber,
+                expdate: data.expdate,
+                cvv: data.cvv,
+                csrf_token: token
+            })
+        })
+        const result = await response.json();     
+        if (result.success) {
+            alert("Thêm thông tin thanh toán thành công");
+            location.reload();    
+        } else {
+            alert("Có lỗi xảy ra: " + result.message);
+            location.reload();
+            console.log("failed", result);
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}

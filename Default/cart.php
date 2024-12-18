@@ -56,6 +56,7 @@ require './header.php';
                     $item->p_img = $product_information[6];
                     $total_price_for_all_products += $item->p_price * $item->qty;
                     array_push($information_will_show, $item);
+                    $_SESSION['total_price'] = $total_price_for_all_products;
                   }
                   if (sizeof($information_will_show) > 0) {
                     foreach ($information_will_show as $item) {
