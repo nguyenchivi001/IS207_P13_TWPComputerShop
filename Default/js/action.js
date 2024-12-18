@@ -122,3 +122,23 @@ async function updateCart(cid, qty, token) {
     }
 }
 
+async function changePassword(oldpass, newpass, token) {
+    try {
+        const response = await fetch('./Control/change_password.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ old_password: oldpass, new_password: newpass, csrf_token: token })
+        })
+        const result = await response.json();     
+        if (result.success) {
+            alert("Mật khẩu đã được thay đổi thành công.");
+            location.reload();    
+        } else {
+            alert("Mật khẩu không đúng hoặc mật khẩu mới không hợp lệ.");
+            location.reload();
+            console.log("failed", result);
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}

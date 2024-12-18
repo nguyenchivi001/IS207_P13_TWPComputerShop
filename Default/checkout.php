@@ -1,11 +1,23 @@
+<?php 
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
+if (!isset($_SESSION['uid'])) {
+  header("Location: ./signin.php");
+}
+if (empty($_SESSION['csrf_token'])) {
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+require './header.php';
+?>
 <section class="section" id="checkout-section">
-	<div class="container">
+	<div class="container p-2">
 		<div class="row-checkout rounded">
 			<div class="col-100">
 				<form id="checkout_form text-color">
 					<div class="row-checkout">
 					<div class="checkout-col p-2">
-						<h3>Địa chỉ thanh toán</h3>
+						<h3>Địa chỉ giao hàng</h3>
 						<label for="fname" class="mt-2"><i class="fa fa-user" ></i> Tên đầy đủ</label>
 						<input type="text" id="fname" class="form-control w-100" name="firstname" pattern="^[a-zA-Z ]+$">
 						<label for="email" class="mt-2"><i class="fa fa-envelope"></i> Email</label>
@@ -18,7 +30,7 @@
                         <input type="text" id="zip" name="zip" class="form-control" pattern="^[0-9]{6}(?:-[0-9]{4})?$" required>
 					</div>
 					<div class="checkout-col p-2">
-						<h3>Payment</h3>
+						<h3>Thanh toán</h3>
 						<label for="fname" class="mt-2">Thẻ được chấp nhận</label>
 						<div class="icon-container">
                         <i class="fa-brands fa-cc-paypal fa-2x" style="color: navy;"></i>
@@ -40,17 +52,15 @@
 					</div>
 					</div>
                     <div class="d-flex justify-content-between align-items-center p-2">
-                        <label class="block">
-                            <input type="checkbox" class="roomselect" required> Địa chỉ giao hàng giống như địa chỉ thanh toán
-                        </label>
                         <button class="btn btn-success">Thanh toán</button>
                     </div>		
 				</form>	
                 <h3 class="block p-4">
                     Tổng tiền:
-                    <span><b>2000000VNĐ</b></span>
+                    <span><b></b></span>
                 </h3>
             </div>
 		</div>
 	</div>
 </section>
+<?php require './footer.html'?>

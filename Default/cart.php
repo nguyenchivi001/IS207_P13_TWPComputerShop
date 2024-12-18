@@ -128,7 +128,7 @@ require './header.php';
                     echo '
                     <td class="hidden-xs text-center"><b class="text-color">Tổng tiền: '. htmlspecialchars($total_price_for_all_products) .'</b></td>
                     <td>   
-                      <a href="#" class="btn btn-success">Thanh toán</a>
+                      <a id="checkout-btn" class="btn btn-success">Thanh toán</a>
                     </td>
                     ';
                   } else {
@@ -181,6 +181,8 @@ require './header.php';
         }
     });
   });
-  
+  document.getElementById('checkout-btn').addEventListener('click', () => {
+    document.location.href = './checkout.php';
+  })
 </script>
 <?php require './footer.html'?>
