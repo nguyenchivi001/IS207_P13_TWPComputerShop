@@ -1,8 +1,6 @@
 <?php 
-include "../Database/db_connection.php";
-
-$con=OpenCon();
 function countRows($con, $table) {
+    $con=OpenCon();
     $query = "SELECT COUNT(*) AS count FROM $table";
     $stmt = mysqli_prepare($con, $query);
     if ($stmt) {
@@ -12,9 +10,10 @@ function countRows($con, $table) {
         mysqli_stmt_close($stmt);
         return $count;
     }
+    CloseCon($con);
+
     return 0; 
 }
-CloseCon($con);
 ?>
 
 <div class="row" style="padding-top: 10vh;">
@@ -26,7 +25,11 @@ CloseCon($con);
                 </div>
                 <p class="card-category">Tổng thành viên</p>
                 <h3 class="card-title">
-                    <?php echo countRows($con, 'user_info'); ?>
+                    <?php 
+                    $con=OpenCon();
+                    echo countRows($con, 'user_info');
+                    CloseCon($con);
+                    ?>
                 </h3>
             </div>
         </div>
@@ -40,7 +43,11 @@ CloseCon($con);
                 </div>
                 <p class="card-category">Tổng phân loại</p>
                 <h3 class="card-title">
-                    <?php echo countRows($con, 'categories'); ?>
+                    <?php 
+                  $con=OpenCon();
+                    echo countRows($con, 'categories'); 
+                    CloseCon($con);
+                    ?>
                 </h3>
             </div>
         </div>
@@ -54,7 +61,11 @@ CloseCon($con);
                 </div>
                 <p class="card-category">Tổng khách mua</p>
                 <h3 class="card-title">
-                    <?php echo countRows($con, 'user_info'); ?>
+                    <?php 
+                    $con=OpenCon();
+                    echo countRows($con, 'user_info');
+                    CloseCon($con);
+                    ?>
                 </h3>
             </div>
         </div>
@@ -68,7 +79,11 @@ CloseCon($con);
                 </div>
                 <p class="card-category">Tổng hóa đơn</p>
                 <h3 class="card-title">
-                    <?php echo countRows($con, 'orders_info'); ?>
+                    <?php 
+                    $con=OpenCon();
+                    echo countRows($con, 'orders_info'); 
+                    CloseCon($con);
+                    ?>
                 </h3>
             </div>
         </div>

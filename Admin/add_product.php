@@ -28,7 +28,7 @@ if (isset($_POST['btn_save'])) {
         if ($picture_size <= 50000000) {
             // Tạo tên file duy nhất cho ảnh
             $pic_name = time() . "_" . $picture_name;
-            move_uploaded_file($picture_tmp_name, "../product_images/" . $pic_name);
+            move_uploaded_file($picture_tmp_name, "../Assets/product_images/".$pic_name);
             $con=OpenCon();
                  // Sử dụng prepared statements để tránh SQL injection
             $stmt = $con->prepare("INSERT INTO products (product_cat, product_brand, product_title, product_price, product_desc, product_image, product_keywords) VALUES (?, ?, ?, ?, ?, ?, ?)");

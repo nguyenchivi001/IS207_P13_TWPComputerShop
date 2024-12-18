@@ -43,6 +43,7 @@ try {
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
             $_SESSION['admin_id'] = $admin['admin_id'];
             $_SESSION['admin_name'] = $admin['admin_name'];
+            $_SESSION['role']=$admin['role'];
 
             echo json_encode(["success" => true]);
         } else {

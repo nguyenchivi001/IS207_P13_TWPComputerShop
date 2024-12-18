@@ -1,12 +1,12 @@
 <?php
 session_start();
-include "../Database/db.php";
+include "../Database/db_connection.php";
 
 $product_id = $_REQUEST['product_id'] ?? 0;
 if (!is_numeric($product_id)) {
     die("Invalid product ID");
 }
-
+$con=OpenCon();
 // Lấy thông tin sản phẩm hiện tại
 $stmt = $con->prepare("SELECT `product_id`, `product_cat`, `product_brand`, `product_title`, `product_price`, `product_desc`, `product_image`, `product_keywords` FROM `products` WHERE `product_id` = ?");
 $stmt->bind_param("i", $product_id);
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_save'])) {
 
         if (in_array($picture_type, $allowed_types) && $picture_size <= 5000000) {
             $safe_name = time() . "_" . basename($_FILES['picture']['name']);
-            $upload_path = "../../product_images/" . $safe_name;
+            $upload_path = "../Assets/product_images/" . $safe_name;
 
             if (move_uploaded_file($picture_tmp_name, $upload_path)) {
                 $pic_name = $safe_name; // Cập nhật tên tệp nếu tải lên thành công
@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn_save'])) {
     } else {
         die("Error updating product.");
     }
+    CloseCon($con);
 }
 
 include "sidenav.php";
@@ -81,11 +82,11 @@ include "topheader.php";
                                 </div>
 
                                 <div class="col-md-4">
-                                    <img src='<?= "../../product_images/" . htmlspecialchars($pic_name); ?>' style='width:50px; height:50px; border:groove #000'>
-                                    <div>
-                                        <label for="">Thêm ảnh</label>
-                                        <input type="file" name="picture" class="btn btn-fill btn-success">
-                                    </div>
+                    <img src='<?php echo "../Assets/product_images/".$pic_name?>' style='width:50px; height:50px; border:groove #000'>
+                      <div class="">
+                        <label for="">Thêm ảnh</label>
+                        <input type="file" name="picture"  class="btn btn-fill btn-success" value="<?php echo "../Assets/product_images/".$pic_name?>" id="picture" >
+                      </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -117,11 +118,13 @@ include "topheader.php";
                                         <select id="product_type" name="product_type" required class="form-control">
                                             <option value="" style="color:black;">Chọn phân loại</option>
                                             <?php
+                                            $con=OpenCon();
                                             $result1 = $con->query("SELECT `cat_id`, `cat_title` FROM `categories` ORDER BY `cat_id` ASC");
                                             while ($row = $result1->fetch_assoc()) {
                                                 $selected = $row['cat_id'] == $product_type ? "selected" : "";
                                                 echo "<option value='{$row['cat_id']}' style='color:black;' $selected>{$row['cat_title']}</option>";
                                             }
+                                            CloseCon($con);
                                             ?>
                                         </select>
                                     </div>
@@ -132,11 +135,13 @@ include "topheader.php";
                                         <select id="brand" name="brand" required class="form-control">
                                             <option value="" style="color:black;">Chọn hãng</option>
                                             <?php
+                                            $con=OpenCon();
                                             $result2 = $con->query("SELECT `brand_id`, `brand_title` FROM `brands`");
                                             while ($row = $result2->fetch_assoc()) {
                                                 $selected = $row['brand_id'] == $brand ? "selected" : "";
                                                 echo "<option value='{$row['brand_id']}' style='color:black;' $selected>{$row['brand_title']}</option>";
                                             }
+                                            CloseCon($con);
                                             ?>
                                         </select>
                                     </div>

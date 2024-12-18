@@ -1,3 +1,14 @@
+<?php
+if (isset($_GET['logout']) && $_GET['logout'] == '1') {
+    // Hủy session và đăng xuất
+    session_unset();   // Hủy tất cả biến session
+    session_destroy(); // Hủy session
+    
+    // Sau khi logout, chuyển hướng người dùng đến trang login
+    header("Location: login.php");
+    exit();  // Dừng script sau khi header đã chuyển hướng
+}
+?>
 <div>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top" id="navigation-example">
@@ -16,7 +27,7 @@
             <div class="collapse navbar-collapse justify-content-end">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="?logout='1'"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                    <a href="?logout=1"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                     </li>
                 </ul>
             </div>

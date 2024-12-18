@@ -37,6 +37,10 @@ try {
         'product_title' => $product['product_title'],
         'product_price' => $product['product_price'],
         'product_image' => $product['product_image'],
+        'product_brand' => $product['product_brand'],
+        'product_cat' => $product['product_cat'],
+        'product_desc' => $product['product_desc'],
+        'product_keywords' => $product['product_keywords'],
     ];
     echo json_encode(["success" => true, "message" => "success"]);
   } else {
