@@ -56,6 +56,7 @@ require './header.php';
                     $item->p_img = $product_information[6];
                     $total_price_for_all_products += $item->p_price * $item->qty;
                     array_push($information_will_show, $item);
+                    $_SESSION['total_price'] = $total_price_for_all_products;
                   }
                   if (sizeof($information_will_show) > 0) {
                     foreach ($information_will_show as $item) {
@@ -82,6 +83,7 @@ require './header.php';
                                   <a 
                                     class="btn update-btn update-cart-item"
                                     cid="' . htmlspecialchars($item->id) . '" 
+                                    pid="' . htmlspecialchars($item->p_id) . '" 
                                     token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '">
                                     <i class="fa fa-refresh"></i>
                                   </a>
@@ -128,7 +130,7 @@ require './header.php';
                     echo '
                     <td class="hidden-xs text-center"><b class="text-color">Tổng tiền: '. htmlspecialchars($total_price_for_all_products) .'</b></td>
                     <td>   
-                      <a href="#" class="btn btn-success">Thanh toán</a>
+                      <a id="checkout-btn" class="btn btn-success">Thanh toán</a>
                     </td>
                     ';
                   } else {
@@ -176,11 +178,14 @@ require './header.php';
         const quantityInput = button.closest('tr').querySelector('input[name="quantity"]');
         const quantity = quantityInput.value;
         const quantityInt = parseInt(quantity, 10);
+        const pid = button.getAttribute('pid');
         if (confirm('Bạn có chắc chắn muốn cập nhật số lượng sản phẩm này?')) {
-          updateCart(id, quantityInt, csrfToken);
+          updateCart(id, quantityInt, csrfToken, pid);
         }
     });
   });
-  
+  document.getElementById('checkout-btn').addEventListener('click', () => {
+    document.location.href = './checkout.php';
+  })
 </script>
 <?php require './footer.html'?>

@@ -78,14 +78,13 @@ include "topheader.php";
                     ?>
                 </td>
                 <td><?php echo htmlspecialchars($email); ?></td>
-                <td><?php echo htmlspecialchars($address); ?></td>
+<td><?php echo htmlspecialchars($address); ?></td>
                 <td><?php echo htmlspecialchars($qty); ?></td>
                 <td><?php echo htmlspecialchars($total_amount); ?></td>
             </tr>
     <?php
         }
-    } else {
-        // Nếu không có dữ liệu
+    else {
         echo "<center><h2>Không có thành viên</h2><br><hr></center>";
     }
     CloseCon($con);
