@@ -248,7 +248,8 @@ CREATE TABLE `products` (
   `product_price` int(100) NOT NULL,
   `product_desc` text NOT NULL,
   `product_image` text NOT NULL,
-  `product_keywords` text NOT NULL
+  `product_keywords` text NOT NULL,
+  `quantity` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --

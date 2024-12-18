@@ -35,6 +35,21 @@ try {
     $check_stmt->bind_param("ii", $pid, $_SESSION['uid']);
     $check_stmt->execute();
     $result = $check_stmt->get_result();
+
+    $inventory_query = "SELECT quantity FROM products WHERE product_id = ?";
+    $inventory_stmt = $conn->prepare($inventory_query);
+    $inventory_stmt->bind_param("i", $pid);
+    $inventory_stmt->execute();
+    $inventory_result = $inventory_stmt->get_result();
+
+    if ($inventory_result->num_rows > 0) {
+        $inventory = $inventory_result->fetch_assoc();
+        $quantity = $inventory['quantity'];
+        if ($quantity < $qty) {
+            echo json_encode(["success" => false, "message" => "Sản phẩm đã hết hàng"]);
+            exit;
+        }
+    }
     
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();

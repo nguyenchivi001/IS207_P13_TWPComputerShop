@@ -97,7 +97,7 @@ async function ShowProductDetails(productId, token) {
     }
 }
 
-async function updateCart(cid, qty, token) {
+async function updateCart(cid, qty, token, pid) {
     try {
         if (qty < 0) {
             alert("Số lượng không hợp lệ.");
@@ -105,7 +105,7 @@ async function updateCart(cid, qty, token) {
             const response = await fetch('./Control/update_cart.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ c_id: cid, quantity: qty, csrf_token: token })
+                body: JSON.stringify({ c_id: cid, quantity: qty, csrf_token: token, product_id: pid })
             })
             const result = await response.json();     
             if (result.success) {

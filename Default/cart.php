@@ -82,6 +82,7 @@ require './header.php';
                                   <a 
                                     class="btn update-btn update-cart-item"
                                     cid="' . htmlspecialchars($item->id) . '" 
+                                    pid="' . htmlspecialchars($item->p_id) . '" 
                                     token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '">
                                     <i class="fa fa-refresh"></i>
                                   </a>
@@ -176,8 +177,9 @@ require './header.php';
         const quantityInput = button.closest('tr').querySelector('input[name="quantity"]');
         const quantity = quantityInput.value;
         const quantityInt = parseInt(quantity, 10);
+        const pid = button.getAttribute('pid');
         if (confirm('Bạn có chắc chắn muốn cập nhật số lượng sản phẩm này?')) {
-          updateCart(id, quantityInt, csrfToken);
+          updateCart(id, quantityInt, csrfToken, pid);
         }
     });
   });
