@@ -8,11 +8,11 @@ async function addToCart(productId, quantity, token) {
         const result = await response.json();    
         if (result.success) {
             console.log("success");
-            confirm('Thêm thành công');
+            alert('Thêm thành công');
             location.reload();  
         } else {
             console.log(result);
-            confirm('Thêm không thành công');
+            alert("Có lỗi xảy ra: " + result.message);
             location.reload();
         }
     } catch (e) {

@@ -80,7 +80,7 @@ try {
         echo json_encode(["success" => true, "message" => "success"]);
     }
 } catch (Exception $e) {
-    echo json_encode(["success" => false, "message" => "Đã xảy ra lỗi hệ thống."]);
+    echo json_encode(["success" => false, "message" => $e->getMessage()]);
 }
 CloseCon($conn);
 ?>
