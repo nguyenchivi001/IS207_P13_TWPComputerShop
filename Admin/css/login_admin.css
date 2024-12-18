@@ -9,15 +9,15 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #36D1DC ;
+    background-color: #EAF3FE ;
     font-family: Arial, sans-serif;
 }
 
 .container {
     display: flex;
-    background-color: #fff;
+    background-color: #EAF3FE;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); */
     overflow: hidden;
     width: 100%;
     max-width: 900px;
@@ -26,7 +26,7 @@ body {
 }
 
 .logo {
-    background-color: #FFC0CB;
+    background-color: #1E3E62;
     color: #fff;
     padding: 20px;
     text-align: center;
@@ -56,6 +56,10 @@ body {
     flex-direction: column; 
     justify-content: center; 
     align-items: center;
+}
+
+.login-card{
+    background-color: #fff;
 }
 
 .login-form h2, .login-form p, .login-form form {

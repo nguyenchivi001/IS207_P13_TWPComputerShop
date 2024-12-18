@@ -50,7 +50,7 @@ try {
             echo json_encode(["success" => false, "message" => "Sai tên đăng nhập hoặc mật khẩu"]);
         }
     } else {
-        echo json_encode(["success" => false, "message" => "Invalid login credentials."]);
+        echo json_encode(["success" => false, "message" => "Sai thông tin đăng nhập"]);
     }
 
     $stmt->close();

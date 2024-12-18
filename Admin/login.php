@@ -18,7 +18,7 @@ if (empty($_SESSION['csrf_token'])) {
 <body>
     <div class="container d-flex align-items-center justify-content-center vh-100">
         <div class="login-card p-4 shadow rounded">
-            <div class="logo text-center mb-4">
+            <div class="logo text-center mb-4 rounded">
                 <img src="../Assets/img/logo.png" alt="Logo" class="mb-2">
                 <h1>Admin | TWP Computer Shop</h1>
             </div>
