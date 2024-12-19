@@ -31,7 +31,7 @@ require './header.php';
                 try {
                   $conn = OpenCon();
                   $query_products = "SELECT id, p_id, qty FROM cart WHERE user_id = ?";
-                  $query_prpduct_information = "SELECT * FROM products WHERE product_id = ?";
+                  $query_product_information = "SELECT * FROM products WHERE product_id = ?";
                   $stmt_products = $conn->prepare($query_products);
 
                   $stmt_products->bind_param("i", $_SESSION['uid']);
@@ -41,7 +41,7 @@ require './header.php';
                   $information_will_show = [];  
 
                   while ($p = $result_products->fetch_assoc()) {
-                    $stmt_prpduct_information = $conn->prepare($query_prpduct_information);
+                    $stmt_prpduct_information = $conn->prepare($query_product_information);
                     $stmt_prpduct_information->bind_param("i", $p['p_id']);
                     $stmt_prpduct_information->execute();
                     $result_prpduct_information = $stmt_prpduct_information->get_result();
@@ -65,7 +65,7 @@ require './header.php';
                           <td>
                               <div class="row">
                                   <div class="col-lg-6 product-line overflow-auto">
-                                      <img class="w-50" src="../Assets/img/product_images/'. htmlspecialchars($item->p_img) .'"/>
+                                      <img class="w-50" src="../Assets/product_images/'. htmlspecialchars($item->p_img) .'"/>
                                       <h4><a href="#" class="text-color">' . htmlspecialchars($item->p_title) . '</a></h4>
                                   </div>
                                   <div class="col-lg-6 product-line overflow-auto">
