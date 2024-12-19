@@ -328,7 +328,7 @@ ALTER TABLE `orders`
 -- Indexes for table `orders_info`
 --
 ALTER TABLE `orders_info`
-  ADD PRIMARY KEY (`order_info_id`),
+  ADD PRIMARY KEY (`order_info_id`);
 
 
 --
