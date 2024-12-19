@@ -60,7 +60,7 @@ try {
     $stmt->close();
     echo json_encode(["success" => true, "message" => "Đăng ký thành công"]);
 } catch (Exception $e) {
-    echo json_encode(["success" => false, "message" => "Đã xảy ra lỗi hệ thống."]);
+    echo json_encode(["success" => false, "message" => $e->getMessage()]);
 }
 CloseCon($conn);
 ?>
