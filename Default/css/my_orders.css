@@ -3,6 +3,7 @@
   margin-top: 120px;
   position: relative;
   z-index: 10;
+  background-color: #fff;
 }
 
 .main-raised 
@@ -103,7 +104,6 @@ img {
 .cart .items {
   display: block;
   width: 100%;
-  vertical-align: middle;
   padding: 1.5em;
   border-bottom: 1px solid #fafafa;
 }
