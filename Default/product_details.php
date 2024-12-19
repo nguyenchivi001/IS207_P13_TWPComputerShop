@@ -252,10 +252,10 @@ include "header.php";
 
 <script>
   const add_To_Cart = document.getElementById("add-to-cart");
-  const quantity = document.getElementById("quantity").value;
   add_To_Cart.addEventListener('click', () => {
     const productId = add_To_Cart.getAttribute('pid');
     const csrfToken = add_To_Cart.getAttribute('token');
+    const quantity = document.getElementById("quantity").value;
     addToCart(productId, quantity, csrfToken);
   });
 

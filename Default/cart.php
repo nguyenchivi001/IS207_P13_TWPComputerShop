@@ -31,7 +31,7 @@ require './header.php';
                 try {
                   $conn = OpenCon();
                   $query_products = "SELECT id, p_id, qty FROM cart WHERE user_id = ?";
-                  $query_prpduct_information = "SELECT * FROM products WHERE product_id = ?";
+                  $query_product_information = "SELECT * FROM products WHERE product_id = ?";
                   $stmt_products = $conn->prepare($query_products);
 
                   $stmt_products->bind_param("i", $_SESSION['uid']);
@@ -41,7 +41,7 @@ require './header.php';
                   $information_will_show = [];  
 
                   while ($p = $result_products->fetch_assoc()) {
-                    $stmt_prpduct_information = $conn->prepare($query_prpduct_information);
+                    $stmt_prpduct_information = $conn->prepare($query_product_information);
                     $stmt_prpduct_information->bind_param("i", $p['p_id']);
                     $stmt_prpduct_information->execute();
                     $result_prpduct_information = $stmt_prpduct_information->get_result();
