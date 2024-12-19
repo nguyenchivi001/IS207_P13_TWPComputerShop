@@ -36,7 +36,7 @@ include "topheader.php";
     <?php
     $con=OpenCon();
     // Truy vấn dữ liệu từ bảng orders_info
-    $query = "SELECT * FROM orders_info";
+    $query = "SELECT * FROM orders";
     $run = mysqli_query($con, $query);
 
     // Kiểm tra nếu có dữ liệu
@@ -57,8 +57,8 @@ include "topheader.php";
                     <?php
                     $con=OpenCon();
                     // Truy vấn sản phẩm liên quan đến đơn hàng
-                    $get_id_query = "SELECT product_id FROM order_products WHERE order_id = $order_id";
-                    $run1 = mysqli_query($con, $get_id_query);
+                    $query1 = "SELECT product_id FROM orders_info WHERE order_id = $order_id";
+                    $run1 = mysqli_query($con, $query1);
 
                         // Duyệt qua các sản phẩm trong đơn hàng và hiển thị tên sản phẩm
                         while ($row1 = mysqli_fetch_assoc($run1)) {
@@ -86,7 +86,7 @@ include "topheader.php";
         }
     else {
         // Nếu không có dữ liệu
-        echo "<center><h2>Không có thành viên</h2><br><hr></center>";
+        echo "<center><h2>Không có dữ liệu hóa đơn</h2><br><hr></center>";
     }
     CloseCon($con);
     ?>

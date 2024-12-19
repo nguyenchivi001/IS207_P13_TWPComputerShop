@@ -183,9 +183,9 @@ function fetchData($con, $sql, $params = [])
 <?php 
     $con = OpenCon();
     $query = "SELECT SUM(amt) AS total_amout, cat_title 
-        FROM categories, products, order_products 
+        FROM categories, products, orders_info
         WHERE categories.cat_id = products.product_cat 
-        AND products.product_id = order_products.product_id 
+        AND products.product_id = orders_info.product_id 
         GROUP BY cat_title 
         ORDER BY total_amout DESC";
     $result = $con->query($query);
