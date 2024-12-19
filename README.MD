@@ -23,6 +23,11 @@ This is the figma design for home page of the website:
 
 ![Database](./Assets/img/usecase.png)
 
+## Technologies
+
+- HTML, CSS, JavaScript, Bootstrap, Chart.js
+- XAMPP
+
 ## Installation
 Clone the project and setting up database(phpmyadmin) via XAMPP. You can import database from `/Database/dbwebsite.sql`
 
