@@ -35,8 +35,8 @@ try {
         $user = $result->fetch_assoc();
         if (password_verify($oldpass, $user['password'])) {
             $hashedPassword = password_hash($newpass, PASSWORD_BCRYPT);
-            $query1 = "UPDATE user_info SET password = ? where user_id = ?";
-            $stmt1 = $conn->prepare($query1);
+            $get_id_query = "UPDATE user_info SET password = ? where user_id = ?";
+            $stmt1 = $conn->prepare($get_id_query);
             $stmt1->bind_param("si", $hashedPassword, $_SESSION['uid']);
             $stmt1->execute();
             $stmt1->execute();

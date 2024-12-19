@@ -63,8 +63,8 @@ try {
         echo json_encode(["success" => true, "message" => "Tăng số lượng sản phẩm trong giỏ hàng"]);
     } else {
 
-        $query1 = "SELECT MAX(id) FROM cart";
-        $result = $conn->query($query1);
+        $get_id_query = "SELECT MAX(id) FROM cart";
+        $result = $conn->query($get_id_query);
         $id = 1;
         // Check if the query was successful
         if ($result) {

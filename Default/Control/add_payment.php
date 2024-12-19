@@ -58,19 +58,12 @@ try {
         }
     }
 
-    $query1 = "SELECT MAX(order_id) FROM orders_info";
-    $result1 = $conn->query($query1);
-    $id = 1;
-    if ($result1) {
-        $row = $result1->fetch_row();
-        $id = $row ? $row[0] + 1 : 1;
-    }
-
-    $order_query = "INSERT INTO orders_info (`order_id`, `user_id`, `f_name`, `email`, `address`, `city`, `state`, `zip`, `cardname`, `cardnumber`, `expdate`, `prod_count`, `total_amt`, `cvv`)
+    $order_query = "INSERT INTO orders (`user_id`, `f_name`, `email`, `address`, `city`, `state`, `zip`, `cardname`, `cardnumber`, `expdate`, `prod_count`, `total_amt`, `cvv`, `p_status`)
                     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     $state = "Viet Nam";
+    $p_status="Uncomplete";
     $order_stmt = $conn->prepare($order_query);
-    $order_stmt->bind_param("iisssssssssiis", $id, $_SESSION['uid'], $fname, $email, $address, $city, $state, $zip, $cardname, $cardNumber, $expdate, $total_items, $_SESSION['total_price'], $cvv);
+    $order_stmt->bind_param("isssssssssiiss", $_SESSION['uid'], $fname, $email, $address, $city, $state, $zip, $cardname, $cardNumber, $expdate, $total_items, $_SESSION['total_price'], $cvv, $p_status);
     $order_stmt->execute();
     $order_stmt->close();
     
@@ -80,30 +73,28 @@ try {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    while ($row = $result->fetch_assoc()) {
-        $order_query1 = "INSERT INTO orders (`order_id`, `user_id`, `product_id`, `trx_id`, `qty`, p_status)
-                        VALUES (?,?,?,?,?,?)";
-        $trx_id="defaulf";
-        $p_status="Uncomplete";
+    $query1 = "SELECT MAX(order_id) FROM orders";
+    $result1 = $conn->query($query1);
+    if ($result1) {
+        $res = $result1->fetch_row();
+        $id = $res[0];
+    }
+
+    while ($row1 = $result->fetch_assoc()) {
+        $product_query = "SELECT * FROM products WHERE product_id = ?";
+        $product_stmt = $conn->prepare($product_query);
+        $product_stmt->bind_param("i", $row1['p_id']);
+        $product_stmt->execute();
+        $product_result = $product_stmt->get_result();
+        $product_row = $product_result->fetch_assoc();
+        $price = $product_row['product_price'] * $row1['qty'];
+
+        $order_query1 = "INSERT INTO orders_info (`order_id`, `product_id`, `qty`, `amt`)
+                        VALUES (?,?,?,?)";
         $order_stmt1 = $conn->prepare($order_query1);
-        $order_stmt1->bind_param("iiisis", $id , $_SESSION['uid'], $row['p_id'], $trx_id, $row['qty'], $p_status);
+        $order_stmt1->bind_param("iiii" , $id, $row1['p_id'], $row1['qty'], $price);
         $order_stmt1->execute();
         $order_stmt1->close();
-
-        $query2 = "SELECT MAX(order_pro_id) FROM order_products";
-        $result2 = $conn->query($query2);
-        $o_id = 1;
-        if ($result2) {
-            $row1 = $result2->fetch_row();
-            $o_id = $row1 ? $row1[0] + 1 : 1;
-        }
-
-        $order_prod_query = "INSERT INTO order_products (`order_pro_id`, `order_id`, `product_id`, `qty`, `amt`)
-                        VALUES (?,?,?,?,?)";
-        $order_prod_stmt = $conn->prepare($order_prod_query);
-        $order_prod_stmt->bind_param("iiiii", $o_id, $id,  $row['p_id'], $row['qty'], $_SESSION['total_price']);
-        $order_prod_stmt->execute();
-        $order_prod_stmt->close();
         
         $prod_query = "UPDATE products SET quantity = quantity - ? WHERE product_id = ?";
         $prod_stmt = $conn->prepare($prod_query);
