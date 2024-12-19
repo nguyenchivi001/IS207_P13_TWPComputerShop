@@ -65,7 +65,7 @@ require './header.php';
                           <td>
                               <div class="row">
                                   <div class="col-lg-6 product-line overflow-auto">
-                                      <img class="w-50" src="../Assets/img/product_images/'. htmlspecialchars($item->p_img) .'"/>
+                                      <img class="w-50" src="../Assets/product_images/'. htmlspecialchars($item->p_img) .'"/>
                                       <h4><a href="#" class="text-color">' . htmlspecialchars($item->p_title) . '</a></h4>
                                   </div>
                                   <div class="col-lg-6 product-line overflow-auto">
