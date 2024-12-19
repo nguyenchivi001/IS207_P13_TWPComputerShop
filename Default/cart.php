@@ -31,7 +31,7 @@ require './header.php';
                 try {
                   $conn = OpenCon();
                   $query_products = "SELECT id, p_id, qty FROM cart WHERE user_id = ?";
-                  $query_prpduct_information = "SELECT * FROM products WHERE product_id = ?";
+                  $query_product_information = "SELECT * FROM products WHERE product_id = ?";
                   $stmt_products = $conn->prepare($query_products);
 
                   $stmt_products->bind_param("i", $_SESSION['uid']);
@@ -41,7 +41,7 @@ require './header.php';
                   $information_will_show = [];  
 
                   while ($p = $result_products->fetch_assoc()) {
-                    $stmt_prpduct_information = $conn->prepare($query_prpduct_information);
+                    $stmt_prpduct_information = $conn->prepare($query_product_information);
                     $stmt_prpduct_information->bind_param("i", $p['p_id']);
                     $stmt_prpduct_information->execute();
                     $result_prpduct_information = $stmt_prpduct_information->get_result();
@@ -56,6 +56,7 @@ require './header.php';
                     $item->p_img = $product_information[6];
                     $total_price_for_all_products += $item->p_price * $item->qty;
                     array_push($information_will_show, $item);
+                    $_SESSION['total_price'] = $total_price_for_all_products;
                   }
                   if (sizeof($information_will_show) > 0) {
                     foreach ($information_will_show as $item) {
@@ -64,7 +65,7 @@ require './header.php';
                           <td>
                               <div class="row">
                                   <div class="col-lg-6 product-line overflow-auto">
-                                      <img class="w-50" src="../Assets/img/product_images/'. htmlspecialchars($item->p_img) .'"/>
+                                      <img class="w-50" src="../Assets/product_images/'. htmlspecialchars($item->p_img) .'"/>
                                       <h4><a href="#" class="text-color">' . htmlspecialchars($item->p_title) . '</a></h4>
                                   </div>
                                   <div class="col-lg-6 product-line overflow-auto">
@@ -82,6 +83,7 @@ require './header.php';
                                   <a 
                                     class="btn update-btn update-cart-item"
                                     cid="' . htmlspecialchars($item->id) . '" 
+                                    pid="' . htmlspecialchars($item->p_id) . '" 
                                     token="' . htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES) . '">
                                     <i class="fa fa-refresh"></i>
                                   </a>
@@ -128,7 +130,7 @@ require './header.php';
                     echo '
                     <td class="hidden-xs text-center"><b class="text-color">Tổng tiền: '. htmlspecialchars($total_price_for_all_products) .'</b></td>
                     <td>   
-                      <a href="#" class="btn btn-success">Thanh toán</a>
+                      <a id="checkout-btn" class="btn btn-success">Thanh toán</a>
                     </td>
                     ';
                   } else {
@@ -176,11 +178,14 @@ require './header.php';
         const quantityInput = button.closest('tr').querySelector('input[name="quantity"]');
         const quantity = quantityInput.value;
         const quantityInt = parseInt(quantity, 10);
+        const pid = button.getAttribute('pid');
         if (confirm('Bạn có chắc chắn muốn cập nhật số lượng sản phẩm này?')) {
-          updateCart(id, quantityInt, csrfToken);
+          updateCart(id, quantityInt, csrfToken, pid);
         }
     });
   });
-  
+  document.getElementById('checkout-btn').addEventListener('click', () => {
+    document.location.href = './checkout.php';
+  })
 </script>
 <?php require './footer.html'?>

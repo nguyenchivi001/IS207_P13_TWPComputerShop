@@ -61,7 +61,7 @@ include "../Database/db_connection.php";
                     </a>
                     <div class="dropdownmenu-content">
                         <li><a href="user_information.php"><i class="fa-solid fa-circle-user"></i> Thông tin cá nhân</a></li>
-                        <li><a href="#"><i class="fas fa-user-shield"></i> Đơn đặt hàng</a></li>
+                        <li><a href="my_orders.php"><i class="fas fa-user-shield"></i> Đơn đặt hàng</a></li>
                         <li><a href="./Control/logout.php"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a></li>
                     </div>
                   </div>

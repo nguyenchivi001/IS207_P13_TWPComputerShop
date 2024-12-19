@@ -1,14 +1,14 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 include "../Database/db_connection.php";
 
 include "sidenav.php";
 include "topheader.php";
 include "activitity.php";
-$con=OpenCon();
 function fetchData($con, $sql, $params = [])
 {
-    
     $con=OpenCon();
     $stmt = $con->prepare($sql);
     if (!empty($params)) {
@@ -18,7 +18,7 @@ function fetchData($con, $sql, $params = [])
     $stmt->execute();
     return $stmt->get_result();
 }
-CloseCon($con);
+
 ?>
 <!-- End Navbar -->
 <div class="content">
@@ -36,7 +36,19 @@ CloseCon($con);
             }
             ?>
         </div>
-
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title">Tổng quan doanh thu</h4>
+                </div>
+                <div class="card-body">
+                    <div id="chart">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    <button id="toggleChartType" class="btn btn-primary mt-3">Biểu đồ tròn</button>
+                </div>
+            </div>
+        </div>
         <!-- Danh sách thành viên -->
         <div class="col-md-12">
             <div class="card">
@@ -48,11 +60,11 @@ CloseCon($con);
                         <table class="table table-hover">
                             <thead class="text-primary">
                                 <tr>
-                                    <th>STT</th>
+                                    <th>ID</th>
                                     <th>Họ</th>
                                     <th>Tên</th>
                                     <th>Email</th>
-                                    <th>Mật khẩu</th>
+                                    <!-- <th>Mật khẩu</th> -->
                                     <th>SĐT</th>
                                     <th>Địa chỉ</th>
                                 </tr>
@@ -65,10 +77,10 @@ CloseCon($con);
                                     while ($row = $result->fetch_assoc()) {
                                         echo "<tr>
                                             <td>{$row['user_id']}</td>
-                                            <td>{$row['first_name']}</td>
                                             <td>{$row['last_name']}</td>
+                                            <td>{$row['first_name']}</td>
                                             <td>{$row['email']}</td>
-                                            <td>{$row['password']}</td>
+                                            <td>{$row['mobile']}</td>
                                             <td>{$row['address1']}</td>
                                             <td>{$row['address2']}</td>
                                         </tr>";
@@ -168,4 +180,137 @@ CloseCon($con);
         </div>
     </div>
 </div>
+<?php 
+    $con = OpenCon();
+    $query = "SELECT SUM(amt) AS total_amout, cat_title 
+        FROM categories, products, order_products 
+        WHERE categories.cat_id = products.product_cat 
+        AND products.product_id = order_products.product_id 
+        GROUP BY cat_title 
+        ORDER BY total_amout DESC";
+    $result = $con->query($query);
+    $data = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $data[] = [
+                'category' => $row["cat_title"],
+                'amount' => $row["total_amout"]
+            ];
+        }
+    }
+    $jsonData = json_encode($data);
+?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    try {
+        const phpData = <?php echo $jsonData; ?>;
 
+        if (!phpData || phpData.length === 0) {
+            console.warn("No data available for the chart.");
+            return;
+        }
+
+        const labels = phpData.map(item => item.category);
+        const amounts = phpData.map(item => item.amount);
+
+        const data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Doanh thu (VNĐ)",
+                    data: amounts,
+                    backgroundColor: "rgba(75, 192, 192, 0.2)",
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    borderWidth: 1
+                }
+            ]
+        };
+
+        const options = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "top"
+                },
+                title: {
+                    display: true,
+                    text: "Thống kê doanh thu theo danh mục sản phẩm"
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+
+        const ctx = document.getElementById("salesChart").getContext("2d");
+
+        // Initial chart configuration - bar chart
+        let chartType = "bar";
+        let chart = new Chart(ctx, {
+            type: chartType,
+            data: data,
+            options: options
+        });
+
+        const toggleButton = document.getElementById("toggleChartType");
+        toggleButton.addEventListener("click", function () {
+            chartType = chartType === "bar" ? "pie" : "bar";
+
+            if (chartType === "pie") {
+                document.getElementById("chart").style.width = "400px"; 
+                document.getElementById("chart").style.margin = "auto"; 
+
+                const colors = [
+                    "rgba(255, 159, 64, 0.6)", // Orange
+                    "rgba(255, 99, 132, 0.6)",  // Red
+                    "rgba(54, 162, 235, 0.6)",  // Blue
+                ];
+
+                const data = {
+                    labels: labels,
+                    datasets: [
+                        {
+                            data: amounts,
+                            backgroundColor: colors.slice(0, phpData.length),
+                            borderWidth: 1
+                        }
+                    ]
+                };
+    
+                const options = {
+                    title: {
+                        display: true,
+                        text: "Thống kê doanh thu theo danh mục sản phẩm"
+                    }
+                };
+                chart.destroy();
+    
+                chart = new Chart(ctx, {
+                    type: chartType,
+                    data: data,
+                    options: options
+                });
+                
+            } else {
+                document.getElementById("chart").style.width = "";
+                chart.destroy();
+    
+                chart = new Chart(ctx, {
+                    type: chartType,
+                    data: data,
+                    options: options
+                });
+            }
+
+            // Update button text based on current chart type
+            toggleButton.textContent = chartType === "bar" ? "Biểu đồ tròn" : "Biểu đồ cột";
+        });
+
+    } catch (error) {
+        console.error("Error initializing chart:", error);
+    }
+});
+</script>
