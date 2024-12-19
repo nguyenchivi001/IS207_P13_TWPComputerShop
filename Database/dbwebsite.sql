@@ -150,7 +150,7 @@ CREATE TABLE `orders_info` (
   `cvv` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---------------------------------------------------------
+-- ------------------------------------------------------
 
 --
 -- Table structure for table `order_products`
