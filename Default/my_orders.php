@@ -4,6 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 if (!isset($_SESSION['uid'])) {
     header("Location: ./signin.php");
+    exit();
 }
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -22,53 +23,55 @@ require './header.php';
                 <a href="index.php" class="continue">Tiếp tục mua sắm</a>
             </div>
             <div class="cart">
-                <ul class="cartWrap">
-                    <?php
-                    $conn = OpenCon();
+                <?php
+                $conn = OpenCon();
 
-                    $uid = $_SESSION['uid'];
-                    $sql = "SELECT c.order_id, a.product_id, a.product_title, a.product_price, a.product_image, b.qty, b.amt, c.total_amt
-                            FROM products a
-                            JOIN order_products b ON a.product_id = b.product_id
-                            JOIN orders_info c ON b.order_id = c.order_id
-                            WHERE c.user_id = ?
-                            ORDER BY c.order_id DESC";
+                $uid = $_SESSION['uid'];
+                $order_query = "SELECT order_id, total_amt FROM orders WHERE user_id = ?";
+                $order_stmt = $conn->prepare($order_query);
+                $order_stmt->bind_param("i", $uid);
+                $order_stmt->execute();
+                $order_result = $order_stmt->get_result();
 
-                    if ($stmt = $conn->prepare($sql)) {
-                        $stmt->bind_param("i", $uid);
-                        $stmt->execute();
-                        $result = $stmt->get_result();
+                if ($order_result->num_rows > 0) {
+                    while ($order = $order_result->fetch_assoc()) {
+                        $order_id = $order['order_id'];
+                        $order_total = number_format($order['total_amt'], 0, '', ',') . 'Đ';
 
-                        $prev_order_id = 0;
-                        $prev_total = 0;
+                        echo "<h2>Đơn hàng #$order_id</h2>";
+                        echo "<ul class='cartWrap'>";
 
-                        while ($row = $result->fetch_assoc()) {
-                            $order_id = $row['order_id'];
-                            $product_id = $row['product_id'];
-                            $product_title = $row['product_title'];
-                            $product_price = number_format($row['product_price'], 0, '', ',') . 'Đ';
-                            $product_image = $row['product_image'];
-                            $qty = $row['qty'];
-                            $total_amt = number_format($row['total_amt'], 0, '', ',') . 'Đ';
+                        $product_query = "SELECT 
+                            P.product_id, 
+                            P.product_title, 
+                            P.product_price, 
+                            P.product_image, 
+                            O.qty, 
+                            O.amt 
+                        FROM products P
+                        JOIN orders_info O ON P.product_id = O.product_id
+                        WHERE O.order_id = ?";
+                        $product_stmt = $conn->prepare($product_query);
+                        $product_stmt->bind_param("i", $order_id);
+                        $product_stmt->execute();
+                        $product_result = $product_stmt->get_result();
 
-                            if ($prev_order_id !== $order_id && $prev_order_id !== 0) {
-                                echo "</ul></div>
-                                    <div class='subtotal cf'>
-                                        <ul>
-                                            <li class='totalRow'><span class='label'>Thành tiền</span><span class='value'>{$prev_total}</span></li>
-                                            <li class='totalRow'><span class='label'>Phí vận chuyển</span><span class='value'>0Đ</span></li>
-                                            <li class='totalRow'><span class='label'>Thuế</span><span class='value'>0Đ</span></li>
-                                            <li class='totalRow final'><span class='label'>Tổng tiền</span><span class='value'>{$prev_total}</span></li>
-                                        </ul>
-                                    </div>
-                                    <div class='cart'>
-                                        <ul class='cartWrap'>";
-                            }
+                        $subtotal = 0;
 
-                            echo "<li class='items even'>
+                        while ($product = $product_result->fetch_assoc()) {
+                            $product_id = $product['product_id'];
+                            $product_title = $product['product_title'];
+                            $product_price = number_format($product['product_price'], 0, '', ',') . 'Đ';
+                            $product_image = $product['product_image'];
+                            $qty = $product['qty'];
+                            $amt = $product['amt'];
+                            $subtotal += $amt;
+
+                            echo "
+                                <li class='items even'>
                                     <div class='infoWrap'>
                                         <div class='cartSection'>
-                                            <img src='product_images/{$product_image}' alt='{$product_title}' class='itemImg' />
+                                            <img src='../Assets/product_images/{$product_image}' alt='{$product_title}' class='itemImg' />
                                             <p class='itemNumber'>#{$product_id}</p>
                                             <h3>{$product_title}</h3>
                                             <p>{$qty} x {$product_price}</p>
@@ -76,32 +79,32 @@ require './header.php';
                                         </div>
                                         <div class='prodTotal cartSection'><p>{$qty}</p></div>
                                         <div class='prodTotal cartSection'><p>{$product_price}</p></div>
-                                        <div class='cartSection removeWrap'>
-                                            <a href='#' class='remove'>x</a>
-                                        </div>
                                     </div>
                                 </li>";
-
-                            $prev_order_id = $order_id;
-                            $prev_total = $total_amt;
                         }
 
-                        if ($prev_order_id !== 0) {
-                            echo "</ul></div>
-                                <div class='subtotal cf'>
-                                    <ul>
-                                        <li class='totalRow'><span class='label'>Thành tiền</span><span class='value'>{$prev_total}</span></li>
-                                        <li class='totalRow'><span class='label'>Phí vận chuyển</span><span class='value'>0Đ</span></li>
-                                        <li class='totalRow'><span class='label'>Thuế</span><span class='value'>0Đ</span></li>
-                                        <li class='totalRow final'><span class='label'>Tổng tiền</span><span class='value'>{$prev_total}</span></li>
-                                    </ul>
-                                </div>";
-                        }
-                        $stmt->close();
+                        $shipping_fee = 0;
+                        $tax = 0;
+                        $total = $subtotal + $shipping_fee + $tax;
+
+                        echo "
+                            </ul>
+                            <div class='subtotal cf'>
+                                <ul>
+                                    <li class='totalRow'><span class='label'>Thành tiền</span><span class='value'>" . number_format($subtotal, 0, '', ',') . "Đ</span></li>
+                                    <li class='totalRow'><span class='label'>Phí vận chuyển</span><span class='value'>" . number_format($shipping_fee, 0, '', ',') . "Đ</span></li>
+                                    <li class='totalRow'><span class='label'>Thuế</span><span class='value'>" . number_format($tax, 0, '', ',') . "Đ</span></li>
+                                    <li class='totalRow final'><span class='label'>Tổng tiền</span><span class='value'>" . number_format($total, 0, '', ',') . "Đ</span></li>
+                                </ul>
+                            </div>";
                     }
-                    CloseCon($conn);
-                    ?>
-                </ul>
+                } else {
+                    echo "<p>Không có đơn hàng nào.</p>";
+                }
+
+                $order_stmt->close();
+                CloseCon($conn);
+                ?>
             </div>
         </div>
     </div>

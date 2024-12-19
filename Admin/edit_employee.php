@@ -8,7 +8,22 @@ $admin_id = isset($_REQUEST['admin_id']) ? intval($_REQUEST['admin_id']) : 0;
 if ($admin_id <= 0) {
     die("ID quản trị viên không hợp lệ.");
 }
-
+$con = OpenCon();
+// Lấy thông tin quản trị viên để hiển thị trên form
+$query = "SELECT admin_name, admin_email, role FROM admin_info WHERE admin_id = ?";
+$stmt = mysqli_prepare($con, $query);
+if ($stmt) {
+    mysqli_stmt_bind_param($stmt, "i", $admin_id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $admin_name, $admin_email,  $role1);
+    if (!mysqli_stmt_fetch($stmt)) {
+        die("Không tìm thấy quản trị viên.");
+    }
+    mysqli_stmt_close($stmt);
+} else {
+    die("Truy vấn thất bại: " . mysqli_error($con));
+}
+CloseCon($con);
 // Xử lý khi người dùng nhấn nút "Cập nhật"
 if (isset($_POST['btn_save'])) {
     $admin_name = trim($_POST['admin_name']);
@@ -34,22 +49,7 @@ if (isset($_POST['btn_save'])) {
     CloseCon($con);
 }
 
-$con = OpenCon();
-// Lấy thông tin quản trị viên để hiển thị trên form
-$query = "SELECT admin_name, admin_email, role FROM admin_info WHERE admin_id = ?";
-$stmt = mysqli_prepare($con, $query);
-if ($stmt) {
-    mysqli_stmt_bind_param($stmt, "i", $admin_id);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $admin_name, $admin_email,  $role);
-    if (!mysqli_stmt_fetch($stmt)) {
-        die("Không tìm thấy quản trị viên.");
-    }
-    mysqli_stmt_close($stmt);
-} else {
-    die("Truy vấn thất bại: " . mysqli_error($con));
-}
-CloseCon($con);
+
 
 include "sidenav.php";
 include "topheader.php";
@@ -81,7 +81,7 @@ include "topheader.php";
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Vai trò</label>
-                                <input type="text" name="role" class="form-control" value="<?php echo htmlspecialchars($role); ?>" required>
+                                <input type="text" name="role" class="form-control" value="<?php echo htmlspecialchars($role1); ?>" required>
                             </div>
                         </div>
                     </div>
