@@ -57,8 +57,8 @@ include "topheader.php";
                     <?php
                     $con=OpenCon();
                     // Truy vấn sản phẩm liên quan đến đơn hàng
-                    $query1 = "SELECT product_id FROM order_products WHERE order_id = $order_id";
-                    $run1 = mysqli_query($con, $query1);
+                    $get_id_query = "SELECT product_id FROM order_products WHERE order_id = $order_id";
+                    $run1 = mysqli_query($con, $get_id_query);
 
                         // Duyệt qua các sản phẩm trong đơn hàng và hiển thị tên sản phẩm
                         while ($row1 = mysqli_fetch_assoc($run1)) {
