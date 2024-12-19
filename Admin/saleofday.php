@@ -84,7 +84,7 @@ include "topheader.php";
             </tr>
     <?php
         }
-    } else {
+    else {
         // Nếu không có dữ liệu
         echo "<center><h2>Không có thành viên</h2><br><hr></center>";
     }
