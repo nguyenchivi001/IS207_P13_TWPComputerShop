@@ -110,7 +110,6 @@ INSERT INTO `email_info` (`email_id`, `email`) VALUES
 (6, 'vantuan100301@gmail.com'),
 (7, 'ntson230801@gmail.com');
 
-
 -- --------------------------------------------------------
 
 --
@@ -118,22 +117,6 @@ INSERT INTO `email_info` (`email_id`, `email`) VALUES
 --
 
 CREATE TABLE `orders` (
-  `order_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `qty` int(11) NOT NULL,
-  `trx_id` varchar(255) NOT NULL,
-  `p_status` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `orders_info`
---
-
-CREATE TABLE `orders_info` (
   `order_id` int(10) NOT NULL,
   `user_id` int(11) NOT NULL,
   `f_name` varchar(255) NOT NULL,
@@ -147,17 +130,18 @@ CREATE TABLE `orders_info` (
   `expdate` varchar(255) NOT NULL,
   `prod_count` int(15) DEFAULT NULL,
   `total_amt` int(15) DEFAULT NULL,
-  `cvv` int(5) NOT NULL
+  `cvv` int(5) NOT NULL,
+  `p_status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- ------------------------------------------------------
 
 --
--- Table structure for table `order_products`
+-- Table structure for table `orders_info`
 --
 
-CREATE TABLE `order_products` (
-  `order_pro_id` int(10) NOT NULL,
+CREATE TABLE `orders_info` (
+  `order_info_id` int(10) NOT NULL,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `qty` int(15) DEFAULT NULL,
@@ -285,16 +269,6 @@ INSERT INTO `user_info` (`user_id`, `first_name`, `last_name`, `email`, `passwor
 (31, 'Dong Van', 'Nam', 'tuan1553164@gmail.com', 'Tuan100301', '0369280523', 'Vu Thuong', 'Ha Noi'),
 (32, 'Nguyen Van', 'Quy', 'user@gmail.com', 'user12345', '0369280523', 'Vu Thuong', 'Binh Duong');
 
---
--- Triggers `user_info`
---
-DELIMITER $$
-CREATE TRIGGER `after_user_info_insert` AFTER INSERT ON `user_info` FOR EACH ROW BEGIN 
-INSERT INTO user_info_backup VALUES(new.user_id,new.first_name,new.last_name,new.email,new.password,new.mobile,new.address1,new.address2);
-END
-$$
-DELIMITER ;
-
 
 -- --------------------------------------------------------
 
@@ -354,16 +328,8 @@ ALTER TABLE `orders`
 -- Indexes for table `orders_info`
 --
 ALTER TABLE `orders_info`
-  ADD PRIMARY KEY (`order_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`order_info_id`),
 
---
--- Indexes for table `order_products`
---
-ALTER TABLE `order_products`
-  ADD PRIMARY KEY (`order_pro_id`),
-  ADD KEY `order_products` (`order_id`),
-  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `products`
@@ -427,13 +393,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `orders_info`
 --
 ALTER TABLE `orders_info`
-  MODIFY `order_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT for table `order_products`
---
-ALTER TABLE `order_products`
-  MODIFY `order_pro_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `order_info_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `products`
