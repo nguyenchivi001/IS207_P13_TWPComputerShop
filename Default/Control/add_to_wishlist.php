@@ -24,8 +24,8 @@ if (!$pid) {
 }
 
 try {
-    $query1 = "SELECT MAX(id) FROM wishlist";
-    $result = $conn->query($query1);
+    $get_id_query = "SELECT MAX(id) FROM wishlist";
+    $result = $conn->query($get_id_query);
     $id = 1;
     // Check if the query was successful
     if ($result) {
