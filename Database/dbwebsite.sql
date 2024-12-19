@@ -66,23 +66,6 @@ CREATE TABLE `cart` (
   `qty` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `cart`
---
-
-INSERT INTO `cart` (`id`, `p_id`, `ip_add`, `user_id`, `qty`) VALUES
-(272, 72, '::1', 12, 1),
-(281, 1, '::1', 12, 1),
-(282, 8, '::1', 12, 3),
-(289, 17, '', 26, 1),
-(290, 4, '', 26, 1),
-(294, 4, '', 31, 1),
-(309, 4, '', 30, 1),
-(310, 5, '', 30, 1),
-(311, 6, '', 30, 1),
-(315, 4, '', 32, 1),
-(316, 71, '', 32, 1),
-(317, 72, '', 32, 1);
 
 -- --------------------------------------------------------
 
@@ -127,18 +110,6 @@ INSERT INTO `email_info` (`email_id`, `email`) VALUES
 (6, 'vantuan100301@gmail.com'),
 (7, 'ntson230801@gmail.com');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `logs`
---
-
-CREATE TABLE `logs` (
-  `id` int(11) NOT NULL,
-  `user_id` varchar(50) NOT NULL,
-  `action` varchar(50) NOT NULL,
-  `date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -155,13 +126,6 @@ CREATE TABLE `orders` (
   `p_status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `orders`
---
-
-INSERT INTO `orders` (`order_id`, `user_id`, `product_id`, `qty`, `trx_id`, `p_status`) VALUES
-(1, 12, 7, 1, '07M47684BS5725041', 'Completed'),
-(2, 14, 2, 1, '07M47684BS5725041', 'Completed');
 
 -- --------------------------------------------------------
 
@@ -186,23 +150,7 @@ CREATE TABLE `orders_info` (
   `cvv` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `orders_info`
---
-
-INSERT INTO `orders_info` (`order_id`, `user_id`, `f_name`, `email`, `address`, `city`, `state`, `zip`, `cardname`, `cardnumber`, `expdate`, `prod_count`, `total_amt`, `cvv`) VALUES
-(1, 12, 'support', 'puneethreddy951@gmail.com', 'New York, Kumbalagodu, Karnataka', 'New York', 'Karnataka', 560074, 'pokjhgfcxc', '4321 2345 6788 7654', '12/90', 3, 77000, 1234),
-(5, 26, 'Hieu Trinh', 'byn1612@gmail.com', 'VietNam', 'HaNoi', 'abc', 560074, 'DONG VAN TUAN', '1232312312312312', '08/19', 1, 196678000, 4324),
-(6, 26, 'Hieu Trinh', 'byn1612@gmail.com', 'VietNam', 'HaNoi', 'abc', 560074, 'sdfsdf', '3434 342343 42342', '08/19', 1, 19799000, 1231),
-(7, 26, 'Hieu Trinh', 'byn1612@gmail.com', 'VietNam', 'HaNoi', 'abc', 560074, 'DONG VAN TUAN', '1232312312312312', '12/12', 1, 19049000, 2312),
-(8, 30, 'Dong Van Tuan', 'vantuan100301@gmail.com', 'Vu Thuong', 'Ha Noi', 'Viet Nam', 100000, 'DONG VAN TUAN', '162537836237823', '08/19', 2, 57598000, 111),
-(9, 30, 'Dong Van Tuan', 'vantuan100301@gmail.com', 'Vu Thuong', 'HaNoi', 'VN', 560074, 'DONG VAN TUAN', '1524153616341733', '08/19', 1, 39000000, 111),
-(10, 30, 'Dong Van Tuan', 'vantuan100301@gmail.com', 'Vu Thuong', 'HaNoi', 'dfgdfg', 560074, 'DONG VAN TUAN', '26363636363636', '08/19', 1, 44990000, 111),
-(11, 30, 'Dong Van Tuan', 'vantuan100301@gmail.com', 'Vu Thuong', 'HaNoi', 'Viet Nam', 560074, 'DONG VAN TUAN', '2786423434234', '08/19', 1, 44990000, 111),
-(12, 30, 'Dong Van Tuan', 'vantuan100301@gmail.com', 'Vu Thuong', 'HaNoi', 'Vie', 560074, 'DONG VAN TUAN', '78364823746823', '08/19', 1, 37799000, 111),
-(13, 30, 'Dong Van Tuan', 'vantuan100301@gmail.com', 'Vu Thuong', 'HaNoi', 'Viet Nam', 560074, 'DONG VAN TUAN', '2423423423423', '08/19', 1, 44990000, 123);
-
--- --------------------------------------------------------
+--------------------------------------------------------
 
 --
 -- Table structure for table `order_products`
@@ -215,25 +163,6 @@ CREATE TABLE `order_products` (
   `qty` int(15) DEFAULT NULL,
   `amt` int(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `order_products`
---
-
-INSERT INTO `order_products` (`order_pro_id`, `order_id`, `product_id`, `qty`, `amt`) VALUES
-(73, 1, 1, 1, 5000),
-(74, 1, 4, 2, 64000),
-(75, 1, 8, 1, 40000),
-(76, 5, 10, 1, 196678000),
-(77, 6, 5, 1, 19799000),
-(78, 7, 6, 1, 19049000),
-(79, 8, 4, 1, 37799000),
-(80, 8, 5, 1, 19799000),
-(81, 9, 69, 1, 39000000),
-(82, 10, 71, 1, 44990000),
-(83, 11, 71, 1, 44990000),
-(84, 12, 4, 1, 37799000),
-(85, 13, 71, 1, 44990000);
 
 -- --------------------------------------------------------
 
@@ -330,29 +259,6 @@ INSERT INTO `products` (`product_id`, `product_cat`, `product_brand`, `product_t
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reviews`
---
-
-CREATE TABLE `reviews` (
-  `review_id` int(100) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `name` varchar(30) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `review` varchar(255) NOT NULL,
-  `datetime` datetime NOT NULL,
-  `rating` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `reviews`
---
-
-INSERT INTO `reviews` (`review_id`, `product_id`, `name`, `email`, `review`, `datetime`, `rating`) VALUES
-(1, 72, '??ng V?n Tu?n', 'vantuan100301@gmail.com', 'sfdasf', '2023-06-29 18:41:58', 2);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `user_info`
 --
 
@@ -373,11 +279,11 @@ CREATE TABLE `user_info` (
 
 INSERT INTO `user_info` (`user_id`, `first_name`, `last_name`, `email`, `password`, `mobile`, `address1`, `address2`) VALUES
 (25, 'otheruser', 'user', 'otheruser@gmail.com', 'support', '1234446576', 'New York', 'Kumbalagodu'),
-(26, 'Hieu', 'Trinh', 'byn1612@gmail.com', 'BGBFS8SXzUhzgxi', '0339369512', 'VietNam', 'HaNoi'),
-(27, 'Ricardo', 'Milo', 'venkey@gmail.com', 'H8agvdVHpu6i4Ys', '0339369321', 'VietNam', 'HaNoi'),
-(30, 'Dong Van', 'Tuan', 'vantuan100301@gmail.com', 'Tuan100301', '0369280523', 'Vu Thuong', 'Hà N?i'),
-(31, 'Dong Van', 'Tuan', 'tuan1553164@gmail.com', 'Tuan100301', '0369280523', 'Vu Thuong', 'HaNoi'),
-(32, 'Tai Khoan Cua', 'Khach', 'user@gmail.com', 'user12345', '0369280523', 'Vu Thuong', 'HaNoi');
+(26, 'Hieu', 'Trinh', 'byn1612@gmail.com', 'BGBFS8SXzUhzgxi', '0339369512', 'VietNam', 'Hue'),
+(27, 'Ricardo', 'Milo', 'venkey@gmail.com', 'H8agvdVHpu6i4Ys', '0339369321', 'VietNam', 'Ha Noi'),
+(30, 'Dong Van', 'Tuan', 'vantuan100301@gmail.com', 'Tuan100301', '0369280523', 'Vu Thuong', 'Ho Chi Minh'),
+(31, 'Dong Van', 'Nam', 'tuan1553164@gmail.com', 'Tuan100301', '0369280523', 'Vu Thuong', 'Ha Noi'),
+(32, 'Nguyen Van', 'Quy', 'user@gmail.com', 'user12345', '0369280523', 'Vu Thuong', 'Binh Duong');
 
 --
 -- Triggers `user_info`
@@ -389,36 +295,6 @@ END
 $$
 DELIMITER ;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `user_info_backup`
---
-
-CREATE TABLE `user_info_backup` (
-  `user_id` int(10) NOT NULL,
-  `first_name` varchar(100) NOT NULL,
-  `last_name` varchar(100) NOT NULL,
-  `email` varchar(300) NOT NULL,
-  `password` varchar(300) NOT NULL,
-  `mobile` varchar(10) NOT NULL,
-  `address1` varchar(300) NOT NULL,
-  `address2` varchar(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `user_info_backup`
---
-
-INSERT INTO `user_info_backup` (`user_id`, `first_name`, `last_name`, `email`, `password`, `mobile`, `address1`, `address2`) VALUES
-(25, 'otheruser', 'user', 'otheruser@gmail.com', 'puneet', '1234446576', 'New York', 'Kumbalagodu'),
-(26, 'Hieu', 'Trinh', 'byn1612@gmail.com', 'BGBFS8SXzUhzgxi', '0339369512', 'VietNam', 'HaNoi'),
-(27, 'Ricardo', 'Milo', 'venkey@gmail.com', 'H8agvdVHpu6i4Ys', '0339369321', 'VietNam', 'HaNoi'),
-(28, 'sdfsdf', 'sdfsdf', 'admin@gmail.com', '123456789', 'sdfsdf', 'sdfsdf', 'sdfsdf'),
-(29, 'fsdfsdf', 'sdfsdf', 'admin@gmail.com', '123456789', '234234234', 'sdfsdfsd', 'sdfsdfsdf'),
-(30, 'Dong Van', 'Tuan', 'vantuan100301@gmail.com', 'Tuan100301', '0369280523', 'Vu Thuong', 'Hà N?i'),
-(31, 'Dong Van', 'Tuan', 'tuan1553164@gmail.com', 'Tuan100301', '0369280523', 'Vu Thuong', 'HaNoi'),
-(32, 'Tai Khoan Cua', 'Khach', 'user@gmail.com', 'user12345', '0369280523', 'Vu Thuong', 'HaNoi');
 
 -- --------------------------------------------------------
 
@@ -433,22 +309,6 @@ CREATE TABLE `wishlist` (
   `user_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `wishlist`
---
-
-INSERT INTO `wishlist` (`id`, `p_id`, `ip_add`, `user_id`) VALUES
-(224, 0, '::1', -1),
-(282, 3, '::1', -1),
-(283, 73, '::1', 12),
-(284, 74, '::1', 12),
-(285, 0, '::1', 12),
-(290, 0, '', 26),
-(294, 19, '', 26),
-(296, 0, '', 30),
-(300, 0, '', 30),
-(303, 17, '', 30),
-(307, 0, '', 32);
 
 --
 -- Indexes for dumped tables
@@ -485,12 +345,6 @@ ALTER TABLE `email_info`
   ADD PRIMARY KEY (`email_id`);
 
 --
--- Indexes for table `logs`
---
-ALTER TABLE `logs`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -518,21 +372,9 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`product_id`);
 
 --
--- Indexes for table `reviews`
---
-ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`review_id`);
-
---
 -- Indexes for table `user_info`
 --
 ALTER TABLE `user_info`
-  ADD PRIMARY KEY (`user_id`);
-
---
--- Indexes for table `user_info_backup`
---
-ALTER TABLE `user_info_backup`
   ADD PRIMARY KEY (`user_id`);
 
 --
@@ -576,12 +418,6 @@ ALTER TABLE `email_info`
   MODIFY `email_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT for table `logs`
---
-ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
@@ -606,21 +442,9 @@ ALTER TABLE `products`
   MODIFY `product_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
--- AUTO_INCREMENT for table `reviews`
---
-ALTER TABLE `reviews`
-  MODIFY `review_id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `user_info`
 --
 ALTER TABLE `user_info`
-  MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
-
---
--- AUTO_INCREMENT for table `user_info_backup`
---
-ALTER TABLE `user_info_backup`
   MODIFY `user_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --

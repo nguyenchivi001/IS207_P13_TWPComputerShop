@@ -1,12 +1,12 @@
-<?php 
+<?php
 if (session_status() == PHP_SESSION_NONE) {
-  session_start();
+    session_start();
 }
 if (!isset($_SESSION['uid'])) {
-  header("Location: ./signin.php");
+    header("Location: ./signin.php");
 }
 if (empty($_SESSION['csrf_token'])) {
-  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 require './header.php';
 ?>
@@ -97,10 +97,8 @@ require './header.php';
                                     </ul>
                                 </div>";
                         }
-
                         $stmt->close();
                     }
-
                     CloseCon($conn);
                     ?>
                 </ul>
