@@ -164,7 +164,7 @@ async function addPayment(data, token) {
         const result = await response.json();     
         if (result.success) {
             alert("Thêm thông tin thanh toán thành công");
-            location.reload();    
+            window.location.href = './order_successful.php';
         } else {
             alert("Có lỗi xảy ra: " + result.message);
             location.reload();
